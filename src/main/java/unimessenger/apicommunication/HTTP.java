@@ -1,15 +1,27 @@
 package unimessenger.apicommunication;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 public class HTTP
 {
-    public static void sendRequest() throws URISyntaxException
+    private static final String API_URL_EXAMPLE = "https://jsonplaceholder.typicode.com/todos/1";
+
+    public static void sendGetRequest(String url)
     {
-        HttpRequest.newBuilder().uri(new URI("https://postman-echo.com/get"));
-        HttpRequest request = HttpRequest.newBuilder().uri(new URI("https://postman-echo.com/get")).version(HttpClient.Version.HTTP_2).GET().build();
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().GET().header("accept", "application/json").uri(URI.create(url)).build();
+
+        HttpResponse<String> response = null;
+        try
+        {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch(Exception ignored)
+        {
+        }
+        assert response != null;
+        System.out.println(response.body());
     }
 }

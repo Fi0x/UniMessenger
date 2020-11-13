@@ -37,6 +37,7 @@ public class CLI implements Runnable
                     break;
             }
         }
+        Outputs.printInfo("Exiting program...");
     }
 
     private static void showMainMenu()
