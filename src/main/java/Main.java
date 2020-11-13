@@ -15,13 +15,13 @@ public class Main
 
         Outputs.printInfo("Uni-Messenger starting...");
         Outputs.printDebug("Loading login files...");
-        //TODO: Load files with login data
+        Outputs.printError("Missing function");//TODO: Load files with login data
         Outputs.printDebug("Login files loaded");
 
-        //TODO: Either ask user to select a messenger service, or show all conversations of all messenger services in 1 list
+        Outputs.printError("Missing function");//TODO: Either ask user to select a messenger service, or show all conversations of all messenger services in 1 list
 
         Outputs.printDebug("Loading stored messages...");
-        //TODO: Load files with previously saved messages of selected messenger or all messengers
+        Outputs.printError("Missing function");//TODO: Load files with previously saved messages of selected messenger or all messengers
         Outputs.printDebug("Stored messages loaded");
 
         Outputs.printInfo("Uni-Messenger started");
