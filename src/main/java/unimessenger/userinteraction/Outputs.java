@@ -9,6 +9,7 @@ public class Outputs
     private static final String INFO = "[INFO]";
     private static final String DEBUG = "[DEBUG]";
     private static final String ERROR = "[ERROR]";
+    private static final Scanner sc = new Scanner(System.in);
 
     public static void printInfo(String text)
     {
@@ -27,8 +28,19 @@ public class Outputs
     {
         System.out.println(question);
         System.out.print("Input: ");
-        Scanner sc = new Scanner(System.in);
+
+        printDebug("Waiting for user-input...");
+
         return sc.nextInt();
+    }
+    public static String getStringAnswerFrom(String question)
+    {
+        System.out.println(question);
+        System.out.print("Input: ");
+
+        printDebug("Waiting for user-input...");
+
+        return sc.nextLine();
     }
     public static void cannotHandleUserInput()
     {
