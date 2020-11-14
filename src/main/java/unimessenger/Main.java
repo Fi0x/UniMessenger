@@ -2,6 +2,7 @@ package unimessenger;
 
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
+import unimessenger.util.Updater;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +29,13 @@ public class Main
         Outputs.printDebug("Loading stored messages...");
         Outputs.printError("Missing function");//TODO: Load files with previously saved messages of selected messenger or all messengers
         Outputs.printDebug("Stored messages loaded");
+
+        Outputs.printDebug("Creating new Thread for Updater");
+        Thread updt = new Thread(new Updater());
+        Outputs.printDebug("Updater Thread created");
+        Outputs.printDebug("Starting Updater Thread");
+        updt.start();
+        Outputs.printDebug("Updater started");
 
         Outputs.printDebug("Creating new Thread for CLI...");
         Thread cli = new Thread(new CLI());

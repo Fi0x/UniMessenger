@@ -8,13 +8,30 @@ import java.net.http.HttpResponse;
 public class HTTP
 {
     private static final String API_URL_EXAMPLE = "https://jsonplaceholder.typicode.com/todos/1";
+    private static final String API_URL_WIRE = "";
 
-    public static void sendGetRequest(String url)
+    static HttpClient client = HttpClient.newHttpClient();
+
+    public static void sendRequest(String url, REQUESTTYPE type, String... headers)
     {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().GET().header("accept", "application/json").uri(URI.create(url)).build();
-
+        HttpRequest request = null;
         HttpResponse<String> response = null;
+
+        switch(type)
+        {
+            case GET:
+                request = HttpRequest.newBuilder().GET().header("accept", "application/json").uri(URI.create(url)).build();
+                break;
+            case PUT:
+                //TODO: Add PUT request
+                break;
+            case POST:
+                //TODO: Add POST request
+                break;
+            default:
+                break;
+        }
+
         try
         {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -23,5 +40,12 @@ public class HTTP
         }
         assert response != null;
         System.out.println(response.body());
+    }
+
+    public enum REQUESTTYPE
+    {
+        GET,
+        POST,
+        PUT
     }
 }
