@@ -8,11 +8,13 @@ import java.net.http.HttpResponse;
 public class HTTP
 {
     private static final String API_URL_EXAMPLE = "https://jsonplaceholder.typicode.com/todos/1";
-    private static final String API_URL_WIRE = "";
+
+    private static final String URL_WIRE = "https://staging-nginz-https.zinfra.io";
+    private static final String URL_WIRE_LOGIN = "https://staging-nginz-https.zinfra.io/login?persist=true";
 
     static HttpClient client = HttpClient.newHttpClient();
 
-    public static void sendRequest(String url, REQUESTTYPE type, String... headers)
+    public static void sendRequest(String url, REQUESTTYPE type, String body, String... headers)
     {
         HttpRequest request = null;
         HttpResponse<String> response = null;
