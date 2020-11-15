@@ -1,7 +1,9 @@
 package unimessenger.userinteraction.menu;
 
+import unimessenger.apicommunication.HTTP;
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
+import unimessenger.util.Variables;
 
 public class MenuWireLogin
 {
@@ -15,7 +17,10 @@ public class MenuWireLogin
         switch(userInput)
         {
             case 1:
+                String mail = "pechtl97@gmail.com";
+                String pw = "Passwort1!";
                 //TODO: Ask user for login information
+                HTTP.sendRequest(Variables.URL_WIRE + "/login?persist=false", HTTP.REQUESTTYPE.POST, "{\"email\":\"" + mail + "\",\"password\":\"" + pw + "\"}", "content-type", "application/json", "accept", "application/json");
                 //TODO: Validate Wire account information and show either wire overview or login menu again
                 CLI.currentMenu = CLI.MENU.WireOverview;
                 break;

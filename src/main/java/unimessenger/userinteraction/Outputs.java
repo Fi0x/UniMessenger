@@ -1,6 +1,6 @@
 package unimessenger.userinteraction;
 
-import unimessenger.Main;
+import unimessenger.util.Variables;
 
 import java.util.Scanner;
 
@@ -13,15 +13,15 @@ public class Outputs
 
     public static void printInfo(String text)
     {
-        if(Main.verbose) System.out.println(INFO + text);
+        if(Variables.verbose) System.out.println(INFO + text);
     }
     public static void printDebug(String text)
     {
-        if(Main.debug) System.out.println(DEBUG + text);
+        if(Variables.debug) System.out.println(DEBUG + text);
     }
     public static void printError(String text)
     {
-        if(Main.verbose || Main.debug) System.out.println(ERROR + text);
+        if(Variables.verbose || Variables.debug) System.out.println(ERROR + text);
     }
 
     public static int getIntAnswerFrom(String question)

@@ -7,11 +7,6 @@ import java.net.http.HttpResponse;
 
 public class HTTP
 {
-    private static final String API_URL_EXAMPLE = "https://jsonplaceholder.typicode.com/todos/1";
-
-    private static final String URL_WIRE = "https://prod-nginz-https.wire.com";
-    private static final String URL_WIRE_LOGIN = "https://prod-nginz-https.wire.com/login?persist=false";
-
     static HttpClient client = HttpClient.newHttpClient();
 
     public static void sendRequest(String url, REQUESTTYPE type, String body, String... headers)
@@ -28,7 +23,7 @@ public class HTTP
                 //TODO: Add PUT request
                 break;
             case POST:
-                //TODO: Add POST request
+                request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.ofString(body)).header(headers[0], headers[1]).header(headers[2], headers[3]).uri(URI.create(url)).build();
                 break;
             default:
                 break;
