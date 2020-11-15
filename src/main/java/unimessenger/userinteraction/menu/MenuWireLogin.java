@@ -5,6 +5,8 @@ import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
 import unimessenger.util.Variables;
 
+import java.net.http.HttpResponse;
+
 public class MenuWireLogin
 {
     public static void showMenu()
@@ -17,12 +19,8 @@ public class MenuWireLogin
         switch(userInput)
         {
             case 1:
-                String mail = "pechtl97@gmail.com";
-                String pw = "Passwort1!";
-                //TODO: Ask user for login information
-                HTTP.sendRequest(Variables.URL_WIRE + "/login?persist=false", Variables.REQUESTTYPE.POST, "{\"email\":\"" + mail + "\",\"password\":\"" + pw + "\"}", "content-type", "application/json", "accept", "application/json");
-                //TODO: Validate Wire account information and show either wire overview or login menu again
-                CLI.currentMenu = CLI.MENU.WireOverview;
+                if(handleUserLogin()) CLI.currentMenu = CLI.MENU.WireOverview;
+                else System.out.println("Failed to log in");
                 break;
             case 2:
                 CLI.currentMenu = CLI.MENU.MainMenu;
@@ -34,5 +32,22 @@ public class MenuWireLogin
                 Outputs.cannotHandleUserInput();
                 break;
         }
+    }
+
+    private static boolean handleUserLogin()
+    {
+//        String mail = "pechtl97@gmail.com";
+//        String pw = "Passwort1!";
+        //TODO: Add more login options
+        String mail = Outputs.getStringAnswerFrom("Please enter your E-Mail");
+        String pw = Outputs.getStringAnswerFrom("Please enter your password");
+
+        String url = Variables.URL_WIRE + "/login?persist=false";
+        String body = "{\"email\":\"" + mail + "\",\"password\":\"" + pw + "\"}";
+        String[] headers = new String[] {"content-type", "application/json", "accept", "application/json"};
+
+        HttpResponse<String> response = HTTP.sendRequest(url, Variables.REQUESTTYPE.POST, body, headers);
+
+        return response.statusCode() == 200;
     }
 }

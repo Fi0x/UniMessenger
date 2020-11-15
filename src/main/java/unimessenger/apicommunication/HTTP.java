@@ -10,7 +10,7 @@ public class HTTP
 {
     static HttpClient client = HttpClient.newHttpClient();
 
-    public static void sendRequest(String url, Variables.REQUESTTYPE type, String body, String... headers)
+    public static HttpResponse<String> sendRequest(String url, Variables.REQUESTTYPE type, String body, String... headers)
     {
         HttpRequest request = null;
         HttpResponse<String> response = null;
@@ -41,6 +41,8 @@ public class HTTP
         }
 
         assert response != null;
-        System.out.println(response.body());
+        System.out.println(response.body());//TODO: Remove in the future
+
+        return response;
     }
 }

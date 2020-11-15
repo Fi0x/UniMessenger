@@ -6,22 +6,23 @@ import java.util.Scanner;
 
 public class Outputs
 {
-    private static final String INFO = "[INFO]";
-    private static final String DEBUG = "[DEBUG]";
-    private static final String ERROR = "[ERROR]";
+    private static final String RESET = "\u001B[0m";
+    private static final String INFO = "\u001B[37m[INFO]";
+    private static final String DEBUG = "\u001B[33m[DEBUG]";
+    private static final String ERROR = "\u001B[31m[ERROR]";
     private static final Scanner sc = new Scanner(System.in);
 
     public static void printInfo(String text)
     {
-        if(Variables.verbose) System.out.println(INFO + text);
+        if(Variables.verbose) System.out.println(INFO + text + RESET);
     }
     public static void printDebug(String text)
     {
-        if(Variables.debug) System.out.println(DEBUG + text);
+        if(Variables.debug) System.out.println(DEBUG + text + RESET);
     }
     public static void printError(String text)
     {
-        if(Variables.verbose || Variables.debug) System.out.println(ERROR + text);
+        if(Variables.verbose || Variables.debug) System.out.println(ERROR + text + RESET);
     }
 
     public static int getIntAnswerFrom(String question)
@@ -31,7 +32,9 @@ public class Outputs
 
         printDebug("Waiting for user-input...");
 
-        return sc.nextInt();
+        int ret = sc.nextInt();
+        //TODO: Clear scanner
+        return ret;
     }
     public static String getStringAnswerFrom(String question)
     {
@@ -40,7 +43,9 @@ public class Outputs
 
         printDebug("Waiting for user-input...");
 
-        return sc.nextLine();
+        String ret = sc.next();
+        //TODO: Clear scanner
+        return ret;
     }
     public static void cannotHandleUserInput()
     {
