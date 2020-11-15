@@ -5,6 +5,7 @@ import unimessenger.apicommunication.StringBuilder;
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
 import unimessenger.util.Variables;
+import unimessenger.wire.Commands;
 
 import java.net.http.HttpResponse;
 
@@ -44,7 +45,7 @@ public class MenuWireLogin
         String pw = Outputs.getStringAnswerFrom("Please enter your password");
 
         StringBuilder stringBuilder = new StringBuilder();
-        String url = Variables.URL_WIRE + "/login?persist=false";
+        String url = Variables.URL_WIRE + Commands.PERSIST_LOGIN;
         stringBuilder.addStringEntry("email", mail);
         stringBuilder.addStringEntry("password", pw);
         String body = stringBuilder.getJSONString();

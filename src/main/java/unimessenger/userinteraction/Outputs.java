@@ -32,9 +32,7 @@ public class Outputs
 
         printDebug("Waiting for user-input...");
 
-        int ret = sc.nextInt();
-        //TODO: Clear scanner
-        return ret;
+        return sc.nextInt();
     }
     public static String getStringAnswerFrom(String question)
     {
@@ -43,9 +41,7 @@ public class Outputs
 
         printDebug("Waiting for user-input...");
 
-        String ret = sc.next();
-        //TODO: Clear scanner
-        return ret;
+        return sc.next();
     }
     public static void cannotHandleUserInput()
     {
