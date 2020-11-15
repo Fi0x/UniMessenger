@@ -1,6 +1,7 @@
 package unimessenger.userinteraction.menu;
 
 import unimessenger.apicommunication.HTTP;
+import unimessenger.apicommunication.StringBuilder;
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
 import unimessenger.util.Variables;
@@ -42,8 +43,11 @@ public class MenuWireLogin
         String mail = Outputs.getStringAnswerFrom("Please enter your E-Mail");
         String pw = Outputs.getStringAnswerFrom("Please enter your password");
 
+        StringBuilder stringBuilder = new StringBuilder();
         String url = Variables.URL_WIRE + "/login?persist=false";
-        String body = "{\"email\":\"" + mail + "\",\"password\":\"" + pw + "\"}";
+        stringBuilder.addStringEntry("email", mail);
+        stringBuilder.addStringEntry("password", pw);
+        String body = stringBuilder.getJSONString();
         String[] headers = new String[] {"content-type", "application/json", "accept", "application/json"};
 
         HttpResponse<String> response = HTTP.sendRequest(url, Variables.REQUESTTYPE.POST, body, headers);

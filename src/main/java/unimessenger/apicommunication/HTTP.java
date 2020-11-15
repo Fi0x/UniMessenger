@@ -40,9 +40,6 @@ public class HTTP
             }
         }
 
-        assert response != null;
-        System.out.println(response.body());//TODO: Remove in the future
-
         return response;
     }
 }
