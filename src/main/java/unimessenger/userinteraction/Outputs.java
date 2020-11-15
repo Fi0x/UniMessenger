@@ -43,6 +43,23 @@ public class Outputs
 
         return sc.next();
     }
+    public static boolean getBoolAnswerFrom(String question)
+    {
+        System.out.println(question);
+        while(true)
+        {
+            System.out.print("Input(Yes/No): ");
+            printDebug("Waiting for user-input...");
+
+            String answer = sc.next();
+
+            if(answer.equalsIgnoreCase("yes") || answer.equalsIgnoreCase("y")) return true;
+            if(answer.equalsIgnoreCase("no") || answer.equalsIgnoreCase("n")) return false;
+
+            printDebug("Invalid user-input");
+            System.out.println("Invalid input. Options are 'yes' or 'no'");
+        }
+    }
     public static void cannotHandleUserInput()
     {
         System.out.println("Invalid Option.");
