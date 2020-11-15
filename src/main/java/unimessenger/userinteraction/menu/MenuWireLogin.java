@@ -20,7 +20,7 @@ public class MenuWireLogin
                 String mail = "pechtl97@gmail.com";
                 String pw = "Passwort1!";
                 //TODO: Ask user for login information
-                HTTP.sendRequest(Variables.URL_WIRE + "/login?persist=false", HTTP.REQUESTTYPE.POST, "{\"email\":\"" + mail + "\",\"password\":\"" + pw + "\"}", "content-type", "application/json", "accept", "application/json");
+                HTTP.sendRequest(Variables.URL_WIRE + "/login?persist=false", Variables.REQUESTTYPE.POST, "{\"email\":\"" + mail + "\",\"password\":\"" + pw + "\"}", "content-type", "application/json", "accept", "application/json");
                 //TODO: Validate Wire account information and show either wire overview or login menu again
                 CLI.currentMenu = CLI.MENU.WireOverview;
                 break;

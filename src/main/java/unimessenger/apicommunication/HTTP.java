@@ -1,6 +1,7 @@
 package unimessenger.apicommunication;
 
-import java.net.URI;
+import unimessenger.util.Variables;
+
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -9,7 +10,7 @@ public class HTTP
 {
     static HttpClient client = HttpClient.newHttpClient();
 
-    public static void sendRequest(String url, REQUESTTYPE type, String body, String... headers)
+    public static void sendRequest(String url, Variables.REQUESTTYPE type, String body, String... headers)
     {
         HttpRequest request = null;
         HttpResponse<String> response = null;
@@ -17,32 +18,29 @@ public class HTTP
         switch(type)
         {
             case GET:
-                request = HttpRequest.newBuilder().GET().header("accept", "application/json").uri(URI.create(url)).build();
+                request = RequestBuilder.getGETRequest(url, headers);
                 break;
             case PUT:
-                //TODO: Add PUT request
+                request = RequestBuilder.getPUTRequest(url, body, headers);
                 break;
             case POST:
-                request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.ofString(body)).header(headers[0], headers[1]).header(headers[2], headers[3]).uri(URI.create(url)).build();
+                request = RequestBuilder.getPOSTRequest(url, body, headers);
                 break;
             default:
                 break;
         }
 
-        try
+        if(request != null)
         {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch(Exception ignored)
-        {
+            try
+            {
+                response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            } catch(Exception ignored)
+            {
+            }
         }
+
         assert response != null;
         System.out.println(response.body());
-    }
-
-    public enum REQUESTTYPE
-    {
-        GET,
-        POST,
-        PUT
     }
 }
