@@ -95,13 +95,13 @@ public class MenuWireLogin
             Storage.wireUserID = obj.get("user").toString();
             Storage.wireBearerToken = obj.get("access_token").toString();
             Storage.setWireBearerTime(Integer.parseInt(obj.get("expires_in").toString()));
-            Storage.accessCookie = Parsers.ParseCookie(response.headers().map().get("set-cookie").get(0));
+            Storage.wireAccessCookie = Parsers.ParseCookie(response.headers().map().get("set-cookie").get(0));
 
             System.out.println("Token Type: " + obj.get("token_type"));
             System.out.println("Expires in: " + obj.get("expires_in"));
             System.out.println("Access Token: " + Storage.wireBearerToken);
             System.out.println("User: " + Storage.wireUserID);
-            System.out.println("Cookie: " + Storage.accessCookie);
+            System.out.println("Cookie: " + Storage.wireAccessCookie);
         } catch(ParseException ignored)
         {
             return false;

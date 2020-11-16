@@ -2,6 +2,7 @@ package unimessenger;
 
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
+import unimessenger.util.Storage;
 import unimessenger.util.Updater;
 import unimessenger.util.Variables;
 
@@ -19,7 +20,7 @@ public class Main
 
         Outputs.printInfo("Uni-Messenger starting...");
         Outputs.printDebug("Loading login files...");
-        Outputs.printError("Missing function");//TODO: Load files with login data
+        Storage.readDataFromFiles();
         Outputs.printDebug("Login files loaded");
 
         Outputs.printError("Missing function");//TODO: Either ask user to select a messenger service, or show all conversations of all messenger services in 1 list

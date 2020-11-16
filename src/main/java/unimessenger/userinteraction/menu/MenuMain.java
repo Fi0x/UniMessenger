@@ -15,7 +15,7 @@ public class MenuMain
         switch(userInput)
         {
             case 1:
-                if(Storage.isWireBearerTokenStillValid()) CLI.currentMenu = CLI.MENU.WireOverview;
+                if(Storage.isWireBearerTokenStillValid() || Storage.wireAccessCookie != null) CLI.currentMenu = CLI.MENU.WireOverview;
                 else CLI.currentMenu = CLI.MENU.WireLogin;
                 break;
             case 2:
