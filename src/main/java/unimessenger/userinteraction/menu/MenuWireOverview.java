@@ -66,7 +66,7 @@ public class MenuWireOverview
         obj.put("cookie", Storage.wireAccessCookie);
         String head = obj.toJSONString();
         String[] headers = new String[] {"content-type", "application/json", "accept", "application/json"};
-        HttpResponse<String> response = HTTP.sendRequest(url, Variables.REQUESTTYPE.POST, headers);
+        HttpResponse<String> response = HTTP.sendRequest(url, Variables.REQUESTTYPE.POST,"", headers);
 
         if(response == null || response.statusCode() != 200) {
             System.out.println("NOPE:");
