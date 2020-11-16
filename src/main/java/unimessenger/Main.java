@@ -29,17 +29,17 @@ public class Main
         Outputs.printDebug("Stored messages loaded");
 
         Outputs.printDebug("Creating new Thread for Updater");
-        updt = new Thread(new Updater());
+        Variables.updt = new Thread(new Updater());
         Outputs.printDebug("Updater Thread created");
         Outputs.printDebug("Starting Updater Thread");
-        updt.start();
+        Variables.updt.start();
         Outputs.printDebug("Updater started");
 
         Outputs.printDebug("Creating new Thread for CLI...");
-        cli = new Thread(new CLI());
+        Variables.cli = new Thread(new CLI());
         Outputs.printDebug("CLI Thread created");
         Outputs.printDebug("Starting CLI Thread...");
-        cli.start();
+        Variables.cli.start();
         Outputs.printDebug("CLI started");
 
         Outputs.printInfo("Uni-Messenger started");
