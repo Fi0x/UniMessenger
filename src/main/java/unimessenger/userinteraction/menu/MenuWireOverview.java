@@ -1,7 +1,6 @@
 package unimessenger.userinteraction.menu;
 
 import org.json.simple.JSONObject;
-import unimessenger.apicommunication.HTTP;
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
 import unimessenger.util.Commands;
@@ -66,7 +65,7 @@ public class MenuWireOverview
         obj.put("cookie", Storage.wireAccessCookie);
         String body = obj.toJSONString();
         String[] headers = new String[] {"content-type", "application/json"};
-        HttpResponse<String> response = HTTP.sendRequest(url, Variables.REQUESTTYPE.POST, body, headers);
+        HttpResponse<String> response = CLI.userHTTP.sendRequest(url, Variables.REQUESTTYPE.POST, body, headers);
 
         if(response == null || response.statusCode() != 200) {
             System.out.println("NOPE:");

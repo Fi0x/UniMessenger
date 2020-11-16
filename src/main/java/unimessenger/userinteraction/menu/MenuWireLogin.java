@@ -3,7 +3,6 @@ package unimessenger.userinteraction.menu;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import unimessenger.apicommunication.HTTP;
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
 import unimessenger.util.Commands;
@@ -61,7 +60,7 @@ public class MenuWireLogin
 
         String[] headers = new String[] {"content-type", "application/json", "accept", "application/json"};
 
-        return handleResponse(HTTP.sendRequest(url, Variables.REQUESTTYPE.POST, body, headers));
+        return handleResponse(CLI.userHTTP.sendRequest(url, Variables.REQUESTTYPE.POST, body, headers));
     }
     private static boolean autoLogin()
     {
@@ -77,7 +76,7 @@ public class MenuWireLogin
 
         String[] headers = new String[] {"content-type", "application/json", "accept", "application/json"};
 
-        return handleResponse(HTTP.sendRequest(url, Variables.REQUESTTYPE.POST, body, headers));
+        return handleResponse(CLI.userHTTP.sendRequest(url, Variables.REQUESTTYPE.POST, body, headers));
     }
     private static boolean handleResponse(HttpResponse<String> response)
     {

@@ -2,6 +2,7 @@ package unimessenger.util;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import unimessenger.userinteraction.Outputs;
 
 import java.io.File;
 import java.io.FileReader;
@@ -76,6 +77,7 @@ public class Storage
     public static void deleteFile(String filename)
     {
         File obj = new File(filename);
-        obj.delete();
+        if(obj.delete()) Outputs.printDebug("File '" + filename + "' deleted");
+        else Outputs.printError("Failed to delete '" + filename + "'");
     }
 }
