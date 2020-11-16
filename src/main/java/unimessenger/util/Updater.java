@@ -46,7 +46,7 @@ public class Updater implements Runnable
             case WIRE:
                 if(!Storage.isWireBearerTokenStillValid())
                 {
-                    refreshAccess();
+                    if(Storage.wireAccessCookie != null) refreshAccess();
                 }
                 break;
             default:
