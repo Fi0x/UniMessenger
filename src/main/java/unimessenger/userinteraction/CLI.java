@@ -1,5 +1,6 @@
 package unimessenger.userinteraction;
 
+import unimessenger.apicommunication.HTTP;
 import unimessenger.userinteraction.menu.MenuMain;
 import unimessenger.userinteraction.menu.MenuWireChat;
 import unimessenger.userinteraction.menu.MenuWireLogin;
@@ -10,6 +11,7 @@ import unimessenger.util.Variables;
 public class CLI implements Runnable
 {
     public static MENU currentMenu;
+    public static HTTP userHTTP;
 
     @Override
     public void run()
@@ -20,6 +22,7 @@ public class CLI implements Runnable
     public static void startCLI()
     {
         currentMenu = MENU.MainMenu;
+        userHTTP = new HTTP();
         while(currentMenu != MENU.EXIT)
         {
             System.out.println("\n=================================");

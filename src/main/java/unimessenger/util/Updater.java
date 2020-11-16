@@ -1,5 +1,6 @@
 package unimessenger.util;
 
+import unimessenger.apicommunication.HTTP;
 import unimessenger.userinteraction.Outputs;
 
 import java.util.ArrayList;
@@ -7,10 +8,12 @@ import java.util.ArrayList;
 public class Updater implements Runnable
 {
     public static ArrayList<Variables.SERVICE> runningServices = new ArrayList<>();
+    private static HTTP updateHTTP;
 
     @Override
     public void run()
     {
+        updateHTTP = new HTTP();
         initializeServices();
 
         while(!runningServices.isEmpty())
