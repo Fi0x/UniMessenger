@@ -62,9 +62,7 @@ public class MenuWireOverview
     private static void refreshAccess(){
         HTTP http = new HTTP();
         String url = Variables.URL_WIRE + Commands.ACCESS + "?access_token=" + Storage.wireBearerToken;
-        JSONObject obj = new JSONObject();
         //obj.put("access_token", Storage.wireBearerToken);
-        obj.put("cookie", Storage.wireAccessCookie);
         String[] headers = new String[] {"cookie", Storage.wireAccessCookie, "content-type", "application/json", "accept", "application/json"};
         HttpResponse<String> response = http.sendRequest(url, Variables.REQUESTTYPE.POST,"", headers);
 
