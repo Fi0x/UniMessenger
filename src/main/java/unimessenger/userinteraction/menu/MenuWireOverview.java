@@ -60,17 +60,17 @@ public class MenuWireOverview
         //TODO: Check if named conversation exists in Wire and open it if true
     }
     private static void refreshAccess(){
-        String url = Variables.URL_WIRE + Commands.ACCESS;
+        String url = Variables.URL_WIRE + Commands.ACCESS + "?access_token=" + Storage.wireBearerToken;
         JSONObject obj = new JSONObject();
-        obj.put("access_token", Storage.wireBearerToken);
+        //obj.put("access_token", Storage.wireBearerToken);
         obj.put("cookie", Storage.wireAccessCookie);
-        String body = obj.toJSONString();
-        String[] headers = new String[] {"content-type", "application/json"};
-        HttpResponse<String> response = HTTP.sendRequest(url, Variables.REQUESTTYPE.POST, body, headers);
+        String head = obj.toJSONString();
+        String[] headers = new String[] {"content-type", "application/json", "accept", "application/json"};
+        HttpResponse<String> response = HTTP.sendRequest(url, Variables.REQUESTTYPE.POST, headers);
 
         if(response == null || response.statusCode() != 200) {
             System.out.println("NOPE:");
-            System.out.println("THIS:" + response.statusCode());
+            System.out.println("THIS:" + response.body().toString());
         }
         else System.out.println("YaYY");
     }

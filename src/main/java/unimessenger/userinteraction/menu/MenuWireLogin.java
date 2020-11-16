@@ -37,6 +37,7 @@ public class MenuWireLogin
                 break;
             case 4:
                 autoLogin();
+                CLI.currentMenu = CLI.MENU.WireOverview;
                 break;
             default:
                 Outputs.cannotHandleUserInput();
