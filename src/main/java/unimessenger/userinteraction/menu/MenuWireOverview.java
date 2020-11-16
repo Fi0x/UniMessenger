@@ -1,7 +1,14 @@
 package unimessenger.userinteraction.menu;
 
+import org.json.simple.JSONObject;
+import unimessenger.apicommunication.HTTP;
+import unimessenger.apicommunication.RequestBuilder;
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
+import unimessenger.util.Commands;
+import unimessenger.util.Variables;
+
+import java.net.Authenticator;
 
 public class MenuWireOverview
 {
@@ -33,6 +40,12 @@ public class MenuWireOverview
                 break;
             case 5:
                 //Todo refresh access token
+                String url = Variables.URL_WIRE + Commands.ACCESS;
+                JSONObject obj = new JSONObject();
+                //obj.put("access_token", mail);
+                //obj.put("cookie", pw);
+                String body = obj.toJSONString();
+                //String req = RequestBuilder.getPOSTRequest();
                 break;
             case 6:
                 //TODO log user out

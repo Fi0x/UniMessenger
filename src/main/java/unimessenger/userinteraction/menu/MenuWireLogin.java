@@ -7,6 +7,7 @@ import unimessenger.apicommunication.HTTP;
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
 import unimessenger.util.Commands;
+import unimessenger.util.Parsers;
 import unimessenger.util.Storage;
 import unimessenger.util.Variables;
 
@@ -50,8 +51,8 @@ public class MenuWireLogin
         if(persist) url += Commands.PERSIST;
 
         JSONObject obj = new JSONObject();
-        obj.put("email", mail);
-        obj.put("password", pw);
+        obj.put("email", "pechtl97@gmail.com");
+        obj.put("password", "Passwort1!");
         String body = obj.toJSONString();
 
         String[] headers = new String[] {"content-type", "application/json", "accept", "application/json"};
@@ -63,7 +64,7 @@ public class MenuWireLogin
         if(response == null || response.statusCode() != 200) return false;
 
         //TODO: Use the following example code
-//        System.out.println(response.headers());
+        System.out.println(response.headers());
 //        Map h = response.headers().map();
 //        System.out.println(h.get("connection"));
 
@@ -73,11 +74,15 @@ public class MenuWireLogin
             obj = (JSONObject) new JSONParser().parse(response.body());
             Storage.wireUserID = obj.get("user").toString();
             Storage.wireBearerToken = obj.get("access_token").toString();
+            System.out.println("Here1");
+            Storage.accessCookie = Parsers.ParseCookie(response.headers().map().get("set-cookie").get(0));
+            System.out.println("Here2");
 
             System.out.println("Token Type: " + obj.get("token_type"));
             System.out.println("Expires in: " + obj.get("expires_in"));
             System.out.println("Access Token: " + Storage.wireBearerToken);
             System.out.println("User: " + Storage.wireUserID);
+            System.out.println("Cookie: " + Storage.accessCookie);
         } catch(ParseException ignored)
         {
             return false;

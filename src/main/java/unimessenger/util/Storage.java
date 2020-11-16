@@ -4,6 +4,7 @@ public class Storage
 {
     public static String wireUserID;
     public static String wireBearerToken;
+    public static String accessCookie;
 
     public static void storeWireAccessToken(String user, String accessToken)
     {
