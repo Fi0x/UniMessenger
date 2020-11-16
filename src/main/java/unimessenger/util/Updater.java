@@ -58,7 +58,7 @@ public class Updater implements Runnable
     {
         String url = Variables.URL_WIRE + Commands.ACCESS + "?access_token=" + Storage.wireBearerToken;
         String[] headers = new String[]{
-                "cookie", "zuid=" + Storage.wireAccessCookie,
+                "cookie", Storage.wireAccessCookie,
                 "content-type", "application/json",
                 "accept", "application/json"};
 
