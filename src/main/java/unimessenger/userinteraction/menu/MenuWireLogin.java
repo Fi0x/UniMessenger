@@ -20,6 +20,7 @@ public class MenuWireLogin
         System.out.println("1) Enter Login Information");
         System.out.println("2) Show Main Menu");
         System.out.println("3) Exit Program");
+        System.out.println("4) AutoLogin");
 
         int userInput = Outputs.getIntAnswerFrom("Please enter the number of the option you would like to choose.");
         switch(userInput)
@@ -33,6 +34,9 @@ public class MenuWireLogin
                 break;
             case 3:
                 CLI.currentMenu = CLI.MENU.EXIT;
+                break;
+            case 4:
+                autoLogin();
                 break;
             default:
                 Outputs.cannotHandleUserInput();
@@ -53,6 +57,22 @@ public class MenuWireLogin
         JSONObject obj = new JSONObject();
         obj.put("email", mail);
         obj.put("password", pw);
+        String body = obj.toJSONString();
+
+        String[] headers = new String[] {"content-type", "application/json", "accept", "application/json"};
+
+        return handleResponse(HTTP.sendRequest(url, Variables.REQUESTTYPE.POST, body, headers));
+    }
+    private static boolean autoLogin()
+    {
+        boolean persist = Outputs.getBoolAnswerFrom("Do you want to stay logged in?");
+
+        String url = Variables.URL_WIRE + Commands.LOGIN;
+        if(persist) url += Commands.PERSIST;
+
+        JSONObject obj = new JSONObject();
+        obj.put("email", "pechtl97@gmail.com");
+        obj.put("password", "Passwort1!");
         String body = obj.toJSONString();
 
         String[] headers = new String[] {"content-type", "application/json", "accept", "application/json"};

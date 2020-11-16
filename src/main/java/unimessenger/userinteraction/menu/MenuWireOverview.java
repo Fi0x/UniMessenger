@@ -11,6 +11,7 @@ import unimessenger.util.Commands;
 import unimessenger.util.Variables;
 
 import java.net.Authenticator;
+import java.net.http.HttpResponse;
 
 public class MenuWireOverview
 {
@@ -42,12 +43,7 @@ public class MenuWireOverview
                 break;
             case 5:
                 //Todo refresh access token
-                String url = Variables.URL_WIRE + Commands.ACCESS;
-                JSONObject obj = new JSONObject();
-                //obj.put("access_token", mail);
-                //obj.put("cookie", pw);
-                String body = obj.toJSONString();
-                //String req = RequestBuilder.getPOSTRequest();
+                refreshAccess();
                 break;
             case 6:
                 //TODO log user out
@@ -69,5 +65,20 @@ public class MenuWireOverview
     {
         String userInput = Outputs.getStringAnswerFrom("Please type in the name of the person or group you would like to see the chat from");
         //TODO: Check if named conversation exists in Wire and open it if true
+    }
+    private static void refreshAccess(){
+        String url = Variables.URL_WIRE + Commands.ACCESS;
+        JSONObject obj = new JSONObject();
+        obj.put("access_token", Storage.wireBearerToken);
+        obj.put("cookie", Storage.accessCookie);
+        String body = obj.toJSONString();
+        String[] headers = new String[] {"content-type", "application/json"};
+        HttpResponse<String> response = HTTP.sendRequest(url, Variables.REQUESTTYPE.POST, body, headers);
+
+        if(response == null || response.statusCode() != 200) {
+            System.out.println("NOPE:");
+            System.out.println("THIS:" + response.statusCode());
+        }
+        else System.out.println("YaYY");
     }
 }
