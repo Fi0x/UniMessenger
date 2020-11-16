@@ -52,6 +52,7 @@ public class MenuWireOverview
                 break;
             case 7:
                 CLI.currentMenu = CLI.MENU.EXIT;
+                break;
             default:
                 Outputs.cannotHandleUserInput();
                 break;
