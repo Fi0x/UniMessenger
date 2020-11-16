@@ -1,6 +1,6 @@
 package unimessenger.util;
 
-public class Parsers {
+public class Parsers {      //TODO Change to be good!
 
     public static String ParseCookie(String raw){
         String refined = "";

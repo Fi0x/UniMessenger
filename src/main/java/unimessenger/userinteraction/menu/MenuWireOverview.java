@@ -65,8 +65,7 @@ public class MenuWireOverview
         JSONObject obj = new JSONObject();
         //obj.put("access_token", Storage.wireBearerToken);
         obj.put("cookie", Storage.wireAccessCookie);
-        String head = obj.toJSONString();
-        String[] headers = new String[] {"content-type", "application/json", "accept", "application/json"};
+        String[] headers = new String[] {"cookie", "zuid="+Storage.wireAccessCookie, "content-type", "application/json", "accept", "application/json"};
         HttpResponse<String> response = http.sendRequest(url, Variables.REQUESTTYPE.POST,"", headers);
 
         if(response == null || response.statusCode() != 200) {
