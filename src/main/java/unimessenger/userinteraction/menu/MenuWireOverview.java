@@ -11,7 +11,9 @@ public class MenuWireOverview
         System.out.println("2) Open specific Chat");
         System.out.println("3) Show Main Menu");
         System.out.println("4) Log out of Wire");
-        System.out.println("5) Exit Program");
+        System.out.println("5) Refresh Token");
+        System.out.println("6) Log Out");
+        System.out.println("7) Exit Program");
 
         int userInput = Outputs.getIntAnswerFrom("Please enter the number of the option you would like to choose.");
         switch(userInput)
@@ -30,8 +32,13 @@ public class MenuWireOverview
                 CLI.currentMenu = CLI.MENU.WireLogin;
                 break;
             case 5:
-                CLI.currentMenu = CLI.MENU.EXIT;
+                //Todo refresh access token
                 break;
+            case 6:
+                //TODO log user out
+                break;
+            case 7:
+                CLI.currentMenu = CLI.MENU.EXIT;
             default:
                 Outputs.cannotHandleUserInput();
                 break;
