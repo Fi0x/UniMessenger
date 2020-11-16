@@ -77,6 +77,7 @@ public class Storage
     public static void deleteFile(String filename)
     {
         File obj = new File(filename);
+        //TODO: Fix deletion of file
         if(obj.delete()) Outputs.printDebug("File '" + filename + "' deleted");
         else Outputs.printError("Failed to delete '" + filename + "'");
     }

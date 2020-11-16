@@ -83,11 +83,6 @@ public class MenuWireLogin
     {
         if(response == null || response.statusCode() != 200) return false;
 
-        //TODO: Use the following example code
-//        System.out.println(response.headers());
-//        Map h = response.headers().map();
-//        System.out.println(h.get("connection"));
-
         JSONObject obj;
         try
         {
@@ -95,13 +90,13 @@ public class MenuWireLogin
             Storage.wireUserID = obj.get("user").toString();
             Storage.wireBearerToken = obj.get("access_token").toString();
             Storage.setWireBearerTime(Integer.parseInt(obj.get("expires_in").toString()));
-            Storage.wireAccessCookie = Parsers.ParseCookie(response.headers().map().get("set-cookie").get(0));
+            Storage.wireAccessCookie = Parsers.parseCookieID(response.headers().map().get("set-cookie").get(0));
 
-            System.out.println("Token Type: " + obj.get("token_type"));
-            System.out.println("Expires in: " + obj.get("expires_in"));
-            System.out.println("Access Token: " + Storage.wireBearerToken);
-            System.out.println("User: " + Storage.wireUserID);
-            System.out.println("Cookie: " + Storage.wireAccessCookie);
+            Outputs.printDebug("Token Type: " + obj.get("token_type"));
+            Outputs.printDebug("Expires in: " + obj.get("expires_in"));
+            Outputs.printDebug("Access Token: " + Storage.wireBearerToken);
+            Outputs.printDebug("User: " + Storage.wireUserID);
+            Outputs.printDebug("Cookie: " + Storage.wireAccessCookie);
         } catch(ParseException ignored)
         {
             return false;
