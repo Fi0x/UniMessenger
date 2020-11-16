@@ -16,9 +16,24 @@ public class Storage
     public static String wireAccessCookie;
     private static Timestamp wireBearerTokenExpiringTime;
 
-    public static void storeWireAccessToken(String user, String accessToken)
+    public static void storeWireAccessCookie(String accessCookie)
     {
-        //TODO: Store token in file
+        if(accessCookie == null) deleteFile("dataWire.json");
+        else
+        {
+            wireAccessCookie = accessCookie;
+            JSONObject obj = new JSONObject();
+            obj.put("accessCookie", accessCookie);
+
+            try
+            {
+                FileWriter fw = new FileWriter("dataWire.json");
+                fw.write(obj.toJSONString());
+                fw.close();
+            } catch(IOException ignored)
+            {
+            }
+        }
     }
     public static void setWireBearerTime(int expiresInSec)
     {
@@ -37,8 +52,7 @@ public class Storage
                 wireBearerToken = null;
                 wireAccessCookie = null;
                 wireBearerTokenExpiringTime = null;
-                File obj = new File("dataWire.json");
-                obj.delete();
+                deleteFile("dataWire.json");
                 break;
             default:
                 break;
@@ -47,19 +61,7 @@ public class Storage
 
     public static void writeDataToFile()
     {
-        if(wireAccessCookie == null) return;
-
-        JSONObject obj = new JSONObject();
-        obj.put("accessCookie", wireAccessCookie);
-
-        try
-        {
-            FileWriter fw = new FileWriter("dataWire.json");
-            fw.write(obj.toJSONString());
-            fw.close();
-        } catch(IOException ignored)
-        {
-        }
+        storeWireAccessCookie(wireAccessCookie);
     }
     public static void readDataFromFiles()
     {
@@ -70,5 +72,10 @@ public class Storage
         } catch(Exception ignored)
         {
         }
+    }
+    public static void deleteFile(String filename)
+    {
+        File obj = new File(filename);
+        obj.delete();
     }
 }
