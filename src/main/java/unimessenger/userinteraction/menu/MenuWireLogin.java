@@ -1,5 +1,8 @@
 package unimessenger.userinteraction.menu;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import unimessenger.apicommunication.HTTP;
 import unimessenger.apicommunication.StringBuilder;
 import unimessenger.userinteraction.CLI;
@@ -8,6 +11,7 @@ import unimessenger.util.Variables;
 import unimessenger.wire.Commands;
 
 import java.net.http.HttpResponse;
+import java.util.Map;
 
 public class MenuWireLogin
 {
@@ -38,7 +42,7 @@ public class MenuWireLogin
 
     private static boolean handleUserLogin()
     {
-        //TODO: Add more login options
+        //TODO: Add more login options (phone)
         String mail = Outputs.getStringAnswerFrom("Please enter your E-Mail");//TestAccount: pechtl97@gmail.com
         String pw = Outputs.getStringAnswerFrom("Please enter your password");//TestAccount: Passwort1!
         boolean persist = Outputs.getBoolAnswerFrom("Do you want to stay logged in?");
@@ -55,7 +59,24 @@ public class MenuWireLogin
         String[] headers = new String[] {"content-type", "application/json", "accept", "application/json"};
 
         HttpResponse<String> response = HTTP.sendRequest(url, Variables.REQUESTTYPE.POST, body, headers);
+        if(response == null || response.statusCode() != 200) return false;
 
-        return response.statusCode() == 200;
+        //TODO: Use the following example code in a better way
+        System.out.println(response.headers());
+        Map h = response.headers().map();
+        System.out.println(h.get("connection"));
+
+        JSONObject obj;
+        try
+        {
+            obj = (JSONObject) new JSONParser().parse(response.body());
+            System.out.println("TTL: " + obj.get("expires_in"));
+            System.out.println("Access Token: " + obj.get("access_token"));
+            System.out.println("User: " + obj.get("user"));
+            System.out.println("Token Type: " + obj.get("token_type"));
+        } catch(ParseException ignored)
+        {
+        }
+        return true;
     }
 }
