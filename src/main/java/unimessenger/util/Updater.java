@@ -72,7 +72,9 @@ public class Updater implements Runnable
             Outputs.printDebug("Successfully refreshed token");
         } else
         {
-            Outputs.printDebug("Response code is not 200");
+            Outputs.printDebug("Response code is not 200. Deleting Wire access cookie");
+            Storage.wireAccessCookie = null;
+            Storage.deleteFile(Storage.wireDataFile);
         }
     }
 

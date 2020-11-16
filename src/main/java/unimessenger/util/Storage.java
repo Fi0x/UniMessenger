@@ -16,10 +16,11 @@ public class Storage
     public static String wireBearerToken;
     public static String wireAccessCookie;
     private static Timestamp wireBearerTokenExpiringTime;
+    public static final String wireDataFile = "dataWire.json";
 
     public static void storeWireAccessCookie(String accessCookie)
     {
-        if(accessCookie == null) deleteFile("dataWire.json");
+        if(accessCookie == null) deleteFile(wireDataFile);
         else
         {
             wireAccessCookie = accessCookie;
@@ -28,7 +29,7 @@ public class Storage
 
             try
             {
-                FileWriter fw = new FileWriter("dataWire.json");
+                FileWriter fw = new FileWriter(wireDataFile);
                 fw.write(obj.toJSONString());
                 fw.close();
             } catch(IOException ignored)
@@ -42,7 +43,7 @@ public class Storage
     }
     public static boolean isWireBearerTokenStillValid()
     {
-        return wireBearerTokenExpiringTime != null && wireBearerTokenExpiringTime.getTime() > System.currentTimeMillis();
+        return wireBearerToken != null && wireBearerTokenExpiringTime != null && wireBearerTokenExpiringTime.getTime() > System.currentTimeMillis();
     }
     public static void clearUserData(Variables.SERVICE service)
     {
@@ -53,7 +54,7 @@ public class Storage
                 wireBearerToken = null;
                 wireAccessCookie = null;
                 wireBearerTokenExpiringTime = null;
-                deleteFile("dataWire.json");
+                deleteFile(wireDataFile);
                 break;
             default:
                 break;
@@ -68,7 +69,7 @@ public class Storage
     {
         try
         {
-            JSONObject obj = (JSONObject) new JSONParser().parse(new FileReader("dataWire.json"));
+            JSONObject obj = (JSONObject) new JSONParser().parse(new FileReader(wireDataFile));
             wireAccessCookie = (String) obj.get("accessCookie");
         } catch(Exception ignored)
         {
