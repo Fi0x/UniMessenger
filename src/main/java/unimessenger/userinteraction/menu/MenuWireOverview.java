@@ -2,6 +2,8 @@ package unimessenger.userinteraction.menu;
 
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
+import unimessenger.util.Storage;
+import unimessenger.util.Variables;
 
 public class MenuWireOverview
 {
@@ -26,7 +28,7 @@ public class MenuWireOverview
                 CLI.currentMenu = CLI.MENU.MainMenu;
                 break;
             case 4:
-                //TODO: Log user out of Wire
+                Storage.clearUserData(Variables.SERVICE.WIRE);
                 CLI.currentMenu = CLI.MENU.WireLogin;
                 break;
             case 5:

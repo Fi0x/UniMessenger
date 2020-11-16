@@ -73,6 +73,7 @@ public class MenuWireLogin
             obj = (JSONObject) new JSONParser().parse(response.body());
             Storage.wireUserID = obj.get("user").toString();
             Storage.wireBearerToken = obj.get("access_token").toString();
+            Storage.setWireBearerTime(Integer.parseInt(obj.get("expires_in").toString()));
 
             System.out.println("Token Type: " + obj.get("token_type"));
             System.out.println("Expires in: " + obj.get("expires_in"));
