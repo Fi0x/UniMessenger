@@ -1,24 +1,16 @@
 package unimessenger.userinteraction.menu;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
 import unimessenger.util.Commands;
-import unimessenger.util.MessengerStructure.WireConversation;
 import unimessenger.util.Storage;
 import unimessenger.util.Updater;
 import unimessenger.util.Variables;
 
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
 
 public class MenuWireOverview
 {
-    private static ArrayList<WireConversation> conversations = new ArrayList<>();
-
     public static void showMenu()
     {
         System.out.println("1) List all Chats");
@@ -67,25 +59,6 @@ public class MenuWireOverview
         System.out.println("Response code: " + response.statusCode());
         System.out.println("Headers:" + response.headers());
         System.out.println("Body: " + response.body());
-
-        try
-        {
-            JSONObject obj = (JSONObject) new JSONParser().parse(response.body());
-            JSONArray conObj = (JSONArray) obj.get("conversations");
-            for(Object o : conObj)
-            {
-                JSONObject conv = (JSONObject) o;
-                WireConversation newCon = new WireConversation();
-                newCon.conversationName = conv.get("name").toString();
-                newCon.id = conv.get("id").toString();
-
-                System.out.println(newCon.conversationName);
-                System.out.println(newCon.id);
-            }
-        } catch(ParseException ignored)
-        {
-        }
-
     }
 
     private static void chatSelection()
@@ -94,7 +67,7 @@ public class MenuWireOverview
         //TODO: Check if named conversation exists in Wire and open it if true
     }
 
-    private static void logout()//Todo dont pu this into the link but into the header because best practices see wire docs
+    private static void logout()//Todo dont put this into the link but into the header because best practices see wire docs
     {
         String url = Variables.URL_WIRE + Commands.LOGOUT + "?access_token=" + Storage.wireBearerToken;
         String[] headers = new String[]{
