@@ -1,4 +1,4 @@
-package interfaces;
+package unimessenger.interfaces;
 
 public interface IConversations
 {

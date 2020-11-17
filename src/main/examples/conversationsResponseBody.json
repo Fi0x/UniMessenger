@@ -1,11 +1,18 @@
 {
   "has_more":false,
-  "conversations":[
-    {"access":["private"],
+  "conversations":
+  [
+    {
+      "access":
+      [
+        "private"
+      ],
       "creator":"12905427-01dd-4a98-8e5d-b75adc91b44e",
       "access_role":"private",
-      "members":{
-        "self":{
+      "members":
+      {
+        "self":
+        {
           "hidden_ref":null,
           "status":0,
           "service":null,
@@ -31,11 +38,17 @@
       "message_timer":null,
       "last_event":"0.0"
     },
-    {"access":["private"],
+    {
+      "access":
+      [
+        "private"
+      ],
       "creator":"e22e08fe-083a-464b-bd39-606b25771da4",
       "access_role":"private",
-      "members":{
-        "self":{
+      "members":
+      {
+        "self":
+        {
           "hidden_ref":null,
           "status":0,
           "service":null,
@@ -50,7 +63,8 @@
           "otr_muted":false,
           "otr_archived_ref":null
         },
-        "others":[
+        "others":
+        [
           {
             "status":0,
             "conversation_role":"wire_admin",
