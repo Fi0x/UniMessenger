@@ -3,9 +3,9 @@ package unimessenger.userinteraction.menu;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import unimessenger.abstraction.URL;
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
-import unimessenger.util.Commands;
 import unimessenger.util.Parsers;
 import unimessenger.util.Storage;
 import unimessenger.util.Variables;
@@ -77,31 +77,12 @@ public class MenuLogin
 
 
 
-    private static boolean handleUserLogin()
-    {
-        //TODO: Add more login options (phone)
-        String mail = Outputs.getStringAnswerFrom("Please enter your E-Mail");//TestAccount: pechtl97@gmail.com
-        String pw = Outputs.getStringAnswerFrom("Please enter your password");//TestAccount: Passwort1!
-        boolean persist = Outputs.getBoolAnswerFrom("Do you want to stay logged in?");
-
-        String url = Variables.URL_WIRE + Commands.LOGIN;
-        if(persist) url += Commands.PERSIST;
-
-        JSONObject obj = new JSONObject();
-        obj.put("email", mail);
-        obj.put("password", pw);
-        String body = obj.toJSONString();
-
-        String[] headers = new String[] {"content-type", "application/json", "accept", "application/json"};
-
-        return handleResponse(CLI.userHTTP.sendRequest(url, Variables.REQUESTTYPE.POST, body, headers));
-    }
-    private static boolean autoLogin()
+    private static boolean autoLogin()//TODO: Remove
     {
         boolean persist = Outputs.getBoolAnswerFrom("Do you want to stay logged in?");
 
-        String url = Variables.URL_WIRE + Commands.LOGIN;
-        if(persist) url += Commands.PERSIST;
+        String url = URL.WIRE + URL.WIRE_LOGIN;
+        if(persist) url += URL.WIRE_PERSIST;
 
         JSONObject obj = new JSONObject();
         obj.put("email", "pechtl97@gmail.com");
@@ -112,7 +93,7 @@ public class MenuLogin
 
         return handleResponse(CLI.userHTTP.sendRequest(url, Variables.REQUESTTYPE.POST, body, headers));
     }
-    public static boolean handleResponse(HttpResponse<String> response)
+    public static boolean handleResponse(HttpResponse<String> response)//TODO: Remove
     {
         if(response == null || response.statusCode() != 200) return false;
 

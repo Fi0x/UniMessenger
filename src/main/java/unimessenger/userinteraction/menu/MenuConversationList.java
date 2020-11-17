@@ -1,13 +1,9 @@
 package unimessenger.userinteraction.menu;
 
+import unimessenger.abstraction.APIAccess;
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
-import unimessenger.util.Commands;
-import unimessenger.util.Storage;
-import unimessenger.util.Updater;
 import unimessenger.util.Variables;
-
-import java.net.http.HttpResponse;
 
 public class MenuConversationList
 {
@@ -30,7 +26,7 @@ public class MenuConversationList
                 selectChat();
                 break;
             case 3:
-                logout();
+                new APIAccess().getLoginInterface(CLI.currentService).logout();
             case 4:
                 CLI.currentService = Variables.SERVICE.NONE;
                 CLI.currentMenu = CLI.MENU.MAIN;
@@ -39,7 +35,7 @@ public class MenuConversationList
                 CLI.currentMenu = CLI.MENU.EXIT;
                 break;
             case 10:
-                Updater.refreshAccess();
+                if(new APIAccess().getUtilInterface(CLI.currentService).refreshSession()) System.out.println("Successfully refreshed your bearer token");
                 break;
             default:
                 Outputs.cannotHandleUserInput();
@@ -49,49 +45,13 @@ public class MenuConversationList
 
     private static void listAllConversations()
     {
+        System.out.println("List of all conversations in '" + CLI.currentService + "':");
         //TODO: Show all conversations of current service
-    }
-
-    private static void showConversationList()
-    {
-        System.out.println("List of all conversations in Wire:");
-        //TODO: Show a list of all Wire-conversations
-        String url = Variables.URL_WIRE + Commands.CONVERSATIONS + "?access_token=" + Storage.wireBearerToken;
-        String[] headers = new String[]{
-                "accept", "application/json"};
-        HttpResponse<String> response = CLI.userHTTP.sendRequest(url, Variables.REQUESTTYPE.GET, "", headers);
-        System.out.println("Response code: " + response.statusCode());
-        System.out.println("Headers:" + response.headers());
-        System.out.println("Body: " + response.body());
     }
 
     private static void selectChat()
     {
         String userInput = Outputs.getStringAnswerFrom("Please type in the name of the person or group you would like to see the chat from");
         //TODO: Check if named conversation exists in Wire and open it if true
-    }
-
-    private static void logout()//TODO: Rework
-    {
-        String url = Variables.URL_WIRE + Commands.LOGOUT + "?access_token=" + Storage.wireBearerToken;
-        String[] headers = new String[]{
-                "cookie", Storage.wireAccessCookie,
-                "content-type", "application/json",
-                "accept", "application/json"};//Todo dont put this into the link but into the header because best practices see wire docs
-
-        HttpResponse<String> response = CLI.userHTTP.sendRequest(url, Variables.REQUESTTYPE.POST, "", headers);
-
-        if(response == null)
-        {
-            Outputs.printError("Couldn't get a HTTP response");
-        } else if(response.statusCode() == 200)
-        {
-            Outputs.printDebug("Successfully logged out");
-            Storage.clearUserData(Variables.SERVICE.WIRE);
-        } else
-        {
-            Outputs.printDebug("Response code is not 200");
-        }
-        //TODO make it so the Data is not cleared if the user is not logged out and data is certainly cleared if user is logged out
     }
 }

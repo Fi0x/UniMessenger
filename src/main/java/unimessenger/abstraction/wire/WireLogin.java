@@ -3,10 +3,10 @@ package unimessenger.abstraction.wire;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import unimessenger.abstraction.URL;
 import unimessenger.abstraction.interfaces.ILoginOut;
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
-import unimessenger.util.Commands;
 import unimessenger.util.Parsers;
 import unimessenger.util.Storage;
 import unimessenger.util.Variables;
@@ -18,14 +18,13 @@ public class WireLogin implements ILoginOut
     @Override
     public boolean login()
     {
-        //TODO: DEL in MenuwireLoginClass
         //TODO: Add more login options (phone)
         String mail = Outputs.getStringAnswerFrom("Please enter your E-Mail");//TestAccount: pechtl97@gmail.com
         String pw = Outputs.getStringAnswerFrom("Please enter your password");//TestAccount: Passwort1!
         boolean persist = Outputs.getBoolAnswerFrom("Do you want to stay logged in?");
 
-        String url = Variables.URL_WIRE + Commands.LOGIN;
-        if(persist) url += Commands.PERSIST;
+        String url = URL.WIRE + URL.WIRE_LOGIN;
+        if(persist) url += URL.WIRE_PERSIST;
 
         JSONObject obj = new JSONObject();
         obj.put("email", mail);
@@ -40,9 +39,8 @@ public class WireLogin implements ILoginOut
     @Override
     public boolean logout()
     //Todo dont put this into the link but into the header because best practices see wire docs
-            //TODO DEL IN ORIGIN CLASS MENUWIREOVERVIEW
     {
-        String url = Variables.URL_WIRE + Commands.LOGOUT + "?access_token=" + Storage.wireBearerToken;
+        String url = URL.WIRE + URL.WIRE_LOGOUT + "?access_token=" + Storage.wireBearerToken;
         String[] headers = new String[]{
                 "cookie", Storage.wireAccessCookie,
                 "content-type", "application/json",
