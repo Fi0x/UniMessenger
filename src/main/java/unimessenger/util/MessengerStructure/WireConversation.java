@@ -1,13 +1,13 @@
-package unimessenger.wire;
+package unimessenger.util.MessengerStructure;
 
 import java.util.ArrayList;
 
-public class Conversation
+public class WireConversation
 {
     public ACCESS access;
     public String creatorID;
     public ACCESS accessRole;
-    public ArrayList<Person> members;
+    public ArrayList<WirePerson> members;
     public String conversationName;
     public String team;
     public String id;
@@ -17,7 +17,7 @@ public class Conversation
     public String message_timer;
     public String last_event;
 
-    public Conversation()
+    public WireConversation()
     {
         access = ACCESS.NULL;
         creatorID = null;

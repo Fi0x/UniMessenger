@@ -1,6 +1,6 @@
-package unimessenger.wire;
+package unimessenger.util.MessengerStructure;
 
-public class Person
+public class WirePerson
 {
     public String hidden_ref;
     public int status;
@@ -16,7 +16,7 @@ public class Person
     public boolean otr_muted;
     public String otr_archived_ref;
 
-    public Person()
+    public WirePerson()
     {
         hidden_ref = null;
         status = -1;
