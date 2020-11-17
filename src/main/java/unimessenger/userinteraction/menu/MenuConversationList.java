@@ -9,43 +9,47 @@ import unimessenger.util.Variables;
 
 import java.net.http.HttpResponse;
 
-public class MenuWireOverview
+public class MenuConversationList
 {
     public static void showMenu()
     {
-        System.out.println("1) List all Chats");
-        System.out.println("2) Open specific Chat");
-        System.out.println("3) Show Main Menu");
-        System.out.println("4) Log out of Wire");
-        System.out.println("5) Refresh Token");
-        System.out.println("6) Exit Program");
+        System.out.println("1) List all '" + CLI.currentService + "' Chats");
+        System.out.println("2) Open specific '" + CLI.currentService + "' Chat");
+        System.out.println("3) Log out of '" + CLI.currentService + "'");
+        System.out.println("4) Show Main Menu");
+        System.out.println("5) Exit Program");
+        System.out.println("10) Refresh Token");//TODO: Remove
 
         int userInput = Outputs.getIntAnswerFrom("Please enter the number of the option you would like to choose.");
         switch(userInput)
         {
             case 1:
-                showConversationList();
+                listAllConversations();
                 break;
             case 2:
-                chatSelection();
+                selectChat();
                 break;
             case 3:
-                CLI.currentMenu = CLI.MENU.MainMenu;
-                break;
-            case 4:
                 logout();
-                CLI.currentMenu = CLI.MENU.WireLogin;
+            case 4:
+                CLI.currentService = Variables.SERVICE.NONE;
+                CLI.currentMenu = CLI.MENU.MAIN;
                 break;
             case 5:
-                Updater.refreshAccess();
-                break;
-            case 6:
                 CLI.currentMenu = CLI.MENU.EXIT;
+                break;
+            case 10:
+                Updater.refreshAccess();
                 break;
             default:
                 Outputs.cannotHandleUserInput();
                 break;
         }
+    }
+
+    private static void listAllConversations()
+    {
+        //TODO: Show all conversations of current service
     }
 
     private static void showConversationList()
@@ -61,19 +65,19 @@ public class MenuWireOverview
         System.out.println("Body: " + response.body());
     }
 
-    private static void chatSelection()
+    private static void selectChat()
     {
         String userInput = Outputs.getStringAnswerFrom("Please type in the name of the person or group you would like to see the chat from");
         //TODO: Check if named conversation exists in Wire and open it if true
     }
 
-    private static void logout()//Todo dont put this into the link but into the header because best practices see wire docs
+    private static void logout()//TODO: Rework
     {
         String url = Variables.URL_WIRE + Commands.LOGOUT + "?access_token=" + Storage.wireBearerToken;
         String[] headers = new String[]{
                 "cookie", Storage.wireAccessCookie,
                 "content-type", "application/json",
-                "accept", "application/json"};
+                "accept", "application/json"};//Todo dont put this into the link but into the header because best practices see wire docs
 
         HttpResponse<String> response = CLI.userHTTP.sendRequest(url, Variables.REQUESTTYPE.POST, "", headers);
 
@@ -89,6 +93,5 @@ public class MenuWireOverview
             Outputs.printDebug("Response code is not 200");
         }
         //TODO make it so the Data is not cleared if the user is not logged out and data is certainly cleared if user is logged out
-
     }
 }

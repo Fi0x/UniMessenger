@@ -12,37 +12,70 @@ import unimessenger.util.Variables;
 
 import java.net.http.HttpResponse;
 
-public class MenuWireLogin
+public class MenuLogin
 {
     public static void showMenu()
     {
-        System.out.println("1) Enter Login Information");
+        System.out.println("1) '" + CLI.currentService + "' login");
         System.out.println("2) Show Main Menu");
         System.out.println("3) Exit Program");
-        System.out.println("4) AutoLogin");
+        System.out.println("10) AutoLogin");//TODO: Remove
 
         int userInput = Outputs.getIntAnswerFrom("Please enter the number of the option you would like to choose.");
         switch(userInput)
         {
             case 1:
-                if(handleUserLogin()) CLI.currentMenu = CLI.MENU.WireOverview;
-                else System.out.println("Failed to log in");
+                tryUserLogin();
                 break;
             case 2:
-                CLI.currentMenu = CLI.MENU.MainMenu;
+                CLI.currentService = Variables.SERVICE.NONE;
+                CLI.currentMenu = CLI.MENU.MAIN;
                 break;
             case 3:
                 CLI.currentMenu = CLI.MENU.EXIT;
                 break;
-            case 4:
+            case 10:
                 autoLogin();
-                CLI.currentMenu = CLI.MENU.WireOverview;
+                CLI.currentMenu = CLI.MENU.CONVERSATION_LIST;
                 break;
             default:
                 Outputs.cannotHandleUserInput();
                 break;
         }
     }
+
+    private static void tryUserLogin()
+    {
+        boolean loginSuccessful = false;
+        switch(CLI.currentService)
+        {
+            case WIRE:
+                if(loginWire()) loginSuccessful = true;
+                break;
+            case TELEGRAM:
+                if(loginTelegram()) loginSuccessful = true;
+                break;
+            case NONE:
+            default:
+                Outputs.printError("User tried to log in to an unknown service");
+                break;
+        }
+
+        if(loginSuccessful) CLI.currentMenu = CLI.MENU.CONVERSATION_LIST;
+    }
+
+    private static boolean loginWire()
+    {
+        //TODO: Test if user is logged in already and ask for credentials if not
+        return false;
+    }
+    private static boolean loginTelegram()
+    {
+        //TODO: Test if user is logged in already and ask for credentials if not
+        return false;
+    }
+
+
 
     private static boolean handleUserLogin()
     {

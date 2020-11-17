@@ -12,7 +12,9 @@ public class Variables
 
     public enum SERVICE
     {
-        WIRE
+        NONE,
+        WIRE,
+        TELEGRAM
     }
 
     public enum REQUESTTYPE
