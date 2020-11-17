@@ -22,7 +22,8 @@ public class Updater implements Runnable
             for(Variables.SERVICE service : runningServices)
             {
                 validateAccess(service);
-                sendRequestToServer(service);
+                //TODO: Refresh conversation list
+                //TODO: Refresh messages
             }
             try
             {
@@ -33,18 +34,7 @@ public class Updater implements Runnable
         }
     }
 
-    private void sendRequestToServer(Variables.SERVICE service)
-    {
-        switch(service)
-        {
-            case WIRE:
-                //TODO: Send HTTPRequest to server and ask for new messages
-                break;
-            default:
-                break;
-        }
-    }
-    private boolean validateAccess(Variables.SERVICE service)
+    private boolean validateAccess(Variables.SERVICE service)//TODO: Rework
     {
         switch(service)
         {

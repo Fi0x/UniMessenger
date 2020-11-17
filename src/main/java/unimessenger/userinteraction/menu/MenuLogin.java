@@ -3,6 +3,7 @@ package unimessenger.userinteraction.menu;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import unimessenger.abstraction.APIAccess;
 import unimessenger.abstraction.URL;
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
@@ -25,7 +26,7 @@ public class MenuLogin
         switch(userInput)
         {
             case 1:
-                tryUserLogin();
+                if(new APIAccess().getLoginInterface(CLI.currentService).login()) CLI.currentMenu = CLI.MENU.CONVERSATION_LIST;
                 break;
             case 2:
                 CLI.currentService = Variables.SERVICE.NONE;
@@ -42,37 +43,6 @@ public class MenuLogin
                 Outputs.cannotHandleUserInput();
                 break;
         }
-    }
-
-    private static void tryUserLogin()
-    {
-        boolean loginSuccessful = false;
-        switch(CLI.currentService)
-        {
-            case WIRE:
-                if(loginWire()) loginSuccessful = true;
-                break;
-            case TELEGRAM:
-                if(loginTelegram()) loginSuccessful = true;
-                break;
-            case NONE:
-            default:
-                Outputs.printError("User tried to log in to an unknown service");
-                break;
-        }
-
-        if(loginSuccessful) CLI.currentMenu = CLI.MENU.CONVERSATION_LIST;
-    }
-
-    private static boolean loginWire()
-    {
-        //TODO: Test if user is logged in already and ask for credentials if not
-        return false;
-    }
-    private static boolean loginTelegram()
-    {
-        //TODO: Test if user is logged in already and ask for credentials if not
-        return false;
     }
 
 

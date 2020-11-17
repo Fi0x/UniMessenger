@@ -18,6 +18,7 @@ public class WireLogin implements ILoginOut
     @Override
     public boolean login()
     {
+        //TODO: Verify if user is already logged in
         //TODO: Add more login options (phone)
         String mail = Outputs.getStringAnswerFrom("Please enter your E-Mail");//TestAccount: pechtl97@gmail.com
         String pw = Outputs.getStringAnswerFrom("Please enter your password");//TestAccount: Passwort1!
