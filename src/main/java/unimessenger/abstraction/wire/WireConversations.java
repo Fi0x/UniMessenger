@@ -5,8 +5,9 @@ import unimessenger.abstraction.interfaces.IConversations;
 public class WireConversations implements IConversations
 {
     @Override
-    public void requestAllConversationsAndSave()
+    public boolean requestAllConversations()
     {
         //TODO
+        return false;
     }
 }
