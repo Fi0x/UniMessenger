@@ -52,6 +52,14 @@ public class MenuWireOverview
     {
         System.out.println("List of all conversations in Wire:");
         //TODO: Show a list of all Wire-conversations
+        String url = Variables.URL_WIRE + Commands.CONVERSATIONS + "?access_token=" + Storage.wireBearerToken;
+        String[] headers = new String[]{
+                "cookie", Storage.wireAccessCookie,
+                "accept", "text/html"};
+        HttpResponse<String> response = CLI.userHTTP.sendRequest(Variables.URL_WIRE + Commands.CONVERSATIONS, Variables.REQUESTTYPE.GET, "", headers);
+        System.out.println("Response code: " + response.statusCode());
+        System.out.println("Headers:" + response.headers());
+        System.out.println("Body: " + response.body());
     }
 
     private static void chatSelection()

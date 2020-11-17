@@ -6,4 +6,6 @@ public class Commands
     public static final String PERSIST = "?persist=true";
     public static final String ACCESS = "/access";
     public static final String LOGOUT = "/access/logout";
+
+    public static final String CONVERSATIONS = "/conversations";
 }
