@@ -2,10 +2,7 @@ package unimessenger.userinteraction;
 
 import unimessenger.Main;
 import unimessenger.abstraction.storage.WireStorage;
-import unimessenger.userinteraction.menu.MenuChat;
-import unimessenger.userinteraction.menu.MenuConversationList;
-import unimessenger.userinteraction.menu.MenuLogin;
-import unimessenger.userinteraction.menu.MenuMain;
+import unimessenger.userinteraction.menu.*;
 import unimessenger.util.enums.SERVICE;
 
 public class CLI implements Runnable
@@ -58,14 +55,5 @@ public class CLI implements Runnable
         Outputs.printDebug("Storage written to file");
 
         Outputs.printInfo("Exiting program...");
-    }
-
-    public enum MENU
-    {
-        MAIN,
-        LOGIN,
-        CONVERSATION_LIST,
-        CHAT,
-        EXIT
     }
 }

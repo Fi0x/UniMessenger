@@ -21,14 +21,14 @@ public class MenuChat
                 sendMessage();
                 break;
             case 2:
-                CLI.currentMenu = CLI.MENU.CONVERSATION_LIST;
+                CLI.currentMenu = MENU.CONVERSATION_LIST;
                 break;
             case 3:
                 CLI.currentService = SERVICE.NONE;
-                CLI.currentMenu = CLI.MENU.MAIN;
+                CLI.currentMenu = MENU.MAIN;
                 break;
             case 4:
-                CLI.currentMenu = CLI.MENU.EXIT;
+                CLI.currentMenu = MENU.EXIT;
                 break;
             default:
                 Outputs.cannotHandleUserInput();

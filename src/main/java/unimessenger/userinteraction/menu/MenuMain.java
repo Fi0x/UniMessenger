@@ -17,14 +17,14 @@ public class MenuMain
         {
             case 1:
                 CLI.currentService = SERVICE.WIRE;
-                CLI.currentMenu = CLI.MENU.LOGIN;
+                CLI.currentMenu = MENU.LOGIN;
                 break;
             case 2:
                 CLI.currentService = SERVICE.TELEGRAM;
-                CLI.currentMenu = CLI.MENU.LOGIN;
+                CLI.currentMenu = MENU.LOGIN;
                 break;
             case 3:
-                CLI.currentMenu = CLI.MENU.EXIT;
+                CLI.currentMenu = MENU.EXIT;
                 break;
             default:
                 Outputs.cannotHandleUserInput();

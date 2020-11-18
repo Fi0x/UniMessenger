@@ -37,10 +37,10 @@ public class MenuConversationList
                 else break;
             case 4:
                 CLI.currentService = SERVICE.NONE;
-                CLI.currentMenu = CLI.MENU.MAIN;
+                CLI.currentMenu = MENU.MAIN;
                 break;
             case 5:
-                CLI.currentMenu = CLI.MENU.EXIT;
+                CLI.currentMenu = MENU.EXIT;
                 break;
             case 10:
                 if(new APIAccess().getUtilInterface(CLI.currentService).refreshSession()) System.out.println("Successfully refreshed your bearer token");
