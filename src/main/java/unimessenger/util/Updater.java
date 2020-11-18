@@ -41,7 +41,8 @@ public class Updater implements Runnable//TODO check if the updater works if the
 
     private boolean validateAccess(SERVICE service)
     {
-        ILoginOut login = new APIAccess().getLoginInterface(service);
+        APIAccess access = new APIAccess();
+        ILoginOut login = access.getLoginInterface(service);
         switch(service)
         {
             case WIRE:
@@ -50,11 +51,11 @@ public class Updater implements Runnable//TODO check if the updater works if the
                 {
                     if(login.needsRefresh())
                     {
-                        return login.refresh();
+                        return access.getUtilInterface(service).refreshSession();
                     }
                     else return true;
                 }
-                else if(login.refresh()) return true;
+                else if(access.getUtilInterface(service).refreshSession()) return true;
                 return login.login();
             case NONE:
             default:
@@ -66,7 +67,7 @@ public class Updater implements Runnable//TODO check if the updater works if the
 
     public static void addService(SERVICE service)
     {
-//        if(!runningServices.contains(service)) runningServices.add(service);//TODO: Fix WireLogin methods before re-activating
+        if(!runningServices.contains(service)) runningServices.add(service);
     }
 
     public static void removeService(SERVICE service)

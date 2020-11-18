@@ -56,9 +56,10 @@ public class MenuLogin
 
     private static boolean connectUser()
     {
-        ILoginOut login = new APIAccess().getLoginInterface(CLI.currentService);
+        APIAccess access = new APIAccess();
+        ILoginOut login = access.getLoginInterface(CLI.currentService);
 
-        if(login.checkIfLoggedIn() && login.refresh()) return true;
+        if(login.checkIfLoggedIn() && access.getUtilInterface(CLI.currentService).refreshSession()) return true;
         if(login.login()) return true;
 
         System.out.println("Failed to log in");
