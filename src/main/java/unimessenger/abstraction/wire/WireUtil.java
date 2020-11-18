@@ -3,6 +3,7 @@ package unimessenger.abstraction.wire;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import unimessenger.abstraction.Headers;
 import unimessenger.abstraction.URL;
 import unimessenger.abstraction.interfaces.IUtil;
 import unimessenger.abstraction.storage.WireStorage;
@@ -20,8 +21,8 @@ public class WireUtil implements IUtil
         String url = URL.WIRE + URL.WIRE_ACCESS + "?access_token=" + WireStorage.wireBearerToken;
         String[] headers = new String[]{
                 "cookie", WireStorage.wireAccessCookie,
-                "content-type", "application/json",
-                "accept", "application/json"};
+                Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
+                Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
 
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.POST, "", headers);
 

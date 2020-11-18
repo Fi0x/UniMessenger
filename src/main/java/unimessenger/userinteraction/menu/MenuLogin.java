@@ -4,12 +4,14 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import unimessenger.abstraction.APIAccess;
+import unimessenger.abstraction.Headers;
 import unimessenger.abstraction.URL;
 import unimessenger.abstraction.interfaces.ILoginOut;
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.apicommunication.HTTP;
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
+import unimessenger.util.Updater;
 import unimessenger.util.enums.REQUEST;
 import unimessenger.util.enums.SERVICE;
 
@@ -28,7 +30,11 @@ public class MenuLogin
         switch(userInput)
         {
             case 1:
-                if(connectUser()) CLI.currentMenu = CLI.MENU.CONVERSATION_LIST;
+                if(connectUser())
+                {
+                    Updater.addService(CLI.currentService);
+                    CLI.currentMenu = CLI.MENU.CONVERSATION_LIST;
+                }
                 break;
             case 2:
                 CLI.currentService = SERVICE.NONE;
@@ -39,6 +45,7 @@ public class MenuLogin
                 break;
             case 10:
                 autoLogin();
+                Updater.addService(CLI.currentService);
                 CLI.currentMenu = CLI.MENU.CONVERSATION_LIST;
                 break;
             default:
@@ -70,7 +77,9 @@ public class MenuLogin
         obj.put("password", "Passwort1!");
         String body = obj.toJSONString();
 
-        String[] headers = new String[] {"content-type", "application/json", "accept", "application/json"};
+        String[] headers = new String[] {
+                Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
+                Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
 
         handleResponse(new HTTP().sendRequest(url, REQUEST.POST, body, headers));
     }

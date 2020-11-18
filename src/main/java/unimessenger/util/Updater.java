@@ -8,7 +8,7 @@ import unimessenger.util.enums.SERVICE;
 
 import java.util.ArrayList;
 
-public class Updater implements Runnable
+public class Updater implements Runnable//TODO check if the updater works if the bearer token is outdated
 {
     public static ArrayList<SERVICE> runningServices;
     private static HTTP updateHTTP;

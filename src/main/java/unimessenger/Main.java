@@ -35,7 +35,7 @@ public class Main
         Outputs.printDebug("Stored messages loaded");
 
         Outputs.printDebug("Creating new Thread for Updater");
-        updt = new Thread(new Updater());         //TODO check if the updater works if the bearer token is outdated
+        updt = new Thread(new Updater());
         Outputs.printDebug("Updater Thread created");
         Outputs.printDebug("Starting Updater Thread");
         updt.start();
