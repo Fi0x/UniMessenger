@@ -18,8 +18,8 @@ public class WireLogin implements ILoginOut
     @Override
     public boolean checkIfLoggedIn()
     {
-        //TODO: Verify if user is already logged in
-        return false;
+        if(WireStorage.cookie == null) return false;
+        return WireStorage.isBearerTokenStillValid();
     }
 
     @Override
@@ -38,7 +38,7 @@ public class WireLogin implements ILoginOut
         obj.put("password", pw);
         String body = obj.toJSONString();
 
-        String[] headers = new String[] {
+        String[] headers = new String[]{
                 Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
                 Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
 
@@ -46,8 +46,7 @@ public class WireLogin implements ILoginOut
     }
 
     @Override
-    public boolean logout()
-    //Todo dont put this into the link but into the header because best practices see wire docs
+    public boolean logout()//Todo dont put this into the link but into the header because best practices see wire docs
     {
         String url = URL.WIRE + URL.WIRE_LOGOUT + URL.WIRE_TOKEN + WireStorage.getBearerToken();
         String[] headers = new String[]{
@@ -71,20 +70,12 @@ public class WireLogin implements ILoginOut
             Outputs.printDebug("Response code is not 200");
             return false;
         }
-        //TODO make it so the Data is not cleared if the user is not logged out and data is certainly cleared if user is logged out
     }
 
     @Override
     public boolean needsRefresh()
     {
-        //TODO: Check if bearer token needs to be refreshed
-        return false;
-    }
-
-    @Override
-    public boolean refresh()
-    {
-        //TODO: Refresh bearer token
+        WireStorage.isBearerTokenStillValid();
         return false;
     }
 

@@ -57,7 +57,7 @@ public class WireStorage
         return bearerToken;
     }
 
-    public static boolean isWireBearerTokenStillValid()
+    public static boolean isBearerTokenStillValid()
     {
         return bearerToken != null && bearerExpiringTime != null && bearerExpiringTime.getTime() > System.currentTimeMillis();
     }
