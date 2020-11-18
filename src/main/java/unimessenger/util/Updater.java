@@ -54,10 +54,7 @@ public class Updater implements Runnable//TODO check if the updater works if the
                     }
                     else return true;
                 }
-                else if(login.refresh())
-                {
-                    return true;
-                }
+                else if(login.refresh()) return true;
                 return login.login();
             case NONE:
             default:

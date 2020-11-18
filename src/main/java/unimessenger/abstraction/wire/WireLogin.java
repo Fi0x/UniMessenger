@@ -10,7 +10,6 @@ import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.apicommunication.HTTP;
 import unimessenger.userinteraction.Outputs;
 import unimessenger.util.enums.REQUEST;
-import unimessenger.util.enums.SERVICE;
 
 import java.net.http.HttpResponse;
 
@@ -50,9 +49,9 @@ public class WireLogin implements ILoginOut
     public boolean logout()
     //Todo dont put this into the link but into the header because best practices see wire docs
     {
-        String url = URL.WIRE + URL.WIRE_LOGOUT + "?access_token=" + WireStorage.wireBearerToken;
+        String url = URL.WIRE + URL.WIRE_LOGOUT + URL.WIRE_TOKEN + WireStorage.getBearerToken();
         String[] headers = new String[]{
-                "cookie", WireStorage.wireAccessCookie,
+                "cookie", WireStorage.cookie,
                 Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
                 Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
 
@@ -65,7 +64,7 @@ public class WireLogin implements ILoginOut
         } else if(response.statusCode() == 200)
         {
             Outputs.printDebug("Successfully logged out");
-            WireStorage.clearUserData(SERVICE.WIRE);
+            WireStorage.clearUserData();
             return true;
         } else
         {
@@ -97,20 +96,16 @@ public class WireLogin implements ILoginOut
         try
         {
             obj = (JSONObject) new JSONParser().parse(response.body());
-            WireStorage.wireUserID = obj.get("user").toString();
-            WireStorage.wireBearerToken = obj.get("access_token").toString();
-            WireStorage.setWireBearerTime(Integer.parseInt(obj.get("expires_in").toString()));
+            WireStorage.userID = obj.get("user").toString();
+            WireStorage.setBearerToken(obj.get("access_token").toString(), Integer.parseInt(obj.get("expires_in").toString()));
 
             String cookieArr = response.headers().map().get("set-cookie").get(0);
             String[] arr = cookieArr.split("zuid=");
             if(arr.length > 1) arr = arr[1].split(";");
-            WireStorage.wireAccessCookie = "zuid=" + arr[0];
+            WireStorage.cookie = "zuid=" + arr[0];
 
-            Outputs.printDebug("Token Type: " + obj.get("token_type"));
-            Outputs.printDebug("Expires in: " + obj.get("expires_in"));
-            Outputs.printDebug("Access Token: " + WireStorage.wireBearerToken);
-            Outputs.printDebug("User: " + WireStorage.wireUserID);
-            Outputs.printDebug("Cookie: " + WireStorage.wireAccessCookie);
+            Outputs.printDebug("User: " + WireStorage.userID);
+            Outputs.printDebug("Expires in: " + obj.get("expires_in") + " seconds");
         } catch(ParseException ignored)
         {
             return false;
