@@ -6,11 +6,12 @@ import org.json.simple.parser.ParseException;
 import unimessenger.abstraction.APIAccess;
 import unimessenger.abstraction.URL;
 import unimessenger.abstraction.interfaces.ILoginOut;
+import unimessenger.abstraction.storage.WireStorage;
+import unimessenger.apicommunication.HTTP;
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
-import unimessenger.util.Parsers;
-import unimessenger.util.Storage;
-import unimessenger.util.Variables;
+import unimessenger.util.enums.REQUEST;
+import unimessenger.util.enums.SERVICE;
 
 import java.net.http.HttpResponse;
 
@@ -30,7 +31,7 @@ public class MenuLogin
                 if(connectUser()) CLI.currentMenu = CLI.MENU.CONVERSATION_LIST;
                 break;
             case 2:
-                CLI.currentService = Variables.SERVICE.NONE;
+                CLI.currentService = SERVICE.NONE;
                 CLI.currentMenu = CLI.MENU.MAIN;
                 break;
             case 3:
@@ -59,12 +60,10 @@ public class MenuLogin
 
 
 
-    private static void autoLogin()//TODO: Remove
+    @Deprecated
+    private static void autoLogin()
     {
-        boolean persist = Outputs.getBoolAnswerFrom("Do you want to stay logged in?");
-
-        String url = URL.WIRE + URL.WIRE_LOGIN;
-        if(persist) url += URL.WIRE_PERSIST;
+        String url = URL.WIRE + URL.WIRE_LOGIN + URL.WIRE_PERSIST;
 
         JSONObject obj = new JSONObject();
         obj.put("email", "pechtl97@gmail.com");
@@ -73,9 +72,10 @@ public class MenuLogin
 
         String[] headers = new String[] {"content-type", "application/json", "accept", "application/json"};
 
-        handleResponse(CLI.userHTTP.sendRequest(url, Variables.REQUESTTYPE.POST, body, headers));
+        handleResponse(new HTTP().sendRequest(url, REQUEST.POST, body, headers));
     }
-    public static void handleResponse(HttpResponse<String> response)//TODO: Remove
+    @Deprecated
+    public static void handleResponse(HttpResponse<String> response)
     {
         if(response == null || response.statusCode() != 200) return;
 
@@ -83,16 +83,20 @@ public class MenuLogin
         try
         {
             obj = (JSONObject) new JSONParser().parse(response.body());
-            Storage.wireUserID = obj.get("user").toString();
-            Storage.wireBearerToken = obj.get("access_token").toString();
-            Storage.setWireBearerTime(Integer.parseInt(obj.get("expires_in").toString()));
-            Storage.wireAccessCookie = Parsers.parseCookieID(response.headers().map().get("set-cookie").get(0));
+            WireStorage.wireUserID = obj.get("user").toString();
+            WireStorage.wireBearerToken = obj.get("access_token").toString();
+            WireStorage.setWireBearerTime(Integer.parseInt(obj.get("expires_in").toString()));
+
+            String raw = response.headers().map().get("set-cookie").get(0);
+            String[] arr = raw.split("zuid=");
+            if(arr.length > 1) arr = arr[1].split(";");
+            WireStorage.wireAccessCookie = "zuid=" + arr[0];
 
             Outputs.printDebug("Token Type: " + obj.get("token_type"));
             Outputs.printDebug("Expires in: " + obj.get("expires_in"));
-            Outputs.printDebug("Access Token: " + Storage.wireBearerToken);
-            Outputs.printDebug("User: " + Storage.wireUserID);
-            Outputs.printDebug("Cookie: " + Storage.wireAccessCookie);
+            Outputs.printDebug("Access Token: " + WireStorage.wireBearerToken);
+            Outputs.printDebug("User: " + WireStorage.wireUserID);
+            Outputs.printDebug("Cookie: " + WireStorage.wireAccessCookie);
         } catch(ParseException ignored)
         {
         }

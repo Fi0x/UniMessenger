@@ -5,25 +5,25 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import unimessenger.abstraction.URL;
 import unimessenger.abstraction.interfaces.IUtil;
-import unimessenger.userinteraction.CLI;
+import unimessenger.abstraction.storage.WireStorage;
+import unimessenger.apicommunication.HTTP;
 import unimessenger.userinteraction.Outputs;
-import unimessenger.util.Storage;
-import unimessenger.util.Variables;
+import unimessenger.util.enums.REQUEST;
 
 import java.net.http.HttpResponse;
 
 public class WireUtil implements IUtil
 {
-
+    @Override
     public boolean refreshSession()
     {
-        String url = URL.WIRE + URL.WIRE_ACCESS + "?access_token=" + Storage.wireBearerToken;
+        String url = URL.WIRE + URL.WIRE_ACCESS + "?access_token=" + WireStorage.wireBearerToken;
         String[] headers = new String[]{
-                "cookie", Storage.wireAccessCookie,
+                "cookie", WireStorage.wireAccessCookie,
                 "content-type", "application/json",
                 "accept", "application/json"};
 
-        HttpResponse<String> response = CLI.userHTTP.sendRequest(url, Variables.REQUESTTYPE.POST, "", headers);
+        HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.POST, "", headers);
 
         if(response == null)
         {
@@ -35,8 +35,8 @@ public class WireUtil implements IUtil
             {
                 assert false;
                 obj = (JSONObject) new JSONParser().parse(response.body());
-                Storage.wireBearerToken = obj.get("access_token").toString();
-                Storage.setWireBearerTime(Integer.parseInt(obj.get("expires_in").toString()));
+                WireStorage.wireBearerToken = obj.get("access_token").toString();
+                WireStorage.setWireBearerTime(Integer.parseInt(obj.get("expires_in").toString()));
                 Outputs.printDebug("Successfully refreshed token");
                 return true;
             } catch(ParseException ignored)
@@ -46,8 +46,8 @@ public class WireUtil implements IUtil
         } else
         {
             Outputs.printDebug("Response code is " + response.statusCode() + ". Deleting Wire access cookie...");
-            Storage.wireAccessCookie = null;
-            Storage.deleteFile(Storage.wireDataFile);
+            WireStorage.wireAccessCookie = null;
+            WireStorage.deleteFile(WireStorage.wireDataFile);
         }
         return false;
     }

@@ -2,7 +2,7 @@ package unimessenger.abstraction;
 
 import unimessenger.abstraction.interfaces.*;
 import unimessenger.abstraction.wire.*;
-import unimessenger.util.Variables;
+import unimessenger.util.enums.SERVICE;
 
 public class APIAccess
 {
@@ -12,7 +12,7 @@ public class APIAccess
     private final IUtil WIRE_UTIL = new WireUtil();
     private final IData WIRE_DATA = new WireData();
 
-    public IConversations getConversationInterface(Variables.SERVICE service)
+    public IConversations getConversationInterface(SERVICE service)
     {
         switch(service)
         {
@@ -25,7 +25,7 @@ public class APIAccess
                 return null;
         }
     }
-    public ILoginOut getLoginInterface(Variables.SERVICE service)
+    public ILoginOut getLoginInterface(SERVICE service)
     {
         switch(service)
         {
@@ -38,7 +38,7 @@ public class APIAccess
                 return null;
         }
     }
-    public IMessages getMessageInterface(Variables.SERVICE service)
+    public IMessages getMessageInterface(SERVICE service)
     {
         switch(service)
         {
@@ -51,7 +51,7 @@ public class APIAccess
                 return null;
         }
     }
-    public IUtil getUtilInterface(Variables.SERVICE service)
+    public IUtil getUtilInterface(SERVICE service)
     {
         switch(service)
         {
@@ -64,7 +64,7 @@ public class APIAccess
                 return null;
         }
     }
-    public IData getDataInterface(Variables.SERVICE service)
+    public IData getDataInterface(SERVICE service)
     {
         switch(service)
         {

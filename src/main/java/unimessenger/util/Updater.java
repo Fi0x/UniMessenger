@@ -4,29 +4,31 @@ import unimessenger.abstraction.APIAccess;
 import unimessenger.abstraction.interfaces.ILoginOut;
 import unimessenger.apicommunication.HTTP;
 import unimessenger.userinteraction.Outputs;
+import unimessenger.util.enums.SERVICE;
 
 import java.util.ArrayList;
 
 public class Updater implements Runnable
 {
-    public static ArrayList<Variables.SERVICE> runningServices = new ArrayList<>();
+    public static ArrayList<SERVICE> runningServices;
     private static HTTP updateHTTP;
 
     @Override
     public void run()
     {
         updateHTTP = new HTTP();
-        initializeServices();
+        runningServices = new ArrayList<>();
 
-        while(! runningServices.isEmpty())
+        while(true)//TODO: Use a more elegant way
         {
-            for(Variables.SERVICE service : runningServices)
+            for(SERVICE service : runningServices)
             {
                 if(validateAccess(service))
                 {
                     new APIAccess().getConversationInterface(service).requestAllConversations();//TODO: Refresh only changed conversations if possible
                     //TODO: Refresh messages
                 }
+                else removeService(service);
             }
             try
             {
@@ -37,7 +39,7 @@ public class Updater implements Runnable
         }
     }
 
-    private boolean validateAccess(Variables.SERVICE service)
+    private boolean validateAccess(SERVICE service)
     {
         ILoginOut login = new APIAccess().getLoginInterface(service);
         switch(service)
@@ -62,9 +64,13 @@ public class Updater implements Runnable
         return true;
     }
 
-    private static void initializeServices()
+    public static void addService(SERVICE service)
     {
-        runningServices.add(Variables.SERVICE.WIRE);
-        //TODO: Add more services
+        if(!runningServices.contains(service)) runningServices.add(service);
+    }
+
+    public static void removeService(SERVICE service)
+    {
+        runningServices.remove(service);
     }
 }

@@ -3,7 +3,7 @@ package unimessenger.userinteraction.menu;
 import unimessenger.abstraction.APIAccess;
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
-import unimessenger.util.Variables;
+import unimessenger.util.enums.SERVICE;
 
 public class MenuConversationList
 {
@@ -29,7 +29,7 @@ public class MenuConversationList
                 if(new APIAccess().getLoginInterface(CLI.currentService).logout()) System.out.println("Successfully logged out");
                 else System.out.println("There was a logout error");
             case 4:
-                CLI.currentService = Variables.SERVICE.NONE;
+                CLI.currentService = SERVICE.NONE;
                 CLI.currentMenu = CLI.MENU.MAIN;
                 break;
             case 5:
