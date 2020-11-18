@@ -8,4 +8,5 @@ public class URL
     public static final String WIRE_ACCESS = "/access";
     public static final String WIRE_LOGOUT = "/access/logout";
     public static final String WIRE_CONVERSATIONS = "/conversations";
+    public static final String WIRE_NOTIFICATIOS = "/notifications";
 }
