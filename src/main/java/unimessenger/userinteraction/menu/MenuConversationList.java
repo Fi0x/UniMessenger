@@ -17,6 +17,7 @@ public class MenuConversationList
         System.out.println("5) Exit Program");
         System.out.println("10) Refresh Token");//TODO: Remove
         System.out.println("11) Print Notifications");//TODO: Remove
+        System.out.println("12) Load Conversations");//TODO: Remove
 
         int userInput = Outputs.getIntAnswerFrom("Please enter the number of the option you would like to choose.");
         switch(userInput)
@@ -43,6 +44,9 @@ public class MenuConversationList
             case 11:
                 WireMessages.PrintNotifications();
                 break;
+            case 12:
+                if(new APIAccess().getConversationInterface(CLI.currentService).requestAllConversations()) System.out.println("Successfully loaded conversations");
+                break;
             default:
                 Outputs.cannotHandleUserInput();
                 break;
@@ -51,8 +55,13 @@ public class MenuConversationList
 
     private static void listAllConversations()
     {
+        String[] names = new APIAccess().getDataInterface(CLI.currentService).getAllConversationNames();
+
         System.out.println("List of all conversations in '" + CLI.currentService + "':");
-        //TODO: Show all conversations of current service
+        for(int i = 0; i < names.length; i++)
+        {
+            System.out.println((i + 1) + ") " + names[i]);
+        }
     }
 
     private static void selectChat()

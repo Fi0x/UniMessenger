@@ -39,7 +39,7 @@ public class WireLogin implements ILoginOut
         obj.put("password", pw);
         String body = obj.toJSONString();
 
-        String[] headers = new String[] {
+        String[] headers = new String[]{
                 Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
                 Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
 

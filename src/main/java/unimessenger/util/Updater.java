@@ -54,7 +54,10 @@ public class Updater implements Runnable//TODO check if the updater works if the
                     }
                     else return true;
                 }
-                else if(login.refresh()) return true;
+                else if(login.refresh())
+                {
+                    return true;
+                }
                 return login.login();
             case NONE:
             default:
@@ -66,7 +69,7 @@ public class Updater implements Runnable//TODO check if the updater works if the
 
     public static void addService(SERVICE service)
     {
-        if(!runningServices.contains(service)) runningServices.add(service);
+//        if(!runningServices.contains(service)) runningServices.add(service);//TODO: Fix WireLogin methods before re-activating
     }
 
     public static void removeService(SERVICE service)

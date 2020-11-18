@@ -3,6 +3,7 @@ package unimessenger.abstraction.storage;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import unimessenger.userinteraction.Outputs;
+import unimessenger.util.MessengerStructure.WireConversation;
 import unimessenger.util.enums.SERVICE;
 
 import java.io.File;
@@ -10,6 +11,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class WireStorage
 {
@@ -18,6 +20,8 @@ public class WireStorage
     public static String wireAccessCookie;
     private static Timestamp wireBearerTokenExpiringTime;
     public static final String wireDataFile = "dataWire.json";
+
+    public static ArrayList<WireConversation> conversations = new ArrayList<>();
 
     public static void storeWireAccessCookie(String accessCookie)
     {
