@@ -63,22 +63,7 @@ public class WireStorage
 
     public static boolean isBearerTokenStillValid()
     {
-        if(bearerToken == null)
-        {
-            System.out.println("No Bearer token");
-            return false;
-        }
-        if(bearerExpiringTime == null)
-        {
-            System.out.println("No bearer expire time");
-            return false;
-        }
-        if(bearerExpiringTime.getTime() <= System.currentTimeMillis())
-        {
-            System.out.println("Bearer token outdated");
-            return false;
-        }
-        return true;
+        return bearerToken != null && bearerExpiringTime != null && bearerExpiringTime.getTime() > System.currentTimeMillis();
     }
 
     public static void clearUserData()
@@ -97,9 +82,10 @@ public class WireStorage
             JSONObject obj = (JSONObject) new JSONParser().parse(new FileReader(storageFile));
             cookie = (String) obj.get("accessCookie");
             bearerToken = (String) obj.get("bearerToken");
-            bearerExpiringTime = new Timestamp(Integer.parseInt(obj.get("bearerTime").toString()));
+            bearerExpiringTime = new Timestamp((long) obj.get("bearerTime"));
         } catch(Exception ignored)
         {
+            Outputs.printError("Failed to load Wire file");
         }
     }
 
