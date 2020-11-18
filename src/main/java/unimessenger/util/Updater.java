@@ -66,7 +66,7 @@ public class Updater implements Runnable//TODO check if the updater works if the
 
     public static void addService(SERVICE service)
     {
-        if(!runningServices.contains(service)) runningServices.add(service);
+//        if(!runningServices.contains(service)) runningServices.add(service);//TODO: Activate when login check is fixed
     }
 
     public static void removeService(SERVICE service)
