@@ -5,6 +5,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import unimessenger.abstraction.APIAccess;
 import unimessenger.abstraction.URL;
+import unimessenger.abstraction.interfaces.ILoginOut;
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
 import unimessenger.util.Parsers;
@@ -26,7 +27,7 @@ public class MenuLogin
         switch(userInput)
         {
             case 1:
-                if(new APIAccess().getLoginInterface(CLI.currentService).login()) CLI.currentMenu = CLI.MENU.CONVERSATION_LIST;
+                if(connectUser()) CLI.currentMenu = CLI.MENU.CONVERSATION_LIST;
                 break;
             case 2:
                 CLI.currentService = Variables.SERVICE.NONE;
@@ -45,9 +46,20 @@ public class MenuLogin
         }
     }
 
+    private static boolean connectUser()
+    {
+        ILoginOut login = new APIAccess().getLoginInterface(CLI.currentService);
+
+        if(login.checkIfLoggedIn() && login.refresh()) return true;
+        if(login.login()) return true;
+
+        System.out.println("Failed to log in");
+        return false;
+    }
 
 
-    private static boolean autoLogin()//TODO: Remove
+
+    private static void autoLogin()//TODO: Remove
     {
         boolean persist = Outputs.getBoolAnswerFrom("Do you want to stay logged in?");
 
@@ -61,11 +73,11 @@ public class MenuLogin
 
         String[] headers = new String[] {"content-type", "application/json", "accept", "application/json"};
 
-        return handleResponse(CLI.userHTTP.sendRequest(url, Variables.REQUESTTYPE.POST, body, headers));
+        handleResponse(CLI.userHTTP.sendRequest(url, Variables.REQUESTTYPE.POST, body, headers));
     }
-    public static boolean handleResponse(HttpResponse<String> response)//TODO: Remove
+    public static void handleResponse(HttpResponse<String> response)//TODO: Remove
     {
-        if(response == null || response.statusCode() != 200) return false;
+        if(response == null || response.statusCode() != 200) return;
 
         JSONObject obj;
         try
@@ -83,8 +95,6 @@ public class MenuLogin
             Outputs.printDebug("Cookie: " + Storage.wireAccessCookie);
         } catch(ParseException ignored)
         {
-            return false;
         }
-        return true;
     }
 }

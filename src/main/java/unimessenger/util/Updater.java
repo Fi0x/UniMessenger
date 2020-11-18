@@ -1,6 +1,7 @@
 package unimessenger.util;
 
 import unimessenger.abstraction.APIAccess;
+import unimessenger.abstraction.interfaces.ILoginOut;
 import unimessenger.apicommunication.HTTP;
 import unimessenger.userinteraction.Outputs;
 
@@ -17,13 +18,15 @@ public class Updater implements Runnable
         updateHTTP = new HTTP();
         initializeServices();
 
-        while(!runningServices.isEmpty())
+        while(! runningServices.isEmpty())
         {
             for(Variables.SERVICE service : runningServices)
             {
-                validateAccess(service);
-                //TODO: Refresh conversation list
-                //TODO: Refresh messages
+                if(validateAccess(service))
+                {
+                    new APIAccess().getConversationInterface(service).requestAllConversations();//TODO: Refresh only changed conversations if possible
+                    //TODO: Refresh messages
+                }
             }
             try
             {
@@ -34,16 +37,24 @@ public class Updater implements Runnable
         }
     }
 
-    private boolean validateAccess(Variables.SERVICE service)//TODO: Rework
+    private boolean validateAccess(Variables.SERVICE service)
     {
+        ILoginOut login = new APIAccess().getLoginInterface(service);
         switch(service)
         {
             case WIRE:
-                if(!Storage.isWireBearerTokenStillValid())
+            case TELEGRAM:
+                if(login.checkIfLoggedIn())
                 {
-                    if(Storage.wireAccessCookie == null || !(new APIAccess().getUtilInterface(service).refreshSession())) return false;
+                    if(login.needsRefresh())
+                    {
+                        return login.refresh();
+                    }
+                    else return true;
                 }
-                break;
+                else if(login.refresh()) return true;
+                return login.login();
+            case NONE:
             default:
                 Outputs.printError("Unknown service: " + service);
                 break;
@@ -54,5 +65,6 @@ public class Updater implements Runnable
     private static void initializeServices()
     {
         runningServices.add(Variables.SERVICE.WIRE);
+        //TODO: Add more services
     }
 }

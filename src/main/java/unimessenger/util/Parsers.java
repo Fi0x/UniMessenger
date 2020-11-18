@@ -1,6 +1,7 @@
 package unimessenger.util;
 
-public class Parsers
+@Deprecated
+public class Parsers//TODO: Remove
 {
     public static String parseCookieID(String raw)
     {

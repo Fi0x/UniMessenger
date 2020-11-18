@@ -7,7 +7,6 @@ import unimessenger.abstraction.URL;
 import unimessenger.abstraction.interfaces.ILoginOut;
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
-import unimessenger.util.Parsers;
 import unimessenger.util.Storage;
 import unimessenger.util.Variables;
 
@@ -16,9 +15,15 @@ import java.net.http.HttpResponse;
 public class WireLogin implements ILoginOut
 {
     @Override
-    public boolean login()
+    public boolean checkIfLoggedIn()
     {
         //TODO: Verify if user is already logged in
+        return false;
+    }
+
+    @Override
+    public boolean login()
+    {
         //TODO: Add more login options (phone)
         String mail = Outputs.getStringAnswerFrom("Please enter your E-Mail");//TestAccount: pechtl97@gmail.com
         String pw = Outputs.getStringAnswerFrom("Please enter your password");//TestAccount: Passwort1!
@@ -66,6 +71,20 @@ public class WireLogin implements ILoginOut
         //TODO make it so the Data is not cleared if the user is not logged out and data is certainly cleared if user is logged out
     }
 
+    @Override
+    public boolean needsRefresh()
+    {
+        //TODO: Check if bearer token needs to be refreshed
+        return false;
+    }
+
+    @Override
+    public boolean refresh()
+    {
+        //TODO: Refresh bearer token
+        return false;
+    }
+
     public static boolean handleResponse(HttpResponse<String> response)
     {
         if(response == null || response.statusCode() != 200) return false;
@@ -77,7 +96,11 @@ public class WireLogin implements ILoginOut
             Storage.wireUserID = obj.get("user").toString();
             Storage.wireBearerToken = obj.get("access_token").toString();
             Storage.setWireBearerTime(Integer.parseInt(obj.get("expires_in").toString()));
-            Storage.wireAccessCookie = Parsers.parseCookieID(response.headers().map().get("set-cookie").get(0));
+
+            String cookieArr = response.headers().map().get("set-cookie").get(0);
+            String[] arr = cookieArr.split("zuid=");
+            if(arr.length > 1) arr = arr[1].split(";");
+            Storage.wireAccessCookie = "zuid=" + arr[0];
 
             Outputs.printDebug("Token Type: " + obj.get("token_type"));
             Outputs.printDebug("Expires in: " + obj.get("expires_in"));

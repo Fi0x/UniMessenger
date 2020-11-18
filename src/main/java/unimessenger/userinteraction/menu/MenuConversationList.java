@@ -26,7 +26,8 @@ public class MenuConversationList
                 selectChat();
                 break;
             case 3:
-                new APIAccess().getLoginInterface(CLI.currentService).logout();
+                if(new APIAccess().getLoginInterface(CLI.currentService).logout()) System.out.println("Successfully logged out");
+                else System.out.println("There was a logout error");
             case 4:
                 CLI.currentService = Variables.SERVICE.NONE;
                 CLI.currentMenu = CLI.MENU.MAIN;

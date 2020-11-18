@@ -1,13 +1,7 @@
 package unimessenger.abstraction;
 
-import unimessenger.abstraction.interfaces.IConversations;
-import unimessenger.abstraction.interfaces.ILoginOut;
-import unimessenger.abstraction.interfaces.IMessages;
-import unimessenger.abstraction.interfaces.IUtil;
-import unimessenger.abstraction.wire.WireConversations;
-import unimessenger.abstraction.wire.WireLogin;
-import unimessenger.abstraction.wire.WireMessages;
-import unimessenger.abstraction.wire.WireUtil;
+import unimessenger.abstraction.interfaces.*;
+import unimessenger.abstraction.wire.*;
 import unimessenger.util.Variables;
 
 public class APIAccess
@@ -16,6 +10,7 @@ public class APIAccess
     private final ILoginOut WIRE_LOGIN = new WireLogin();
     private final IMessages WIRE_MESSAGES = new WireMessages();
     private final IUtil WIRE_UTIL = new WireUtil();
+    private final IData WIRE_DATA = new WireData();
 
     public IConversations getConversationInterface(Variables.SERVICE service)
     {
@@ -62,6 +57,19 @@ public class APIAccess
         {
             case WIRE:
                 return WIRE_UTIL;
+            case TELEGRAM:
+                return null;
+            case NONE:
+            default:
+                return null;
+        }
+    }
+    public IData getDataInterface(Variables.SERVICE service)
+    {
+        switch(service)
+        {
+            case WIRE:
+                return WIRE_DATA;
             case TELEGRAM:
                 return null;
             case NONE:
