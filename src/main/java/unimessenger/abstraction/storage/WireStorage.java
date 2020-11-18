@@ -4,7 +4,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import unimessenger.userinteraction.Outputs;
 import unimessenger.util.MessengerStructure.WireConversation;
-import unimessenger.util.enums.SERVICE;
 
 import java.io.File;
 import java.io.FileReader;
@@ -64,7 +63,22 @@ public class WireStorage
 
     public static boolean isBearerTokenStillValid()
     {
-        return bearerToken != null && bearerExpiringTime != null && bearerExpiringTime.getTime() > System.currentTimeMillis();
+        if(bearerToken == null)
+        {
+            System.out.println("No Bearer token");
+            return false;
+        }
+        if(bearerExpiringTime == null)
+        {
+            System.out.println("No bearer expire time");
+            return false;
+        }
+        if(bearerExpiringTime.getTime() <= System.currentTimeMillis())
+        {
+            System.out.println("Bearer token outdated");
+            return false;
+        }
+        return true;
     }
 
     public static void clearUserData()

@@ -4,6 +4,7 @@ import unimessenger.abstraction.APIAccess;
 import unimessenger.abstraction.wire.WireMessages;
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
+import unimessenger.util.Updater;
 import unimessenger.util.enums.SERVICE;
 
 public class MenuConversationList
@@ -29,8 +30,11 @@ public class MenuConversationList
                 selectChat();
                 break;
             case 3:
-                if(new APIAccess().getLoginInterface(CLI.currentService).logout()) System.out.println("Successfully logged out");
-                else System.out.println("There was a logout error");
+                if(disconnect())
+                {
+                    Updater.removeService(CLI.currentService);
+                }
+                else break;
             case 4:
                 CLI.currentService = SERVICE.NONE;
                 CLI.currentMenu = CLI.MENU.MAIN;
@@ -68,5 +72,13 @@ public class MenuConversationList
     {
         String userInput = Outputs.getStringAnswerFrom("Please type in the name of the person or group you would like to see the chat from");
         //TODO: Check if named conversation exists in Wire and open it if true
+    }
+
+    private static boolean disconnect()
+    {
+        if(new APIAccess().getLoginInterface(CLI.currentService).logout()) return true;
+
+        System.out.println("There was a logout error");
+        return false;
     }
 }
