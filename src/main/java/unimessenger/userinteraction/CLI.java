@@ -1,17 +1,17 @@
 package unimessenger.userinteraction;
 
-import unimessenger.apicommunication.HTTP;
+import unimessenger.Main;
+import unimessenger.abstraction.storage.WireStorage;
+import unimessenger.userinteraction.menu.MenuChat;
+import unimessenger.userinteraction.menu.MenuConversationList;
+import unimessenger.userinteraction.menu.MenuLogin;
 import unimessenger.userinteraction.menu.MenuMain;
-import unimessenger.userinteraction.menu.MenuWireChat;
-import unimessenger.userinteraction.menu.MenuWireLogin;
-import unimessenger.userinteraction.menu.MenuWireOverview;
-import unimessenger.util.Storage;
-import unimessenger.util.Variables;
+import unimessenger.util.enums.SERVICE;
 
 public class CLI implements Runnable
 {
     public static MENU currentMenu;
-    public static HTTP userHTTP;
+    public static SERVICE currentService;
 
     @Override
     public void run()
@@ -21,8 +21,8 @@ public class CLI implements Runnable
 
     public static void startCLI()
     {
-        currentMenu = MENU.MainMenu;
-        userHTTP = new HTTP();
+        currentMenu = MENU.MAIN;
+        currentService = SERVICE.NONE;
         while(currentMenu != MENU.EXIT)
         {
             System.out.println("\n=================================");
@@ -30,31 +30,31 @@ public class CLI implements Runnable
             System.out.println("Options:");
             switch(currentMenu)
             {
-                case MainMenu:
+                case MAIN:
                     MenuMain.showMenu();
                     break;
-                case WireLogin:
-                    MenuWireLogin.showMenu();
+                case LOGIN:
+                    MenuLogin.showMenu();
                     break;
-                case WireOverview:
-                    MenuWireOverview.showMenu();
+                case CONVERSATION_LIST:
+                    MenuConversationList.showMenu();
                     break;
-                case WireChat:
-                    MenuWireChat.showMenu();
+                case CHAT:
+                    MenuChat.showMenu();
                     break;
                 default:
                     Outputs.printError("Unknown menu state");
                     Outputs.printDebug("Switching to main menu...");
-                    currentMenu = MENU.MainMenu;
+                    currentMenu = MENU.MAIN;
                     break;
             }
         }
         Outputs.printDebug("Stopping update thread...");
-        Variables.updt.stop();
+        Main.updt.stop();
         Outputs.printDebug("Update thread stopped");
 
         Outputs.printDebug("Writing data to file...");
-        Storage.writeDataToFile();
+        WireStorage.writeDataToFile();
         Outputs.printDebug("Storage written to file");
 
         Outputs.printInfo("Exiting program...");
@@ -62,10 +62,10 @@ public class CLI implements Runnable
 
     public enum MENU
     {
-        MainMenu,
-        WireLogin,
-        WireOverview,
-        WireChat,
+        MAIN,
+        LOGIN,
+        CONVERSATION_LIST,
+        CHAT,
         EXIT
     }
 }

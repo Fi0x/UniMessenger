@@ -1,32 +1,34 @@
 package unimessenger.util;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import unimessenger.abstraction.APIAccess;
+import unimessenger.abstraction.interfaces.ILoginOut;
 import unimessenger.apicommunication.HTTP;
-import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
+import unimessenger.util.enums.SERVICE;
 
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 
 public class Updater implements Runnable
 {
-    public static ArrayList<Variables.SERVICE> runningServices = new ArrayList<>();
+    public static ArrayList<SERVICE> runningServices;
     private static HTTP updateHTTP;
 
     @Override
     public void run()
     {
         updateHTTP = new HTTP();
-        initializeServices();
+        runningServices = new ArrayList<>();
 
-        while(!runningServices.isEmpty())
+        while(true)//TODO: Use a more elegant way
         {
-            for(Variables.SERVICE service : runningServices)
+            for(SERVICE service : runningServices)
             {
-                validateAccess(service);
-                sendRequestToServer(service);
+                if(validateAccess(service))
+                {
+                    new APIAccess().getConversationInterface(service).requestAllConversations();//TODO: Refresh only changed conversations if possible
+                    //TODO: Refresh messages
+                }
+                else removeService(service);
             }
             try
             {
@@ -37,71 +39,38 @@ public class Updater implements Runnable
         }
     }
 
-    private void sendRequestToServer(Variables.SERVICE service)
+    private boolean validateAccess(SERVICE service)
     {
+        ILoginOut login = new APIAccess().getLoginInterface(service);
         switch(service)
         {
             case WIRE:
-                //TODO: Send HTTPRequest to server and ask for new messages
-                break;
-            default:
-                break;
-        }
-    }
-    private boolean validateAccess(Variables.SERVICE service)
-    {
-        switch(service)
-        {
-            case WIRE:
-                if(!Storage.isWireBearerTokenStillValid())
+            case TELEGRAM:
+                if(login.checkIfLoggedIn())
                 {
-                    if(Storage.wireAccessCookie != null) refreshAccess();
-                    return false;
+                    if(login.needsRefresh())
+                    {
+                        return login.refresh();
+                    }
+                    else return true;
                 }
-                break;
+                else if(login.refresh()) return true;
+                return login.login();
+            case NONE:
             default:
                 Outputs.printError("Unknown service: " + service);
                 break;
         }
         return true;
     }
-    public static void refreshAccess()
+
+    public static void addService(SERVICE service)
     {
-        String url = Variables.URL_WIRE + Commands.ACCESS + "?access_token=" + Storage.wireBearerToken;
-        String[] headers = new String[]{
-                "cookie", Storage.wireAccessCookie,
-                "content-type", "application/json",
-                "accept", "application/json"};
-
-        HttpResponse<String> response = CLI.userHTTP.sendRequest(url, Variables.REQUESTTYPE.POST, "", headers);
-
-        if(response == null)
-        {
-            Outputs.printError("Couldn't get a HTTP response");
-        } else if(response.statusCode() == 200)
-        {
-            JSONObject obj;
-            try
-            {
-                assert false;
-                obj = (JSONObject) new JSONParser().parse(response.body());
-                Storage.wireBearerToken = obj.get("access_token").toString();
-                Storage.setWireBearerTime(Integer.parseInt(obj.get("expires_in").toString()));
-                Outputs.printDebug("Successfully refreshed token");
-            } catch(ParseException ignored)
-            {
-                Outputs.printError("Failed refreshing token");
-            }
-        } else
-        {
-            Outputs.printDebug("Response code is " + response.statusCode() + ". Deleting Wire access cookie...");
-            Storage.wireAccessCookie = null;
-            Storage.deleteFile(Storage.wireDataFile);
-        }
+        if(!runningServices.contains(service)) runningServices.add(service);
     }
 
-    private static void initializeServices()
+    public static void removeService(SERVICE service)
     {
-        runningServices.add(Variables.SERVICE.WIRE);
+        runningServices.remove(service);
     }
 }
