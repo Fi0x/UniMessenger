@@ -9,6 +9,9 @@ import unimessenger.apicommunication.HTTP;
 import unimessenger.util.enums.REQUEST;
 
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class WireMessages implements IMessages
 {
@@ -34,6 +37,19 @@ public class WireMessages implements IMessages
 
         obj.put("data", msg);
         obj.put("sender", WireStorage.userID);
+
+        ArrayList<String> members = new WireData().getConversationMembersFromID(chatID);
+        if(members.size() > 0) members.remove(0);
+        Map recipients = new LinkedHashMap(1);
+        Map clientMap = new LinkedHashMap(members.size());
+
+        for(String id : members)
+        {
+            clientMap.put("", id);
+        }
+
+        recipients.put("", clientMap);
+        obj.put("recipients", recipients);
 
         System.out.println("Body to send: " + obj.toJSONString());
         return obj.toJSONString();
