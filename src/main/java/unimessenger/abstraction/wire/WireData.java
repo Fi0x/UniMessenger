@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class WireData implements IData
 {
     @Override
-    public String[] getAllConversationNames()
+    public ArrayList<String> getAllConversationNames()
     {
         ArrayList<String> names = new ArrayList<>();
 
@@ -21,6 +21,6 @@ public class WireData implements IData
         }
 
         Outputs.printDebug("Returning " + names.size() + " Conversation names");
-        return names.toArray(new String[0]);
+        return names;
     }
 }
