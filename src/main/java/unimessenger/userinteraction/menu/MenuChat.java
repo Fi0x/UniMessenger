@@ -41,7 +41,10 @@ public class MenuChat
                 CLI.currentMenu = MENU.EXIT;
                 break;
             case 10:
-                sendTestMessage();
+                if(sendTestMessage())
+                {
+                    System.out.println("Successfully sent message");
+                } else System.out.println("Error sending message");
                 break;
             default:
                 Outputs.cannotHandleUserInput();
