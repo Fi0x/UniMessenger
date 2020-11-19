@@ -1,5 +1,6 @@
 package unimessenger.abstraction.wire;
 
+import org.json.simple.JSONObject;
 import unimessenger.abstraction.Headers;
 import unimessenger.abstraction.URL;
 import unimessenger.abstraction.interfaces.IMessages;
@@ -14,16 +15,28 @@ public class WireMessages implements IMessages
     @Override
     public boolean sendMessage(String chatID, String text)//TODO: Make this method work
     {
-        String url = URL.WIRE + URL.WIRE_CONVERSATIONS + "/" + chatID + URL.WIRE_OTR_MESSAGES;
+        String url = URL.WIRE + URL.WIRE_CONVERSATIONS + "/" + chatID + URL.WIRE_OTR_MESSAGES + URL.WIRE_TOKEN + WireStorage.getBearerToken();
         String[] headers = new String[]{
                 Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
                 Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
-        HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.POST, "{}", headers);
+        String body = buildBody(chatID, text);
+        HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.POST, body, headers);
 
         System.out.println("Response code: " + response.statusCode());
         System.out.println("Headers: " + response.headers());
         System.out.println("Body: " + response.body());
         return false;
+    }
+
+    private static String buildBody(String chatID, String msg)
+    {
+        JSONObject obj = new JSONObject();
+
+        obj.put("data", msg);
+        obj.put("sender", WireStorage.userID);
+
+        System.out.println("Body to send: " + obj.toJSONString());
+        return obj.toJSONString();
     }
 
     @Deprecated
