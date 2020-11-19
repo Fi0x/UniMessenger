@@ -20,7 +20,6 @@ public class MenuConversationList
         System.out.println("3) Log out of '" + CLI.currentService + "'");
         System.out.println("4) Show Main Menu");
         System.out.println("5) Exit Program");
-        System.out.println("10) Refresh Token");//TODO: Remove
         System.out.println("11) Print Notifications");//TODO: Remove
 
         int userInput = Outputs.getIntAnswerFrom("Please enter the number of the option you would like to choose.");
@@ -30,23 +29,17 @@ public class MenuConversationList
                 listAllConversations();
                 break;
             case 2:
-                selectChat();
+                if(selectChat()) CLI.currentMenu = MENU.CHAT;
                 break;
             case 3:
-                if(disconnect())
-                {
-                    Updater.removeService(CLI.currentService);
-                } else break;
+                if(disconnect()) Updater.removeService(CLI.currentService);
+                else break;
             case 4:
                 CLI.currentService = SERVICE.NONE;
                 CLI.currentMenu = MENU.MAIN;
                 break;
             case 5:
                 CLI.currentMenu = MENU.EXIT;
-                break;
-            case 10:
-                if(new APIAccess().getUtilInterface(CLI.currentService).refreshSession())
-                    System.out.println("Successfully refreshed your bearer token");
                 break;
             case 11:
                 WireMessages.PrintNotifications();
@@ -70,7 +63,7 @@ public class MenuConversationList
         }
     }
 
-    private static void selectChat()
+    private static boolean selectChat()
     {
         String userInput = Outputs.getStringAnswerFrom("Please type in the name of the person or group you would like to see the chat from");
         IData data = new APIAccess().getDataInterface(CLI.currentService);
@@ -84,7 +77,7 @@ public class MenuConversationList
         }
 
         ArrayList<Integer> matches = new ArrayList<>();
-        int selectedConversation = -1;
+        int selectedConversation;
         for(int i = 0; i < names.size(); i++)
         {
             if(names.get(i) == null) continue;
@@ -93,7 +86,7 @@ public class MenuConversationList
         if(matches.size() == 0)
         {
             System.out.println("No conversation found that contains your choice");
-            return;
+            return false;
         }
         if(matches.size() == 1)
         {
@@ -109,13 +102,14 @@ public class MenuConversationList
             if(input > matches.size() || input <= 0)
             {
                 System.out.println("Couldn't find that conversation");
-                return;
+                return false;
             }
             selectedConversation = matches.get(input - 1);
         }
 
         Outputs.printDebug("Opening conversation '" + selectedConversation + "'...");
-        //TODO: Open the selected conversation and show options
+        CLI.currentChatID = ids.get(selectedConversation);
+        return true;
     }
 
     private static boolean disconnect()
