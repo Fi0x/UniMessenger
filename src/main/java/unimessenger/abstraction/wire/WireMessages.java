@@ -10,6 +10,12 @@ import java.net.http.HttpResponse;
 
 public class WireMessages implements IMessages
 {
+    @Override
+    public boolean sendMessage(String chatID, String text)
+    {
+        return false;
+    }
+
     @Deprecated
     public static void PrintNotifications()
     {
