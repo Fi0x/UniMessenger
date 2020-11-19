@@ -2,7 +2,11 @@ package unimessenger.userinteraction;
 
 import unimessenger.Main;
 import unimessenger.abstraction.storage.WireStorage;
-import unimessenger.userinteraction.menu.*;
+import unimessenger.userinteraction.menu.MenuChat;
+import unimessenger.userinteraction.menu.MenuConversationList;
+import unimessenger.userinteraction.menu.MenuLogin;
+import unimessenger.userinteraction.menu.MenuMain;
+import unimessenger.util.enums.MENU;
 import unimessenger.util.enums.SERVICE;
 
 public class CLI implements Runnable
@@ -24,6 +28,7 @@ public class CLI implements Runnable
         {
             System.out.println("\n=================================");
             System.out.println("Current Menu: " + currentMenu);
+            System.out.println("=================================");
             System.out.println("Options:");
             switch(currentMenu)
             {
@@ -47,7 +52,7 @@ public class CLI implements Runnable
             }
         }
         Outputs.printDebug("Stopping update thread...");
-        Main.updt.stop();
+        Main.updt.interrupt();
         Outputs.printDebug("Update thread stopped");
 
         Outputs.printDebug("Writing data to file...");

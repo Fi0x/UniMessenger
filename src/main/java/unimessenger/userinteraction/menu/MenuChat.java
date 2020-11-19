@@ -2,6 +2,7 @@ package unimessenger.userinteraction.menu;
 
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
+import unimessenger.util.enums.MENU;
 import unimessenger.util.enums.SERVICE;
 
 public class MenuChat

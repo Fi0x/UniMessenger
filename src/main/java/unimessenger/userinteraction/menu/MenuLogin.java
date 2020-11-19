@@ -12,6 +12,7 @@ import unimessenger.apicommunication.HTTP;
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
 import unimessenger.util.Updater;
+import unimessenger.util.enums.MENU;
 import unimessenger.util.enums.REQUEST;
 import unimessenger.util.enums.SERVICE;
 

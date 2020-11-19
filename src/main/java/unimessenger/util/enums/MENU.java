@@ -1,4 +1,4 @@
-package unimessenger.userinteraction.menu;
+package unimessenger.util.enums;
 
 public enum MENU
 {
