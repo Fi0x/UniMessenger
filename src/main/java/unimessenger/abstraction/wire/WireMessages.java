@@ -11,8 +11,9 @@ import java.net.http.HttpResponse;
 public class WireMessages implements IMessages
 {
     @Override
-    public boolean sendMessage(String chatID, String text)
+    public boolean sendMessage(String chatID, String text)//TODO: Make this method work
     {
+
         return false;
     }
 
