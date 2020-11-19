@@ -22,7 +22,6 @@ public class MenuConversationList
         System.out.println("5) Exit Program");
         System.out.println("10) Refresh Token");//TODO: Remove
         System.out.println("11) Print Notifications");//TODO: Remove
-        System.out.println("12) Load Conversations");//TODO: Remove
 
         int userInput = Outputs.getIntAnswerFrom("Please enter the number of the option you would like to choose.");
         switch(userInput)
@@ -52,10 +51,6 @@ public class MenuConversationList
             case 11:
                 WireMessages.PrintNotifications();
                 break;
-            case 12:
-                if(new APIAccess().getConversationInterface(CLI.currentService).requestAllConversations())
-                    System.out.println("Successfully loaded conversations");
-                break;
             default:
                 Outputs.cannotHandleUserInput();
                 break;
@@ -64,13 +59,14 @@ public class MenuConversationList
 
     private static void listAllConversations()
     {
-        ArrayList<String> names = new APIAccess().getDataInterface(CLI.currentService).getAllConversationNames();
-        names.remove(null);
+        IData data = new APIAccess().getDataInterface(CLI.currentService);
+        ArrayList<String> ids = data.getAllConversationIDs();
+        ids.remove(null);
 
         System.out.println("List of all conversations in '" + CLI.currentService + "':");
-        for(int i = 0; i < names.size(); i++)
+        for(int i = 0; i < ids.size(); i++)
         {
-            System.out.println((i + 1) + ") " + names.get(i));
+            System.out.println((i + 1) + ") " + data.getNameFromID(ids.get(i)));
         }
     }
 
@@ -79,14 +75,20 @@ public class MenuConversationList
         String userInput = Outputs.getStringAnswerFrom("Please type in the name of the person or group you would like to see the chat from");
         IData data = new APIAccess().getDataInterface(CLI.currentService);
 
-        ArrayList<String> names = data.getAllConversationNames();
-        names.remove(null);
-        ArrayList<String> matches = new ArrayList<>();
-        String selectedConversation = null;
-
-        for(String name : names)
+        ArrayList<String> ids = data.getAllConversationIDs();
+        ids.remove(null);
+        ArrayList<String> names = new ArrayList<>();
+        for(String id : ids)
         {
-            if(name.contains(userInput)) matches.add(name);
+            names.add(data.getNameFromID(id));
+        }
+
+        ArrayList<Integer> matches = new ArrayList<>();
+        int selectedConversation = -1;
+        for(int i = 0; i < names.size(); i++)
+        {
+            if(names.get(i) == null) continue;
+            if(names.get(i).contains(userInput)) matches.add(i);
         }
         if(matches.size() == 0)
         {
@@ -96,12 +98,12 @@ public class MenuConversationList
         if(matches.size() == 1)
         {
             selectedConversation = matches.get(0);
-        } else if(matches.size() > 1)
+        } else
         {
             System.out.println("The following chats match your choice:");
             for(int i = 0; i < matches.size(); i++)
             {
-                System.out.println((i + 1) + ") " + matches.get(i));
+                System.out.println((i + 1) + ") " + names.get(matches.get(i)));
             }
             int input = Outputs.getIntAnswerFrom("Select the number of the chat you would like to view");
             if(input > matches.size() || input <= 0)

@@ -4,5 +4,6 @@ import java.util.ArrayList;
 
 public interface IData
 {
-    ArrayList<String> getAllConversationNames();
+    ArrayList<String> getAllConversationIDs();
+    String getNameFromID(String id);
 }
