@@ -13,6 +13,7 @@ public class CLI implements Runnable
 {
     public static MENU currentMenu;
     public static SERVICE currentService;
+    public static String currentChatID;
 
     @Override
     public void run()
@@ -24,6 +25,7 @@ public class CLI implements Runnable
     {
         currentMenu = MENU.MAIN;
         currentService = SERVICE.NONE;
+        currentChatID = null;
         while(currentMenu != MENU.EXIT)
         {
             System.out.println("\n=================================");
