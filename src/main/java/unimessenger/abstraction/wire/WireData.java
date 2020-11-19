@@ -44,10 +44,6 @@ public class WireData implements IData
             if(WireStorage.conversations.get(i).id.equals(id)) conversation = WireStorage.conversations.get(i);
         }
 
-        Outputs.printDebug("Returning " + ids.size() + " Conversation IDs");
-        return ids;
-    }
-
         ArrayList<String> members = new ArrayList<>();
         if(conversation != null)
         {
