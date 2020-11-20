@@ -59,7 +59,7 @@ public class MenuConversationList
         System.out.println("List of all conversations in '" + CLI.currentService + "':");
         for(int i = 0; i < ids.size(); i++)
         {
-            System.out.println((i + 1) + ") " + data.getNameFromID(ids.get(i)));
+            System.out.println((i + 1) + ") " + data.getConversationNameFromID(ids.get(i)));
         }
     }
 
@@ -73,7 +73,7 @@ public class MenuConversationList
         ArrayList<String> names = new ArrayList<>();
         for(String id : ids)
         {
-            names.add(data.getNameFromID(id));
+            names.add(data.getConversationNameFromID(id));
         }
 
         ArrayList<Integer> matches = new ArrayList<>();
