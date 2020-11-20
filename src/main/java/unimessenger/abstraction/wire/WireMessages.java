@@ -1,5 +1,7 @@
 package unimessenger.abstraction.wire;
 
+import com.wire.bots.cryptobox.CryptoBox;
+import com.wire.bots.cryptobox.CryptoException;
 import org.json.simple.JSONObject;
 import unimessenger.abstraction.Headers;
 import unimessenger.abstraction.URL;
@@ -69,5 +71,13 @@ public class WireMessages implements IMessages
         System.out.println("Response code: " + response.statusCode());
         System.out.println("Headers:" + response.headers());
         System.out.println("Body: " + response.body());
+
+        try {
+            CryptoBox b = CryptoBox.open("test");
+        } catch (CryptoException e) {
+            e.printStackTrace();
+        }
     }
+
+
 }
