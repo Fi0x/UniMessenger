@@ -59,4 +59,16 @@
             <version>1.1.1</version>
         </dependency>
     </dependencies>
+    <repositories>
+        <repository>
+            <id>dkovacevic-cryptobox4j</id>
+            <url>https://packagecloud.io/dkovacevic/cryptobox4j/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>
