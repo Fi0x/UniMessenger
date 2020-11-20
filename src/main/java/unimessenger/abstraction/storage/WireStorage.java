@@ -18,7 +18,7 @@ public class WireStorage
     private static String bearerToken;
     public static String cookie;
     private static Timestamp bearerExpiringTime;
-    public static final String storageFile = "dataWire.json";
+    public static final String storageFile = "../dataWire.json";
 
     public static ArrayList<WireConversation> conversations = new ArrayList<>();
 
@@ -91,9 +91,9 @@ public class WireStorage
 
     public static void deleteFile()
     {
-        File obj = new File(storageFile);
-        //TODO: Fix deletion of file
-        if(obj.delete()) Outputs.printDebug("File '" + storageFile + "' deleted");
+        File file = new File(storageFile);
+        //TODO: Fix deletion of file (Might be an access right problem)
+        if(file.delete()) Outputs.printDebug("File '" + storageFile + "' deleted");
         else Outputs.printError("Failed to delete '" + storageFile + "'");
     }
 }
