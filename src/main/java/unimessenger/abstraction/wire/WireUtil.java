@@ -12,6 +12,7 @@ import unimessenger.userinteraction.Outputs;
 import unimessenger.util.enums.REQUEST;
 
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 
 public class WireUtil implements IUtil
 {
@@ -63,9 +64,38 @@ public class WireUtil implements IUtil
                 Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
 
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
-        System.out.println("Code: " + response.statusCode());
-        System.out.println("Headers: " + response.headers());
         System.out.println("Body: " + response.body());
+
+        if(response == null) Outputs.printError("No response received");
+        else if(response.statusCode() == 200)
+        {
+            try
+            {
+                JSONObject obj = (JSONObject) new JSONParser().parse(response.body());
+
+                if(obj.containsKey("email")) WireStorage.selfProfile.email = obj.get("email").toString();
+                if(obj.containsKey("phone")) WireStorage.selfProfile.phone = obj.get("phone").toString();
+                if(obj.containsKey("handle")) WireStorage.selfProfile.handle = obj.get("handle").toString();
+                WireStorage.selfProfile.locale = obj.get("locale").toString();
+                if(obj.containsKey("managed_by")) WireStorage.selfProfile.managed_by = obj.get("managed_by").toString();
+                if(obj.containsKey("accent_id")) WireStorage.selfProfile.accent_id = Integer.parseInt(obj.get("accent_id").toString());
+                WireStorage.selfProfile.userName = obj.get("name").toString();
+                WireStorage.selfProfile.id = obj.get("id").toString();
+                if(obj.containsKey("deleted")) WireStorage.selfProfile.deleted = Boolean.getBoolean(obj.get("deleted").toString());
+                WireStorage.selfProfile.userAssets = getUserAssets(obj.get("assets").toString());
+                return true;
+            } catch(ParseException ignored)
+            {
+                Outputs.printError("Json parsing error");
+            }
+        } else Outputs.printError("Http response was " + response.statusCode());
+
         return false;
+    }
+
+    private static ArrayList<String> getUserAssets(String str)
+    {
+        //TODO: Implement
+        return null;
     }
 }
