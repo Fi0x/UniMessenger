@@ -96,11 +96,9 @@ public class WireStorage
             fw.write("{}");
             fw.close();
             Outputs.printDebug("Successfully cleared Wire file");
-            System.out.println("Cleared");
         } catch(IOException ignored)
         {
             Outputs.printError("Couldn't clear Wire file");
-            System.out.println("Not cleared");
         }
     }
 }
