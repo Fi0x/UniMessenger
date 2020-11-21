@@ -57,13 +57,15 @@ public class WireUtil implements IUtil
     public boolean loadProfile()
     {
         //TODO: Implement method
-        String url = URL.WIRE + URL.WIRE_SELF;
+        String url = URL.WIRE + URL.WIRE_SELF + URL.WIRE_TOKEN + WireStorage.getBearerToken();
         String[] headers = new String[]{
                 Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
                 Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
 
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
-        System.out.println("Response" + response);
+        System.out.println("Code: " + response.statusCode());
+        System.out.println("Headers: " + response.headers());
+        System.out.println("Body: " + response.body());
         return false;
     }
 }
