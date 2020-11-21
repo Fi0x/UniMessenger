@@ -74,9 +74,21 @@ public class WireMessages implements IMessages
 
         try {
             CryptoBox b = CryptoBox.open("test");
+            boolean t = b.isClosed();
+
+            System.out.println("Closed: " + t);
+
+            b.close();
+
+            t = b.isClosed();
+
+            System.out.println("Closed: " + t);
+
         } catch (CryptoException e) {
             e.printStackTrace();
+            System.out.println("Here!!!");
         }
+
     }
 
 
