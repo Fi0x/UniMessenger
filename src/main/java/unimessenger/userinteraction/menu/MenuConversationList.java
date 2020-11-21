@@ -2,6 +2,7 @@ package unimessenger.userinteraction.menu;
 
 import unimessenger.abstraction.APIAccess;
 import unimessenger.abstraction.interfaces.IData;
+import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.abstraction.wire.WireMessages;
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
@@ -20,6 +21,7 @@ public class MenuConversationList
         System.out.println("3) Log out of '" + CLI.currentService + "'");
         System.out.println("4) Show Main Menu");
         System.out.println("5) Exit Program");
+        System.out.println("10) Check profile values");//TODO: Remove
         System.out.println("11) Print Notifications");//TODO: Remove
 
         int userInput = Outputs.getIntAnswerFrom("Please enter the number of the option you would like to choose.");
@@ -40,6 +42,9 @@ public class MenuConversationList
                 break;
             case 5:
                 CLI.currentMenu = MENU.EXIT;
+                break;
+            case 10:
+                compareUserValues();
                 break;
             case 11:
                 WireMessages.PrintNotifications();
@@ -118,5 +123,13 @@ public class MenuConversationList
 
         System.out.println("There was a logout error");
         return false;
+    }
+
+    @Deprecated
+    private static void compareUserValues()
+    {
+        System.out.println("User ID 1: " + WireStorage.userID);
+        System.out.println("User ID 2: " + WireStorage.selfProfile.id);
+        System.out.println("Hanle:     " + WireStorage.selfProfile.handle);
     }
 }

@@ -57,7 +57,6 @@ public class WireUtil implements IUtil
     @Override
     public boolean loadProfile()
     {
-        //TODO: Implement method
         String url = URL.WIRE + URL.WIRE_SELF + URL.WIRE_TOKEN + WireStorage.getBearerToken();
         String[] headers = new String[]{
                 Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
