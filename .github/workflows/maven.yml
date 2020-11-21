@@ -5,11 +5,11 @@ name: Java CI with Maven
 
 on:
   push:
-    - master
-    - f
+    branches:
+      - f+
   pull_request:
     branches:
-    - master
+      - master
   workflow_dispatch:
 
 jobs:
