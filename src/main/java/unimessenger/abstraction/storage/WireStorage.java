@@ -5,7 +5,6 @@ import org.json.simple.parser.JSONParser;
 import unimessenger.userinteraction.Outputs;
 import unimessenger.util.MessengerStructure.WireConversation;
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -24,7 +23,7 @@ public class WireStorage
 
     public static void saveDataInFile(String accessCookie)
     {
-        if(accessCookie == null) deleteFile();
+        if(accessCookie == null) clearFile();
         else
         {
             cookie = accessCookie;
@@ -72,7 +71,7 @@ public class WireStorage
         bearerToken = null;
         cookie = null;
         bearerExpiringTime = null;
-        deleteFile();
+        clearFile();
     }
 
     public static void readDataFromFiles()
@@ -89,11 +88,19 @@ public class WireStorage
         }
     }
 
-    public static void deleteFile()
+    public static void clearFile()
     {
-        File file = new File(storageFile);
-        //TODO: Fix deletion of file (Might be an access right problem)
-        if(file.delete()) Outputs.printDebug("File '" + storageFile + "' deleted");
-        else Outputs.printError("Failed to delete '" + storageFile + "'");
+        try
+        {
+            FileWriter fw = new FileWriter(storageFile);
+            fw.write("{}");
+            fw.close();
+            Outputs.printDebug("Successfully cleared Wire file");
+            System.out.println("Cleared");
+        } catch(IOException ignored)
+        {
+            Outputs.printError("Couldn't clear Wire file");
+            System.out.println("Not cleared");
+        }
     }
 }
