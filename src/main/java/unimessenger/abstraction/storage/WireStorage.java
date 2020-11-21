@@ -2,8 +2,9 @@ package unimessenger.abstraction.storage;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import unimessenger.abstraction.storage.MessengerStructure.WireConversation;
+import unimessenger.abstraction.storage.MessengerStructure.WireProfile;
 import unimessenger.userinteraction.Outputs;
-import unimessenger.util.MessengerStructure.WireConversation;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -19,6 +20,7 @@ public class WireStorage
     private static Timestamp bearerExpiringTime;
     public static final String storageFile = "../dataWire.json";
 
+    public static WireProfile selfProfile = new WireProfile();
     public static ArrayList<WireConversation> conversations = new ArrayList<>();
 
     public static void saveDataInFile(String accessCookie)
