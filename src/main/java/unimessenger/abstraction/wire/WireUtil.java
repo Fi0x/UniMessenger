@@ -1,5 +1,6 @@
 package unimessenger.abstraction.wire;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -80,7 +81,7 @@ public class WireUtil implements IUtil
                 WireStorage.selfProfile.userName = obj.get("name").toString();
                 WireStorage.selfProfile.id = obj.get("id").toString();
                 if(obj.containsKey("deleted")) WireStorage.selfProfile.deleted = Boolean.getBoolean(obj.get("deleted").toString());
-                WireStorage.selfProfile.userAssets = getUserAssets(obj.get("assets").toString());
+                WireStorage.selfProfile.userAssets = getUserAssets((JSONArray) obj.get("assets"));
                 return true;
             } catch(ParseException ignored)
             {
@@ -92,10 +93,18 @@ public class WireUtil implements IUtil
         return false;
     }
 
-    private static ArrayList<String> getUserAssets(String str)
+    private static ArrayList<String> getUserAssets(JSONArray assets)
     {
-        //TODO: Implement
-        return null;
+        ArrayList<String> ret = new ArrayList<>();
+        while(!assets.isEmpty())
+        {
+            JSONObject asset = (JSONObject) assets.get(0);
+            ret.add(asset.get("size").toString());
+            ret.add(asset.get("type").toString());
+            ret.add(asset.get("key").toString());
+            assets.remove(0);
+        }
+        return ret;
     }
     private static String getClientID()
     {

@@ -65,7 +65,7 @@ public class MenuLogin
         else if(login.login()) loggedIn = true;
         if(loggedIn)
         {
-            if(! access.getUtilInterface(CLI.currentService).loadProfile()) Outputs.printError("Couldn't load profile");
+            if(!access.getUtilInterface(CLI.currentService).loadProfile()) Outputs.printError("Couldn't load profile");
             return true;
         } else
         {
