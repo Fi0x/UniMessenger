@@ -1,15 +1,20 @@
 package unimessenger.userinteraction.menu;
 
 import unimessenger.abstraction.APIAccess;
+import unimessenger.abstraction.Headers;
+import unimessenger.abstraction.URL;
 import unimessenger.abstraction.interfaces.IData;
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.abstraction.wire.WireMessages;
+import unimessenger.apicommunication.HTTP;
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
 import unimessenger.util.Updater;
 import unimessenger.util.enums.MENU;
+import unimessenger.util.enums.REQUEST;
 import unimessenger.util.enums.SERVICE;
 
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 
 public class MenuConversationList
@@ -128,8 +133,16 @@ public class MenuConversationList
     @Deprecated
     private static void compareUserValues()
     {
-        System.out.println("User ID 1: " + WireStorage.userID);
-        System.out.println("User ID 2: " + WireStorage.selfProfile.id);
-        System.out.println("Hanle:     " + WireStorage.selfProfile.handle);
+        System.out.println("User ID: " + WireStorage.userID);
+
+
+        String url = URL.WIRE + "/clients" + URL.WIRE_TOKEN + WireStorage.getBearerToken();
+        String[] headers = new String[]{
+                Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
+                Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
+
+        HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
+        System.out.println("Code: " + response.statusCode());
+        System.out.println("Body: " + response.body());
     }
 }
