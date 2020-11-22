@@ -63,7 +63,6 @@ public class WireUtil implements IUtil
                 Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
 
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
-        System.out.println("Body: " + response.body());
 
         if(response == null) Outputs.printError("No response received");
         else if(response.statusCode() == 200)
@@ -89,6 +88,7 @@ public class WireUtil implements IUtil
             }
         } else Outputs.printError("Http response was " + response.statusCode());
 
+        WireStorage.clientID = getClientID();
         return false;
     }
 
@@ -96,5 +96,30 @@ public class WireUtil implements IUtil
     {
         //TODO: Implement
         return null;
+    }
+    private static String getClientID()
+    {
+        ArrayList<String> clientIDs = getAllClientIDs();
+        for(String id : clientIDs)
+        {
+            if(compareCookie(id)) return id;
+        }
+
+        //TODO: Register client
+        String clientID = null;
+        return clientID;
+    }
+    private static ArrayList<String> getAllClientIDs()
+    {
+        ArrayList<String> ids = new ArrayList<>();
+        //TODO: Get all clients and store id of each in list
+
+        return ids;
+    }
+    private static boolean compareCookie(String clientID)
+    {
+        //TODO: get the /clients/{client} information
+        //TODO: Compare cookies with stored cookie
+        return false;
     }
 }

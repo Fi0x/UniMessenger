@@ -133,9 +133,6 @@ public class MenuConversationList
     @Deprecated
     private static void compareUserValues()
     {
-        System.out.println("User ID: " + WireStorage.userID);
-
-
         String url = URL.WIRE + "/clients" + URL.WIRE_TOKEN + WireStorage.getBearerToken();
         String[] headers = new String[]{
                 Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
