@@ -1,7 +1,6 @@
 package unimessenger.abstraction.wire;
 
 import com.wire.bots.cryptobox.CryptoBox;
-import com.wire.bots.cryptobox.CryptoException;
 import org.json.simple.JSONObject;
 import unimessenger.abstraction.Headers;
 import unimessenger.abstraction.URL;
@@ -11,9 +10,7 @@ import unimessenger.apicommunication.HTTP;
 import unimessenger.util.enums.REQUEST;
 
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class WireMessages implements IMessages
 {
@@ -73,7 +70,28 @@ public class WireMessages implements IMessages
         System.out.println("Body: " + response.body());
 
         try {
+            String cypher = "owABAaEAWCDmxIh+GO5xR0v4oWO4wIltj+fo/rFx0HAJXTy7/plyxQJYvgKkAAABoQBYIMk71bAjv3eLQhAu4tKvHrOPX7UBQUWPtf9ZxOz3CJGFAqEAoQBYIF3uoYJw5EwmB54LOMjPWqUleVJlMYCrPNWgI1YKVvLrA6UAUGImDJ5fUVQicSIBEhnGM+EBCAIAA6EAWCDFdHF2O1dyo8TvCNvZ7vobfTvbnly0zdbmEC+YEKixzwRYLuC4WuHPvRqCq+3T2W7sGD6kw0oX31rpStJ4+j0Ms3x8iBD7wv/rMCqqfiE4xCo=";
+            byte[] decode = Base64.getDecoder().decode(cypher);
+
+
+            //payload.from
+            UUID userID = UUID.fromString("e22e08fe-083a-464b-bd39-606b25771da4");
+
+            //payload.data.sender
+            String clientID = "35d8819eafff05da";
+
             CryptoBox b = CryptoBox.open("test");
+
+            String id = String.format("%s_%s", userID, clientID);
+
+            byte[] decrypt = b.decrypt(id, decode);
+
+            System.out.println(Base64.getEncoder().encodeToString(decrypt));
+            //cryptobox class would return this ^
+            //Further processing --v put into generic msg etc
+
+
+
             boolean t = b.isClosed();
 
             System.out.println("Closed: " + t);
@@ -84,9 +102,8 @@ public class WireMessages implements IMessages
 
             System.out.println("Closed: " + t);
 
-        } catch (CryptoException e) {
+        }catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Here!!!");
         }
 
     }
