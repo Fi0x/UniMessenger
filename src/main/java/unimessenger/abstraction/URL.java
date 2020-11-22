@@ -13,6 +13,8 @@ public class URL
     public static final String WIRE_SELF = "/self";
     public static final String WIRE_NAME = "/self/name";
 
+    public static final String WIRE_CLIENTS = "/clients";
+
     public static final String WIRE_CONVERSATIONS = "/conversations";
     public static final String WIRE_OTR_MESSAGES = "/otr/messages";
 

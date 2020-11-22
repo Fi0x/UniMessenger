@@ -82,6 +82,8 @@ public class WireUtil implements IUtil
                 WireStorage.selfProfile.id = obj.get("id").toString();
                 if(obj.containsKey("deleted")) WireStorage.selfProfile.deleted = Boolean.getBoolean(obj.get("deleted").toString());
                 WireStorage.selfProfile.userAssets = getUserAssets((JSONArray) obj.get("assets"));
+
+                WireStorage.clientID = getClientID();
                 return true;
             } catch(ParseException ignored)
             {
@@ -89,7 +91,6 @@ public class WireUtil implements IUtil
             }
         } else Outputs.printError("Http response was " + response.statusCode());
 
-        WireStorage.clientID = getClientID();
         return false;
     }
 
@@ -106,29 +107,56 @@ public class WireUtil implements IUtil
         }
         return ret;
     }
-    private static String getClientID()
+    private static String getClientID() throws ParseException
     {
         ArrayList<String> clientIDs = getAllClientIDs();
-        for(String id : clientIDs)
+        if(clientIDs != null)
         {
-            if(compareCookie(id)) return id;
+            for(String id : clientIDs)
+            {
+                if(compareCookie(id)) return id;
+            }
         }
 
-        //TODO: Register client
-        String clientID = null;
-        return clientID;
+        return registerClient();
     }
-    private static ArrayList<String> getAllClientIDs()
+    private static ArrayList<String> getAllClientIDs() throws ParseException
     {
-        ArrayList<String> ids = new ArrayList<>();
-        //TODO: Get all clients and store id of each in list
+        String url = URL.WIRE + URL.WIRE_CLIENTS + URL.WIRE_TOKEN + WireStorage.getBearerToken();
+        String[] headers = new String[]{
+                Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
+                Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
 
-        return ids;
+        HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
+
+        if(response == null)
+        {
+            Outputs.printError("No response received");
+            return null;
+        } else if(response.statusCode() == 200)
+        {
+            JSONArray clients = (JSONArray) new JSONParser().parse(response.body());
+            ArrayList<String> ids = new ArrayList<>();
+            while(!clients.isEmpty())
+            {
+                JSONObject client = (JSONObject) new JSONParser().parse(clients.get(0).toString());
+                ids.add(client.get("id").toString());
+                clients.remove(0);
+            }
+            return ids;
+        } else Outputs.printError("Response code is " + response.statusCode());
+
+        return null;
     }
     private static boolean compareCookie(String clientID)
     {
         //TODO: get the /clients/{client} information
         //TODO: Compare cookies with stored cookie
         return false;
+    }
+    private static String registerClient()
+    {
+        //TODO: Register client
+        return null;
     }
 }
