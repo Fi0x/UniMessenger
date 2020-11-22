@@ -124,7 +124,6 @@ public class WireUtil implements IUtil
     {
         String url = URL.WIRE + URL.WIRE_CLIENTS + URL.WIRE_TOKEN + WireStorage.getBearerToken();
         String[] headers = new String[]{
-                Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
                 Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
 
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
@@ -150,13 +149,52 @@ public class WireUtil implements IUtil
     }
     private static boolean compareCookie(String clientID)
     {
-        //TODO: get the /clients/{client} information
-        //TODO: Compare cookies with stored cookie
+        String url = URL.WIRE + URL.WIRE_CLIENTS + "/" + clientID + URL.WIRE_TOKEN + WireStorage.getBearerToken();
+        String[] headers = new String[]{
+                Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
+
+        HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
+
+        if(response == null) Outputs.printError("No response received");
+        else if(response.statusCode() == 200)
+        {
+//            System.out.println(response.headers());
+//            System.out.println(response.body());
+            //TODO: get the /clients/{client} information
+            //TODO: Compare cookies with stored cookie
+        } else Outputs.printError("Response code is " + response.statusCode());
+
         return false;
     }
     private static String registerClient()
     {
         //TODO: Register client
+        String url = URL.WIRE + URL.WIRE_CLIENTS + URL.WIRE_TOKEN + WireStorage.getBearerToken();
+        String[] headers = new String[]{
+                Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
+                Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
+
+        JSONObject obj = new JSONObject();
+        obj.put("cookie", WireStorage.cookie);
+
+        JSONArray prekeys = new JSONArray();
+        JSONObject key1 = new JSONObject();
+        key1.put("key", "dd");
+        key1.put("id", 1);
+        prekeys.add(key1);
+        obj.put("prekeys", prekeys);
+
+        String body = obj.toJSONString();
+
+        HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.POST, body, headers);
+        System.out.println(response.statusCode());
+        System.out.println(response.headers());
+        System.out.println(response.body());
+
+        if(response == null) Outputs.printError("No response received");
+        else if(response.statusCode() == 200)
+        {
+        } else Outputs.printError("Response code is " + response.statusCode());
         return null;
     }
 }
