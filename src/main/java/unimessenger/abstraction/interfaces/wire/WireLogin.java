@@ -1,4 +1,4 @@
-package unimessenger.abstraction.wire;
+package unimessenger.abstraction.interfaces.wire;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

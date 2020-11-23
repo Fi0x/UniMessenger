@@ -1,4 +1,4 @@
-package unimessenger.abstraction.wire;
+package unimessenger.abstraction.interfaces.wire;
 
 import unimessenger.abstraction.interfaces.IData;
 import unimessenger.abstraction.storage.MessengerStructure.WireConversation;
