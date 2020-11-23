@@ -2,10 +2,10 @@ package unimessenger.abstraction.storage;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import unimessenger.abstraction.storage.MessengerStructure.WireConversation;
+import unimessenger.abstraction.storage.MessengerStructure.WireProfile;
 import unimessenger.userinteraction.Outputs;
-import unimessenger.util.MessengerStructure.WireConversation;
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,16 +15,18 @@ import java.util.ArrayList;
 public class WireStorage
 {
     public static String userID;
+    public static String clientID = "7ec6cfc08fc9db51";
     private static String bearerToken;
     public static String cookie;
     private static Timestamp bearerExpiringTime;
-    public static final String storageFile = "dataWire.json";
+    public static final String storageFile = "../dataWire.json";
 
+    public static WireProfile selfProfile = new WireProfile();
     public static ArrayList<WireConversation> conversations = new ArrayList<>();
 
     public static void saveDataInFile(String accessCookie)
     {
-        if(accessCookie == null) deleteFile();
+        if(accessCookie == null) clearFile();
         else
         {
             cookie = accessCookie;
@@ -72,7 +74,7 @@ public class WireStorage
         bearerToken = null;
         cookie = null;
         bearerExpiringTime = null;
-        deleteFile();
+        clearFile();
     }
 
     public static void readDataFromFiles()
@@ -89,11 +91,17 @@ public class WireStorage
         }
     }
 
-    public static void deleteFile()
+    public static void clearFile()
     {
-        File obj = new File(storageFile);
-        //TODO: Fix deletion of file
-        if(obj.delete()) Outputs.printDebug("File '" + storageFile + "' deleted");
-        else Outputs.printError("Failed to delete '" + storageFile + "'");
+        try
+        {
+            FileWriter fw = new FileWriter(storageFile);
+            fw.write("{}");
+            fw.close();
+            Outputs.printDebug("Successfully cleared Wire file");
+        } catch(IOException ignored)
+        {
+            Outputs.printError("Couldn't clear Wire file");
+        }
     }
 }
