@@ -147,7 +147,7 @@ public class WireUtil implements IUtil
 
         return null;
     }
-    private static boolean compareCookie(String clientID)
+    private static boolean compareCookie(String clientID) throws ParseException
     {
         String url = URL.WIRE + URL.WIRE_CLIENTS + "/" + clientID + URL.WIRE_TOKEN + WireStorage.getBearerToken();
         String[] headers = new String[]{
@@ -158,10 +158,15 @@ public class WireUtil implements IUtil
         if(response == null) Outputs.printError("No response received");
         else if(response.statusCode() == 200)
         {
-//            System.out.println(response.headers());
-//            System.out.println(response.body());
-            //TODO: get the /clients/{client} information
-            //TODO: Compare cookies with stored cookie
+            JSONObject obj = (JSONObject) new JSONParser().parse(response.body());
+            if(obj.containsKey("cookie"))
+            {
+                if(obj.get("cookie").toString().equals(WireStorage.cookie))
+                {
+                    Outputs.printDebug("Client ID found");
+                    return true;
+                }
+            } else Outputs.printDebug("Client response didn't contain a cookie");
         } else Outputs.printError("Response code is " + response.statusCode());
 
         return false;
@@ -177,10 +182,15 @@ public class WireUtil implements IUtil
         JSONObject obj = new JSONObject();
         obj.put("cookie", WireStorage.cookie);
 
+        JSONObject lastkey = new JSONObject();
+        lastkey.put("key", "dd");
+        lastkey.put("id", 2);
+        obj.put("lastkey", lastkey);
+
         JSONArray prekeys = new JSONArray();
         JSONObject key1 = new JSONObject();
         key1.put("key", "dd");
-        key1.put("id", 1);
+        key1.put("id", 122);
         prekeys.add(key1);
         obj.put("prekeys", prekeys);
 
