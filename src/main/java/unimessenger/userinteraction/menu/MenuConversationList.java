@@ -4,7 +4,7 @@ import unimessenger.abstraction.APIAccess;
 import unimessenger.abstraction.encryption.WireCrypto.Prekey;
 import unimessenger.abstraction.encryption.WireCrypto.WireCryptoHandler;
 import unimessenger.abstraction.interfaces.IData;
-import unimessenger.abstraction.wire.WireMessages;
+import unimessenger.abstraction.interfaces.wire.WireMessages;
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Outputs;
 import unimessenger.util.Updater;
