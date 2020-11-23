@@ -16,6 +16,7 @@ public class WireStorage
 {
     public static String userID;
     public static String clientID = "7ec6cfc08fc9db51";
+    public static boolean persistent = false;
     private static String bearerToken;
     public static String cookie;
     private static Timestamp bearerExpiringTime;

@@ -118,7 +118,13 @@ public class WireUtil implements IUtil
             }
         }
 
-        return registerClient();
+        String id = registerClient(WireStorage.persistent);
+        if(id == null)
+        {
+            WireStorage.persistent = false;
+            return registerClient(false);
+        }
+        else return id;
     }
     private static ArrayList<String> getAllClientIDs() throws ParseException
     {
@@ -171,7 +177,7 @@ public class WireUtil implements IUtil
 
         return false;
     }
-    private static String registerClient() throws ParseException
+    private static String registerClient(boolean persistent) throws ParseException
     {
         String url = URL.WIRE + URL.WIRE_CLIENTS + URL.WIRE_TOKEN + WireStorage.getBearerToken();
         String[] headers = new String[]{
@@ -195,7 +201,8 @@ public class WireUtil implements IUtil
         String pw = Outputs.getStringAnswerFrom("Please enter your password to register this client");
         obj.put("password", pw);
 
-        obj.put("type", "temporary");
+        if(persistent) obj.put("type", "permanent");
+        else obj.put("type", "temporary");
 
         //TODO: Use working prekeys
         JSONArray prekeys = new JSONArray();
@@ -221,6 +228,7 @@ public class WireUtil implements IUtil
             JSONObject resObj = (JSONObject) new JSONParser().parse(response.body());
             WireStorage.clientID = resObj.get("id").toString();
             Outputs.printDebug("Client ID stored");
+            return WireStorage.clientID;
         } else Outputs.printError("Response code is " + response.statusCode());
         return null;
     }
