@@ -10,7 +10,10 @@ import unimessenger.apicommunication.HTTP;
 import unimessenger.util.enums.REQUEST;
 
 import java.net.http.HttpResponse;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class WireMessages implements IMessages
 {
@@ -54,33 +57,14 @@ public class WireMessages implements IMessages
         return obj.toJSONString();
     }
 
-    @Deprecated
-    public static void PrintNotifications()
-    {
-        HTTP msgSender = new HTTP();
-        System.out.println("List of all conversations in Wire:");
-        //TODO: Show a list of all Wire-conversations
-        String url = URL.WIRE + URL.WIRE_LAST_NOTIFICATION + URL.WIRE_TOKEN + WireStorage.getBearerToken();
-        String[] headers = new String[]{
-                "accept", "application/json",
-                "accept", "text/html"};
-        HttpResponse<String> response = msgSender.sendRequest(url, REQUEST.GET, "", headers);
-        System.out.println("Response code: " + response.statusCode());
-        System.out.println("Headers:" + response.headers());
-        System.out.println("Body: " + response.body());
-
+    public boolean sendMessage(UUID userID, String[] Client, String content){
         try {
-            String cypher = "owABAaEAWCDmxIh+GO5xR0v4oWO4wIltj+fo/rFx0HAJXTy7/plyxQJYvgKkAAABoQBYIMk71bAjv3eLQhAu4tKvHrOPX7UBQUWPtf9ZxOz3CJGFAqEAoQBYIF3uoYJw5EwmB54LOMjPWqUleVJlMYCrPNWgI1YKVvLrA6UAUGImDJ5fUVQicSIBEhnGM+EBCAIAA6EAWCDFdHF2O1dyo8TvCNvZ7vobfTvbnly0zdbmEC+YEKixzwRYLuC4WuHPvRqCq+3T2W7sGD6kw0oX31rpStJ4+j0Ms3x8iBD7wv/rMCqqfiE4xCo=";
-            byte[] decode = Base64.getDecoder().decode(cypher);
-
-
-            //payload.from
-            UUID userID = UUID.fromString("e22e08fe-083a-464b-bd39-606b25771da4");
+            CryptoBox b = CryptoBox.open("test");
+            /*//payload.from
+            userID = UUID.fromString("e22e08fe-083a-464b-bd39-606b25771da4");
 
             //payload.data.sender
             String clientID = "35d8819eafff05da";
-
-            CryptoBox b = CryptoBox.open("test");
 
             String id = String.format("%s_%s", userID, clientID);
 
@@ -89,8 +73,8 @@ public class WireMessages implements IMessages
             System.out.println(Base64.getEncoder().encodeToString(decrypt));
             //cryptobox class would return this ^
             //Further processing --v put into generic msg etc
-
-
+            b.newLastPreKey();
+            */
 
             boolean t = b.isClosed();
 
@@ -105,6 +89,24 @@ public class WireMessages implements IMessages
         }catch (Exception e) {
             e.printStackTrace();
         }
+
+        return false;
+    }
+
+    @Deprecated
+    public static void PrintNotifications()
+    {
+        HTTP msgSender = new HTTP();
+        System.out.println("List of all conversations in Wire:");
+        //TODO: Show a list of all Wire-conversations
+        String url = URL.WIRE + URL.WIRE_LAST_NOTIFICATION + URL.WIRE_TOKEN + WireStorage.getBearerToken();
+        String[] headers = new String[]{
+                "accept", "application/json",
+                "accept", "text/html"};
+        HttpResponse<String> response = msgSender.sendRequest(url, REQUEST.GET, "", headers);
+        System.out.println("Response code: " + response.statusCode());
+        System.out.println("Headers:" + response.headers());
+        System.out.println("Body: " + response.body());
 
     }
 
