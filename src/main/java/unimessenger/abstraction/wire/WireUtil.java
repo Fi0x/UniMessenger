@@ -181,9 +181,10 @@ public class WireUtil implements IUtil
         JSONObject obj = new JSONObject();
         obj.put("cookie", WireStorage.cookie);
 
+        //TODO: Use working prekeys
         JSONObject lastkey = new JSONObject();
         lastkey.put("key", "dd");
-        lastkey.put("id", 5515);//TODO: Use valid prekey id
+        lastkey.put("id", 65535);
         obj.put("lastkey", lastkey);
 
         JSONObject sigkeys = new JSONObject();
@@ -191,12 +192,16 @@ public class WireUtil implements IUtil
         sigkeys.put("mackey", "");
         obj.put("sigkeys", sigkeys);
 
+        String pw = Outputs.getStringAnswerFrom("Please enter your password to register this client");
+        obj.put("password", pw);
+
         obj.put("type", "temporary");
 
+        //TODO: Use working prekeys
         JSONArray prekeys = new JSONArray();
         JSONObject key1 = new JSONObject();
-        key1.put("key", "dd");
-        key1.put("id", 122);//TODO: Use valid prekey id
+        key1.put("key", "03994576302194852309084576092384576");
+        key1.put("id", 0);
         prekeys.add(key1);
         obj.put("prekeys", prekeys);
 
