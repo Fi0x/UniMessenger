@@ -1,6 +1,8 @@
 package unimessenger.userinteraction.menu;
 
 import unimessenger.abstraction.APIAccess;
+import unimessenger.abstraction.encryption.WireCrypto.Prekey;
+import unimessenger.abstraction.encryption.WireCrypto.WireCryptoHandler;
 import unimessenger.abstraction.interfaces.IData;
 import unimessenger.abstraction.wire.WireMessages;
 import unimessenger.userinteraction.CLI;
@@ -21,6 +23,7 @@ public class MenuConversationList
         System.out.println("4) Show Main Menu");
         System.out.println("5) Exit Program");
         System.out.println("11) Print Notifications");//TODO: Remove
+        System.out.println("12) Print test last PreKey");//TODO: Remove
 
         int userInput = Outputs.getIntAnswerFrom("Please enter the number of the option you would like to choose.");
         switch(userInput)
@@ -43,6 +46,11 @@ public class MenuConversationList
                 break;
             case 11:
                 WireMessages.PrintNotifications();
+                break;
+            case 12:
+                Prekey k = WireCryptoHandler.generatePreKeys()[0];
+                System.out.println("ID: "+k.getID()+" Key: " + k.getKey());
+                WireCryptoHandler.cleanUp();
                 break;
             default:
                 Outputs.cannotHandleUserInput();

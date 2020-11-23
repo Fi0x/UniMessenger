@@ -4,7 +4,7 @@ import com.wire.bots.cryptobox.CryptoException;
 import com.wire.bots.cryptobox.PreKey;
 
 public class WireCryptoHandler {
-    public Prekey[] generatePreKeys(){
+    public static Prekey[] generatePreKeys(){
         Prekey [] Keys = new Prekey[51];
         Prekey lastPreKey;
 
@@ -21,5 +21,9 @@ public class WireCryptoHandler {
         }
 
         return Keys;
+    }
+
+    public static void cleanUp(){
+        CryptoFactory.closeBox();
     }
 }
