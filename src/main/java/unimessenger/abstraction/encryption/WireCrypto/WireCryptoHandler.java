@@ -5,19 +5,20 @@ import com.wire.bots.cryptobox.PreKey;
 
 public class WireCryptoHandler {
     public static Prekey[] generatePreKeys(){
-        Prekey [] Keys = new Prekey[51];
+        Prekey [] Keys = new Prekey[5];
         Prekey lastPreKey;
 
         try {
             lastPreKey = new Prekey(CryptoFactory.getCryptoInstance().newLastPreKey());
-            PreKey [] keyTemp = CryptoFactory.getCryptoInstance().newPreKeys(0, 50);
-            for(int i = 1;i < keyTemp.length; i++){
-                Keys[i+1] = new Prekey(keyTemp[i]);
+            PreKey [] keyTemp = CryptoFactory.getCryptoInstance().newPreKeys(0, Keys.length-1);
+            for(int i = 0;i < keyTemp.length; i++){
+                Keys[i] = new Prekey(keyTemp[i]);
             }
-            Keys[0] = lastPreKey;
+            Keys[Keys.length-1] = lastPreKey;
 
         } catch (CryptoException e) {
             e.printStackTrace();
+            cleanUp();
         }
 
         return Keys;
