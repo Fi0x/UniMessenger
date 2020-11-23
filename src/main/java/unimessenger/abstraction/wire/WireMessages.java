@@ -95,6 +95,12 @@ public class WireMessages implements IMessages
         return false;
     }
 
+    public String DecypherMessage(){
+        String clearText = "";
+
+        return clearText;
+    }
+
     @Deprecated
     public static void PrintNotifications()
     {
