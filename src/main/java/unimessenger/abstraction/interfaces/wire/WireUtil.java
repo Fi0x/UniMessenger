@@ -6,6 +6,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import unimessenger.abstraction.Headers;
 import unimessenger.abstraction.URL;
+import unimessenger.abstraction.encryption.WireCrypto.WireCryptoHandler;
 import unimessenger.abstraction.interfaces.IUtil;
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.apicommunication.HTTP;
@@ -183,7 +184,7 @@ public class WireUtil implements IUtil
 
         //TODO: Use working prekeys
         JSONObject lastkey = new JSONObject();
-        lastkey.put("key", "dd");
+        lastkey.put("key", WireCryptoHandler.generatePreKeys()[0].getKey());
         lastkey.put("id", 65535);
         obj.put("lastkey", lastkey);
 
@@ -200,7 +201,7 @@ public class WireUtil implements IUtil
         //TODO: Use working prekeys
         JSONArray prekeys = new JSONArray();
         JSONObject key1 = new JSONObject();
-        key1.put("key", "03994576302194852309084576092384576");
+        key1.put("key", WireCryptoHandler.generatePreKeys()[0].getKey());
         key1.put("id", 0);
         prekeys.add(key1);
         obj.put("prekeys", prekeys);
