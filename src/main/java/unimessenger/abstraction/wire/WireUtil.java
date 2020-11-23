@@ -171,9 +171,8 @@ public class WireUtil implements IUtil
 
         return false;
     }
-    private static String registerClient()
+    private static String registerClient() throws ParseException
     {
-        //TODO: Register client
         String url = URL.WIRE + URL.WIRE_CLIENTS + URL.WIRE_TOKEN + WireStorage.getBearerToken();
         String[] headers = new String[]{
                 Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
@@ -184,26 +183,39 @@ public class WireUtil implements IUtil
 
         JSONObject lastkey = new JSONObject();
         lastkey.put("key", "dd");
-        lastkey.put("id", 2);
+        lastkey.put("id", 5515);//TODO: Use valid prekey id
         obj.put("lastkey", lastkey);
+
+        JSONObject sigkeys = new JSONObject();
+        sigkeys.put("enckey", "");
+        sigkeys.put("mackey", "");
+        obj.put("sigkeys", sigkeys);
+
+        obj.put("type", "temporary");
 
         JSONArray prekeys = new JSONArray();
         JSONObject key1 = new JSONObject();
         key1.put("key", "dd");
-        key1.put("id", 122);
+        key1.put("id", 122);//TODO: Use valid prekey id
         prekeys.add(key1);
         obj.put("prekeys", prekeys);
+
+        obj.put("class", "desktop");
+
+        obj.put("label", "Custom Wire Client");
 
         String body = obj.toJSONString();
 
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.POST, body, headers);
-        System.out.println(response.statusCode());
         System.out.println(response.headers());
         System.out.println(response.body());
 
         if(response == null) Outputs.printError("No response received");
         else if(response.statusCode() == 200)
         {
+            JSONObject resObj = (JSONObject) new JSONParser().parse(response.body());
+            WireStorage.clientID = resObj.get("id").toString();
+            Outputs.printDebug("Client ID stored");
         } else Outputs.printError("Response code is " + response.statusCode());
         return null;
     }
