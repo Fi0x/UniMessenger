@@ -28,10 +28,10 @@ public class WireLogin implements ILoginOut
         //TODO: Add more login options (phone)
         String mail = Outputs.getStringAnswerFrom("Please enter your E-Mail");//TestAccount: pechtl97@gmail.com
         String pw = Outputs.getStringAnswerFrom("Please enter your password");//TestAccount: Passwort1!
-        boolean persist = Outputs.getBoolAnswerFrom("Do you want to stay logged in?");
+        WireStorage.persistent = Outputs.getBoolAnswerFrom("Do you want to stay logged in?");
 
         String url = URL.WIRE + URL.WIRE_LOGIN;
-        if(persist) url += URL.WIRE_PERSIST;
+        if(WireStorage.persistent) url += URL.WIRE_PERSIST;
 
         JSONObject obj = new JSONObject();
         obj.put("email", mail);

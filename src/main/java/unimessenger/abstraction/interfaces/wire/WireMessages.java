@@ -2,11 +2,16 @@ package unimessenger.abstraction.interfaces.wire;
 
 import com.wire.bots.cryptobox.CryptoBox;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import unimessenger.abstraction.Headers;
 import unimessenger.abstraction.URL;
 import unimessenger.abstraction.interfaces.IMessages;
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.apicommunication.HTTP;
+import unimessenger.userinteraction.Outputs;
 import unimessenger.util.enums.REQUEST;
 
 import java.lang.constant.Constable;
@@ -19,7 +24,7 @@ import java.util.UUID;
 public class WireMessages implements IMessages
 {
     @Override
-    public boolean sendMessage(String chatID, String text)//TODO: Make this method work
+    public boolean sendMessage(String chatID, String text)
     {
         String url = URL.WIRE + URL.WIRE_CONVERSATIONS + "/" + chatID + URL.WIRE_OTR_MESSAGES + URL.WIRE_TOKEN + WireStorage.getBearerToken();
         String[] headers = new String[]{
@@ -28,9 +33,13 @@ public class WireMessages implements IMessages
         String body = buildBody(chatID, text);
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.POST, body, headers);
 
-        System.out.println("Response code: " + response.statusCode());
-        System.out.println("Headers: " + response.headers());
-        System.out.println("Body: " + response.body());
+        if(response == null) Outputs.printError("No response for sent message");
+        else if(response.statusCode() == 201)
+        {
+            Outputs.printInfo("Message sent correctly");
+            return true;
+        } else Outputs.printError("Response code was " + response.statusCode());
+
         return false;
     }
 
@@ -42,59 +51,58 @@ public class WireMessages implements IMessages
         obj.put("sender", WireStorage.clientID);
 
         ArrayList<String> members = new WireData().getConversationMembersFromID(chatID);
-        if(members.size() > 0) members.remove(0);
-        Map<String, Map<String, Constable>> recipients = new LinkedHashMap<>(1);
-        Map<String, Constable> clientMap = new LinkedHashMap<>(members.size());
+        
+        JSONObject recipients = new JSONObject();
 
         for(String id : members)
         {
-            clientMap.put("", id);
+            Map<String, Constable> clientMap = new LinkedHashMap<>(members.size());
+            ArrayList<String> userClients = getClientIDsFromUser(id);
+            while(!userClients.isEmpty())
+            {
+                if(!(id.equals(WireStorage.userID) && userClients.get(0).equals(WireStorage.clientID)))
+                {
+                    //TODO: Use correct OTR Content
+                    clientMap.put(userClients.get(0), "OTR Content");
+                }
+                userClients.remove(0);
+            }
+            recipients.put(id, clientMap);
         }
 
-        recipients.put("", clientMap);
-        //TODO: Add recipient UUIDs
         obj.put("recipients", recipients);
 
-        System.out.println("Body to send: " + obj.toJSONString());
         return obj.toJSONString();
     }
 
-    public boolean sendMessage(UUID userID, String[] Client, String content){
-        try {
-            CryptoBox b = CryptoBox.open("test");
-            /*//payload.from
-            userID = UUID.fromString("e22e08fe-083a-464b-bd39-606b25771da4");
+    private static ArrayList<String> getClientIDsFromUser(String userID)
+    {
+        String url = URL.WIRE + URL.WIRE_USERS + "/" + userID + URL.WIRE_CLIENTS + URL.WIRE_TOKEN + WireStorage.getBearerToken();
+        String[] headers = new String[]{
+                Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
+        HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
 
-            //payload.data.sender
-            String clientID = "35d8819eafff05da";
+        if(response == null) Outputs.printDebug("No client response");
+        else if(response.statusCode() == 200)
+        {
+            try
+            {
+                JSONArray arr = (JSONArray) new JSONParser().parse(response.body());
+                ArrayList<String> ids = new ArrayList<>();
+                while(!arr.isEmpty())
+                {
+                    JSONObject obj = (JSONObject) arr.get(0);
+                    ids.add(obj.get("id").toString());
+                    arr.remove(0);
+                }
+                return ids;
+            } catch(ParseException ignored)
+            {
+            }
+        } else Outputs.printError("Response code is " + response.statusCode());
 
-            String id = String.format("%s_%s", userID, clientID);
-
-            byte[] decrypt = b.decrypt(id, decode);
-
-            System.out.println(Base64.getEncoder().encodeToString(decrypt));
-            //cryptobox class would return this ^
-            //Further processing --v put into generic msg etc
-            b.newLastPreKey();
-            */
-
-            boolean t = b.isClosed();
-
-            System.out.println("Closed: " + t);
-
-            b.close();
-
-            t = b.isClosed();
-
-            System.out.println("Closed: " + t);
-
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return false;
+        return null;
     }
-
     public String DecypherMessage(){
         String clearText = "";
 
@@ -106,7 +114,6 @@ public class WireMessages implements IMessages
     {
         HTTP msgSender = new HTTP();
         System.out.println("List of all conversations in Wire:");
-        //TODO: Show a list of all Wire-conversations
         String url = URL.WIRE + URL.WIRE_LAST_NOTIFICATION + URL.WIRE_TOKEN + WireStorage.getBearerToken();
         String[] headers = new String[]{
                 "accept", "application/json",
@@ -115,8 +122,5 @@ public class WireMessages implements IMessages
         System.out.println("Response code: " + response.statusCode());
         System.out.println("Headers:" + response.headers());
         System.out.println("Body: " + response.body());
-
     }
-
-
 }

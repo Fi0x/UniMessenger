@@ -87,6 +87,7 @@ public class WireUtil implements IUtil
                 WireStorage.selfProfile.userAssets = getUserAssets((JSONArray) obj.get("assets"));
 
                 WireStorage.clientID = getClientID();
+                WireStorage.saveDataInFile();
                 return true;
             } catch(ParseException ignored)
             {
@@ -121,7 +122,13 @@ public class WireUtil implements IUtil
             }
         }
 
-        return registerClient();
+        String id = registerClient(WireStorage.persistent);
+        if(id == null)
+        {
+            WireStorage.persistent = false;
+            return registerClient(false);
+        }
+        else return id;
     }
     private static ArrayList<String> getAllClientIDs() throws ParseException
     {
@@ -174,7 +181,7 @@ public class WireUtil implements IUtil
 
         return false;
     }
-    private static String registerClient() throws ParseException
+    private static String registerClient(boolean persistent) throws ParseException
     {
         String url = URL.WIRE + URL.WIRE_CLIENTS + URL.WIRE_TOKEN + WireStorage.getBearerToken();
         String[] headers = new String[]{
@@ -183,29 +190,29 @@ public class WireUtil implements IUtil
 
         JSONObject obj = new JSONObject();
         obj.put("cookie", WireStorage.cookie);
-
+        
         Prekey keys [] = WireCryptoHandler.generatePreKeys();
+        //TODO: Generate correct last key
         Prekey lastKey = WireCryptoHandler.generateLastPrekey();
-        System.out.println("LastKey: " + lastKey.getKey() + " \nLastKeyId: " + lastKey.getID());
-
-
+        
         //TODO: Use working prekeys
         JSONObject lastkey = new JSONObject();
-        lastkey.put("key", "TODO INSERT KEY");
-        lastkey.put("id", "65535");
+        lastkey.put("key", "pQABARn//wKhAFgg7+EhYE0H+m7FsRt6FCvrTSmrplzvlNhesJhenAscbUADoQChAFggItugmAU3gvKV4+pjlQmJV6DnzbWpY/F0UTYmJqji+C0E9g==");
+        lastkey.put("id", 65535);
         obj.put("lastkey", lastkey);
-
+        
         JSONObject sigkeys = new JSONObject();
         sigkeys.put("enckey", Base64.getEncoder().encodeToString(new byte[32]));
         sigkeys.put("mackey", Base64.getEncoder().encodeToString(new byte[32]));
         obj.put("sigkeys", sigkeys);
-
+        
         String pw = Outputs.getStringAnswerFrom("Please enter your password to register this client");
-        obj.put("password", "Passwort1!");
+        obj.put("password", pw);
+        
+        if(persistent) obj.put("type", "permanent");
+        else obj.put("type", "temporary");
 
-        obj.put("type", "temporary");
-
-        //TODO: Use working prekeys
+        //TODO: Use more pre-keys
         JSONArray prekeys = new JSONArray();
         JSONObject key1 = new JSONObject();
         key1.put("key", keys[0].getKey());
@@ -220,15 +227,14 @@ public class WireUtil implements IUtil
         String body = obj.toJSONString();
 
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.POST, body, headers);
-        System.out.println(response.headers());
-        System.out.println(response.body());
-
+        
         if(response == null) Outputs.printError("No response received");
-        else if(response.statusCode() == 200)
+        else if(response.statusCode() == 201)
         {
             JSONObject resObj = (JSONObject) new JSONParser().parse(response.body());
             WireStorage.clientID = resObj.get("id").toString();
             Outputs.printDebug("Client ID stored");
+            return WireStorage.clientID;
         } else Outputs.printError("Response code is " + response.statusCode());
         return null;
     }
