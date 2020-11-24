@@ -6,6 +6,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import unimessenger.abstraction.Headers;
 import unimessenger.abstraction.URL;
+import unimessenger.abstraction.encryption.WireCrypto.Prekey;
 import unimessenger.abstraction.encryption.WireCrypto.WireCryptoHandler;
 import unimessenger.abstraction.interfaces.IUtil;
 import unimessenger.abstraction.storage.WireStorage;
@@ -15,6 +16,7 @@ import unimessenger.util.enums.REQUEST;
 
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
+import java.util.Base64;
 
 public class WireUtil implements IUtil
 {
@@ -182,27 +184,32 @@ public class WireUtil implements IUtil
         JSONObject obj = new JSONObject();
         obj.put("cookie", WireStorage.cookie);
 
+        Prekey keys [] = WireCryptoHandler.generatePreKeys();
+        Prekey lastKey = WireCryptoHandler.generateLastPrekey();
+        System.out.println("LastKey: " + lastKey.getKey() + " \nLastKeyId: " + lastKey.getID());
+
+
         //TODO: Use working prekeys
         JSONObject lastkey = new JSONObject();
-        lastkey.put("key", WireCryptoHandler.generatePreKeys()[0].getKey());
+        lastkey.put("key", lastKey.getKey());
         lastkey.put("id", 65535);
         obj.put("lastkey", lastkey);
 
         JSONObject sigkeys = new JSONObject();
-        sigkeys.put("enckey", "");
-        sigkeys.put("mackey", "");
+        sigkeys.put("enckey", Base64.getEncoder().encodeToString(new byte[32]));
+        sigkeys.put("mackey", Base64.getEncoder().encodeToString(new byte[32]));
         obj.put("sigkeys", sigkeys);
 
         String pw = Outputs.getStringAnswerFrom("Please enter your password to register this client");
-        obj.put("password", pw);
+        obj.put("password", "Passwort1!");
 
         obj.put("type", "temporary");
 
         //TODO: Use working prekeys
         JSONArray prekeys = new JSONArray();
         JSONObject key1 = new JSONObject();
-        key1.put("key", WireCryptoHandler.generatePreKeys()[0].getKey());
-        key1.put("id", 0);
+        key1.put("key", keys[0].getKey());
+        key1.put("id", keys[0].getID());
         prekeys.add(key1);
         obj.put("prekeys", prekeys);
 

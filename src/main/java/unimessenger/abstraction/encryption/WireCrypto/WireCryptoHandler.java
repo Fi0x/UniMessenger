@@ -10,7 +10,7 @@ public class WireCryptoHandler {
 
         try {
             lastPreKey = new Prekey(CryptoFactory.getCryptoInstance().newLastPreKey());
-            PreKey [] keyTemp = CryptoFactory.getCryptoInstance().newPreKeys(0, Keys.length-1);
+            PreKey [] keyTemp = CryptoFactory.getCryptoInstance().newPreKeys(1, Keys.length-1);
             for(int i = 0;i < keyTemp.length; i++){
                 Keys[i] = new Prekey(keyTemp[i]);
             }
@@ -22,6 +22,15 @@ public class WireCryptoHandler {
         }
 
         return Keys;
+    }
+
+    public static Prekey generateLastPrekey(){
+        try {
+            return new Prekey(CryptoFactory.getCryptoInstance().newLastPreKey());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static void cleanUp(){
