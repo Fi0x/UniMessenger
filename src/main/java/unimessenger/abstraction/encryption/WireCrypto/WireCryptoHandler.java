@@ -33,6 +33,10 @@ public class WireCryptoHandler {
         return null;
     }
 
+    public static void testCase(){
+
+    }
+
     public static void cleanUp(){
         CryptoFactory.closeBox();
     }

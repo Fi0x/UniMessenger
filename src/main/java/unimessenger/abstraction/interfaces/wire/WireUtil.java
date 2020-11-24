@@ -191,8 +191,8 @@ public class WireUtil implements IUtil
 
         //TODO: Use working prekeys
         JSONObject lastkey = new JSONObject();
-        lastkey.put("key", lastKey.getKey());
-        lastkey.put("id", 65535);
+        lastkey.put("key", "TODO INSERT KEY");
+        lastkey.put("id", "65535");
         obj.put("lastkey", lastkey);
 
         JSONObject sigkeys = new JSONObject();

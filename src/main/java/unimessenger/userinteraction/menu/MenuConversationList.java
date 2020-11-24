@@ -24,6 +24,7 @@ public class MenuConversationList
         System.out.println("5) Exit Program");
         System.out.println("11) Print Notifications");//TODO: Remove
         System.out.println("12) Print test last PreKey");//TODO: Remove
+        System.out.println("13) TestStuff");//TODO: Remove
 
         int userInput = Outputs.getIntAnswerFrom("Please enter the number of the option you would like to choose.");
         switch(userInput)
@@ -52,6 +53,9 @@ public class MenuConversationList
                 WireCryptoHandler.generateLastPrekey();
                 System.out.println("ID: "+k.getID()+" Key: " + k.getKey());
                 WireCryptoHandler.cleanUp();
+                break;
+            case 13:
+                WireCryptoHandler.testCase();
                 break;
             default:
                 Outputs.cannotHandleUserInput();
