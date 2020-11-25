@@ -7,7 +7,6 @@ import unimessenger.abstraction.APIAccess;
 import unimessenger.abstraction.Headers;
 import unimessenger.abstraction.URL;
 import unimessenger.abstraction.interfaces.ILoginOut;
-import unimessenger.abstraction.interfaces.wire.WireUtil;
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.communication.HTTP;
 import unimessenger.userinteraction.CLI;
@@ -92,13 +91,7 @@ public class MenuLogin
 
         handleResponse(new HTTP().sendRequest(url, REQUEST.POST, body, headers));
 
-        try
-        {
-            WireUtil.getClientID();
-            WireStorage.saveDataInFile();
-        } catch(ParseException ignored)
-        {
-        }
+        WireStorage.saveDataInFile();
     }
 
     @Deprecated
