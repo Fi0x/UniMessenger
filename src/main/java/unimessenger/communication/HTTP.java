@@ -26,6 +26,9 @@ public class HTTP
             case POST:
                 request = RequestBuilder.getPOSTRequest(url, body, headers);
                 break;
+            case DELETE:
+                request = RequestBuilder.getDELETERequest(url, body, headers);
+                break;
             default:
                 break;
         }

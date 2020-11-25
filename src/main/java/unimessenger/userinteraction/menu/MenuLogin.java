@@ -7,6 +7,7 @@ import unimessenger.abstraction.APIAccess;
 import unimessenger.abstraction.Headers;
 import unimessenger.abstraction.URL;
 import unimessenger.abstraction.interfaces.ILoginOut;
+import unimessenger.abstraction.interfaces.wire.WireUtil;
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.communication.HTTP;
 import unimessenger.userinteraction.CLI;
@@ -90,6 +91,14 @@ public class MenuLogin
                 Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
 
         handleResponse(new HTTP().sendRequest(url, REQUEST.POST, body, headers));
+
+        try
+        {
+            WireUtil.getClientID();
+            WireStorage.saveDataInFile();
+        } catch(ParseException ignored)
+        {
+        }
     }
 
     @Deprecated

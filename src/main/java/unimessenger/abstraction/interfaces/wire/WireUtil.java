@@ -111,7 +111,7 @@ public class WireUtil implements IUtil
         }
         return ret;
     }
-    private static String getClientID() throws ParseException
+    public static String getClientID() throws ParseException//TODO: Make private again
     {
         ArrayList<String> clientIDs = getAllClientIDs();
         if(clientIDs != null)
@@ -121,6 +121,8 @@ public class WireUtil implements IUtil
                 if(compareCookie(id)) return id;
             }
         }
+
+        removeAllClients();
 
         String id = registerClient(WireStorage.persistent);
         if(id == null)
@@ -181,6 +183,36 @@ public class WireUtil implements IUtil
 
         return false;
     }
+    @Deprecated
+    private static void removeAllClients()
+    {
+        ArrayList<String> clients = null;
+        try
+        {
+            clients = getAllClientIDs();
+        } catch(ParseException ignored)
+        {
+            Outputs.printError("Error receiving all clients of the user");
+        }
+
+        for(String clientID : clients)
+        {
+            System.out.println("Try to delete client: " + clientID);
+            String url = URL.WIRE + URL.WIRE_CLIENTS + "/" + clientID + URL.WIRE_TOKEN + WireStorage.getBearerToken();
+            String[] headers = new String[]{
+                    Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
+                    Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
+
+            JSONObject obj = new JSONObject();
+            obj.put("password", "Passwort1!");
+            String body = obj.toJSONString();
+
+            HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.DELETE, body, headers);
+            System.out.println("Code: " + response.statusCode());
+            System.out.println("Headers: " + response.headers());
+            System.out.println("Body: " + response.body());
+        }
+    }
     private static String registerClient(boolean persistent) throws ParseException
     {
         String url = URL.WIRE + URL.WIRE_CLIENTS + URL.WIRE_TOKEN + WireStorage.getBearerToken();
@@ -233,7 +265,7 @@ public class WireUtil implements IUtil
     }
     private static JSONArray getPreKeys()
     {
-        Prekey[] keys = WireCryptoHandler.generatePreKeys(2, 10);
+        Prekey[] keys = WireCryptoHandler.generatePreKeys(2, 50);
 
         JSONArray keyList = new JSONArray();
         for(Prekey key : keys)
