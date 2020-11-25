@@ -58,14 +58,17 @@ public class WireMessages implements IMessages
         {
             Map<String, Constable> clientMap = new LinkedHashMap<>(members.size());
             ArrayList<String> userClients = getClientIDsFromUser(id);
-            while(!userClients.isEmpty())
+            if(userClients != null)
             {
-                if(!(id.equals(WireStorage.userID) && userClients.get(0).equals(WireStorage.clientID)))
+                while(!userClients.isEmpty())
                 {
-                    Prekey pk = getPreKeyForClient(id, userClients.get(0));
-                    clientMap.put(userClients.get(0), WireCryptoHandler.encrypt(id, userClients.get(0), pk, msg));
+                    if(!(id.equals(WireStorage.userID) && userClients.get(0).equals(WireStorage.clientID)))
+                    {
+                        Prekey pk = getPreKeyForClient(id, userClients.get(0));
+                        clientMap.put(userClients.get(0), WireCryptoHandler.encrypt(id, userClients.get(0), pk, msg));
+                    }
+                    userClients.remove(0);
                 }
-                userClients.remove(0);
             }
             recipients.put(id, clientMap);
         }
