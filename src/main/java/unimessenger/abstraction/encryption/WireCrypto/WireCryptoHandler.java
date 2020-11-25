@@ -56,6 +56,7 @@ public class WireCryptoHandler
         if(box == null){
             box = CryptoFactory.getCryptoInstance();
         }
+        System.out.println("Key: " + pk.getKey()+ "ID: " + pk.getID());
 
         byte[] content = getByteStreamFromMessage(msg);
         //String.format for safer formating
