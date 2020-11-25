@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class WireCryptoHandler
 {
-    static CryptoBox box;//TODO: Get the box
+    static CryptoBox box;
 
     public static Prekey[] generatePreKeys(int start, int count)
     {
@@ -53,7 +53,10 @@ public class WireCryptoHandler
 
     public static String encrypt(String userID, String clientID, Prekey pk, String msg)
     {
-        box = CryptoFactory.getCryptoInstance();
+        if(box == null){
+            box = CryptoFactory.getCryptoInstance();
+        }
+
         byte[] content = getByteStreamFromMessage(msg);
         //String.format for safer formating
         String id = String.format("%s_%s", userID, clientID);
@@ -68,6 +71,17 @@ public class WireCryptoHandler
             Outputs.printError("Encrypting message failed");
         }
         return Base64.getEncoder().encodeToString(cypher);
+    }
+
+    public static String decrypt(){
+        if(box == null){
+            box = CryptoFactory.getCryptoInstance();
+        }
+
+        String ret = "";
+
+
+        return ret;
     }
 
     private static byte[] getByteStreamFromMessage(String message)
