@@ -82,7 +82,7 @@ public class WireConversations implements IConversations
         if(conObj.get("name") != null) con.conversationName = conObj.get("name").toString();
         if(conObj.get("team") != null) con.team = conObj.get("team").toString();
         con.id = conObj.get("id").toString();
-        con.conversationType = Integer.parseInt(conObj.get("type").toString());
+        con.setConversationType(Integer.parseInt(conObj.get("type").toString()));
         if(conObj.get("receipt_mode") != null) con.receipt_mode = conObj.get("receipt_mode").toString();
         con.last_event_time = conObj.get("last_event_time").toString();
         if(conObj.get("message_timer") != null) con.message_timer = conObj.get("message_timer").toString();
