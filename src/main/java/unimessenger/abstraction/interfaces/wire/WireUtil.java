@@ -231,7 +231,7 @@ public class WireUtil implements IUtil
     }
     private static JSONArray getPreKeys()
     {
-        Prekey[] keys = WireCryptoHandler.generatePreKeys(2, 50);
+        Prekey[] keys = WireCryptoHandler.generatePreKeys(0, 50);
 
         JSONArray keyList = new JSONArray();
         for(Prekey key : keys)

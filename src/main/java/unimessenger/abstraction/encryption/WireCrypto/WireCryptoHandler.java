@@ -1,5 +1,6 @@
 package unimessenger.abstraction.encryption.WireCrypto;
 
+import com.google.protobuf.InvalidProtocolBufferException;
 import com.waz.model.Messages;
 import com.wire.bots.cryptobox.CryptoBox;
 import com.wire.bots.cryptobox.CryptoException;
@@ -73,24 +74,34 @@ public class WireCryptoHandler
         return Base64.getEncoder().encodeToString(cypher);
     }
 
-    //TODO TEST private notes Page 8 UUID is payload.from Sender is payload.data.sender
+    //TODO TEST private notes Page 8 || UUID is payload.from Sender is payload.data.sender
     public static String decrypt(UUID from, String sender, String text){
         if(box == null){
             box = CryptoFactory.getCryptoInstance();
         }
+
+        String ret = "";
 
         byte[] dec;
 
         String sID = generateSeassionID(from.toString(), sender);
 
         try {
-            dec = box.decrypt(sID, text);
+            dec = box.decrypt(sID, Base64.getDecoder().decode(text));
         } catch (CryptoException e) {
             Outputs.create("CryptoException @ Wireryptohandler:decrypt").always().ERROR();
             dec = new byte[1];
         }
+        try {
+            Messages.GenericMessage m = Messages.GenericMessage.parseFrom(dec);
+            //TODO check if the content is actually the plain text string or something weird but seems to be
+            ret = m.getText().getContent();
 
-        return Base64.getEncoder().encodeToString(dec);
+        } catch (InvalidProtocolBufferException e) {
+            e.printStackTrace();
+        }
+
+        return ret;
     }
 
     private static byte[] getByteStreamFromMessage(String message)
