@@ -44,8 +44,9 @@ public class WireMessageReceiver
                     {
                         JSONObject load = (JSONObject) pl;
                         Set keys = load.keySet();
-                        if(keys.contains("type"))
+                        if(keys.contains("type") && load.get("type").equals("conversation.otr-message-add"))
                         {
+                            System.out.println("Type: " + load.get("type"));
 //                            if(keys.contains("client")) System.out.println("Client: " + load.get("type"));
 //                            if(keys.contains("data")) System.out.println("Data: " + load.get("type"));
 //                            if(keys.contains("from")) System.out.println("From: " + load.get("type"));
