@@ -44,7 +44,8 @@ public class WireConversations implements IConversations
                 JSONArray conArr = (JSONArray) obj.get("conversations");
                 for(Object o : conArr)
                 {
-                    newConList.add(getConversation((JSONObject) new JSONParser().parse(o.toString())));
+                    WireConversation con = getConversation((JSONObject) new JSONParser().parse(o.toString()));
+                    if(con.conversationName != null) newConList.add(con);
                 }
 
                 WireStorage.conversations = newConList;

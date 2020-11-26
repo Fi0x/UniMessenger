@@ -10,7 +10,7 @@ public class Outputs
     private static final String RED = "\u001B[31m";
 
     private String color = "";
-    private String creatorClass = "UNKNOWN";
+    private String creatorClass = null;
     private String text = "";
     private boolean canPrint = false;
 
@@ -61,6 +61,10 @@ public class Outputs
 
     public void print()
     {
-        if(canPrint) System.out.println(color + creatorClass + ":" + text + RESET);
+        if(canPrint)
+        {
+            if(creatorClass != null) System.out.print(color + creatorClass + ": ");
+            System.out.println(color + text + RESET);
+        }
     }
 }
