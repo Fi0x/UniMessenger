@@ -73,7 +73,7 @@ public class WireCryptoHandler
         return Base64.getEncoder().encodeToString(cypher);
     }
 
-    //SEE private notes Page 8 UUID is payload.from Sender is payload.data.sender
+    //TODO TEST private notes Page 8 UUID is payload.from Sender is payload.data.sender
     public static String decrypt(UUID from, String sender, String text){
         if(box == null){
             box = CryptoFactory.getCryptoInstance();
