@@ -19,6 +19,7 @@ import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class WireMessages implements IMessages
 {
@@ -145,5 +146,32 @@ public class WireMessages implements IMessages
         System.out.println("Response code: " + response.statusCode());
         System.out.println("Headers:" + response.headers());
         System.out.println("Body: " + response.body());
+        //TODO MAKE WORK!!!
+        try {
+            JSONObject temp = (JSONObject) new JSONParser().parse(response.body());
+
+            String pl = temp.get("payload").toString();
+
+            System.out.println("PayLoad: " + pl);
+
+            JSONArray payLArr = (JSONArray) new JSONParser().parse(pl);
+
+            JSONObject payL = (JSONObject) new JSONParser().parse(payLArr.get(0).toString());
+
+            System.out.println("From: "+ payL.get("from").toString());
+
+            JSONObject data = (JSONObject) new JSONParser().parse(payL.get("data").toString());
+
+            System.out.println("Text: "+ data.get("text"));
+            System.out.println("Sender: "+ data.get("sender"));
+
+            String ret = WireCryptoHandler.decrypt(UUID.fromString(payL.get("from").toString()), data.get("sender").toString(), data.get("text").toString());
+
+            System.out.println("TextInGut: " + ret);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
     }
 }
