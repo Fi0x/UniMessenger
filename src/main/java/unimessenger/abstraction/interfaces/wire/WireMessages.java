@@ -14,8 +14,8 @@ public class WireMessages implements IMessages
     }
 
     @Override
-    public boolean receiveNewMessages(String chatID)
+    public boolean receiveNewMessages()
     {
-        return receiver.receiveNewMessages(chatID);
+        return receiver.receiveNewMessages();
     }
 }
