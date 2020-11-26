@@ -32,12 +32,12 @@ public class WireMessages implements IMessages
         String body = buildBody(chatID, text);
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.POST, body, headers);
 
-        if(response == null) Outputs.create("No response for sent message received").debug().WARNING().print();
+        if(response == null) Outputs.create("No response for sent message received", this.getClass().getName()).debug().WARNING().print();
         else if(response.statusCode() == 201)
         {
             Outputs.create("Message sent correctly").verbose().INFO().print();
             return true;
-        } else Outputs.create("Response code was " + response.statusCode()).debug().WARNING().print();
+        } else Outputs.create("Response code was " + response.statusCode(), this.getClass().getName()).debug().WARNING().print();
         return false;
     }
 
@@ -84,7 +84,7 @@ public class WireMessages implements IMessages
                 Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
 
-        if(response == null) Outputs.create("No client response").debug().WARNING().print();
+        if(response == null) Outputs.create("No client response", "WireMessages").debug().WARNING().print();
         else if(response.statusCode() == 200)
         {
             try
@@ -101,7 +101,7 @@ public class WireMessages implements IMessages
             } catch(ParseException ignored)
             {
             }
-        } else Outputs.create("Response code is " + response.statusCode()).debug().WARNING().print();
+        } else Outputs.create("Response code is " + response.statusCode(), "WireMessages").debug().WARNING().print();
 
         return null;
     }
@@ -114,7 +114,7 @@ public class WireMessages implements IMessages
 
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
 
-        if(response == null) Outputs.create("Could not get a prekey for a client").debug().WARNING().print();
+        if(response == null) Outputs.create("Could not get a prekey for a client", "WireMessages").debug().WARNING().print();
         else if(response.statusCode() == 200)
         {
             try
@@ -126,9 +126,9 @@ public class WireMessages implements IMessages
                 return new Prekey(prekeyID, prekeyKey);
             } catch(ParseException ignored)
             {
-                Outputs.create("Could not get a prekey").debug().WARNING().print();
+                Outputs.create("Could not get a prekey", "WireMessages").debug().WARNING().print();
             }
-        } else Outputs.create("Response code was " + response.statusCode()).debug().WARNING().print();
+        } else Outputs.create("Response code was " + response.statusCode(), "WireMessages").debug().WARNING().print();
         return null;
     }
 

@@ -29,7 +29,7 @@ public class WireConversations implements IConversations
 
         if(response == null)
         {
-            Outputs.create("Could not get a HTTP response").debug().WARNING().print();
+            Outputs.create("Could not get a HTTP response", this.getClass().getName()).debug().WARNING().print();
             return false;
         } else if(response.statusCode() == 200)
         {
@@ -53,11 +53,11 @@ public class WireConversations implements IConversations
             } catch(ParseException ignored)
             {
             }
-            Outputs.create("Failed to reload all conversations").debug().WARNING().print();
+            Outputs.create("Failed to reload all conversations", this.getClass().getName()).debug().WARNING().print();
             return false;
         } else
         {
-            Outputs.create("Response code is " + response.statusCode()).debug().WARNING().print();
+            Outputs.create("Response code is " + response.statusCode(), this.getClass().getName()).debug().WARNING().print();
             return false;
         }
     }

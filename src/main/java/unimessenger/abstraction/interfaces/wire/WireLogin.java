@@ -59,7 +59,7 @@ public class WireLogin implements ILoginOut
 
         if(response == null)
         {
-            Outputs.create("Could not get a HTTP response").debug().WARNING().print();
+            Outputs.create("Could not get a HTTP response", this.getClass().getName()).debug().WARNING().print();
             return false;
         } else if(response.statusCode() == 200)
         {
@@ -68,7 +68,7 @@ public class WireLogin implements ILoginOut
             return true;
         } else
         {
-            Outputs.create("Response code is " + response.statusCode()).debug().WARNING().print();
+            Outputs.create("Response code is " + response.statusCode(), this.getClass().getName()).debug().WARNING().print();
             return false;
         }
     }
