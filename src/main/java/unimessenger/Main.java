@@ -23,7 +23,7 @@ public class Main
         if(arguments.contains("-d")) debug = true;
         if(arguments.contains("-v")) verbose = true;
 
-        Outputs.printInfo("Uni-Messenger starting...");
+        Outputs.create("Uni-Messenger starting...").verbose().INFO().print();
         Outputs.printDebug("Loading login files...");
         WireStorage.readDataFromFiles();
         Outputs.printDebug("Login files loaded");
@@ -46,6 +46,6 @@ public class Main
         cli.start();
         Outputs.printDebug("CLI started");
 
-        Outputs.printInfo("Uni-Messenger started");
+        Outputs.create("Uni-Messenger started").verbose().INFO().print();
     }
 }

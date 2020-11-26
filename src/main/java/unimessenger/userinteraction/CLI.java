@@ -65,6 +65,6 @@ public class CLI implements Runnable
         WireStorage.saveDataInFile();
         Outputs.printDebug("Storage written to file");
 
-        Outputs.printInfo("Exiting program...");
+        Outputs.create("Exiting program...").verbose().INFO().print();
     }
 }

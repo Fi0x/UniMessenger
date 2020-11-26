@@ -35,7 +35,7 @@ public class WireMessages implements IMessages
         if(response == null) Outputs.printError("No response for sent message");
         else if(response.statusCode() == 201)
         {
-            Outputs.printInfo("Message sent correctly");
+            Outputs.create("Message sent correctly").verbose().INFO().print();
             return true;
         } else Outputs.printError("Response code was " + response.statusCode());
 

@@ -3,6 +3,7 @@ package unimessenger.userinteraction.menu;
 import unimessenger.abstraction.APIAccess;
 import unimessenger.abstraction.interfaces.IMessages;
 import unimessenger.userinteraction.CLI;
+import unimessenger.userinteraction.Inputs;
 import unimessenger.userinteraction.Outputs;
 import unimessenger.util.enums.MENU;
 import unimessenger.util.enums.SERVICE;
@@ -20,7 +21,7 @@ public class MenuChat
         System.out.println("3) Show Main Menu");
         System.out.println("4) Exit Program");
         System.out.println("10) Send Test Message");//TODO: Remove
-        int userInput = Outputs.getIntAnswerFrom("Please enter the number of the option you would like to choose.");
+        int userInput = Inputs.getIntAnswerFrom("Please enter the number of the option you would like to choose.");
         switch(userInput)
         {
             case 1:
@@ -48,14 +49,14 @@ public class MenuChat
                 } else System.out.println("Error sending message");
                 break;
             default:
-                Outputs.cannotHandleUserInput();
+                Outputs.create("Invalid option").always().WARNING().print();
                 break;
         }
     }
 
     private static boolean sendMessage()
     {
-        String text = Outputs.getTextAnswerFrom("Please enter the text you would like to send.");
+        String text = Inputs.getTextAnswerFrom("Please enter the text you would like to send.");
 
         if(text.equals(""))
         {

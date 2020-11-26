@@ -6,6 +6,7 @@ import unimessenger.abstraction.encryption.WireCrypto.WireCryptoHandler;
 import unimessenger.abstraction.interfaces.IData;
 import unimessenger.abstraction.interfaces.wire.WireMessages;
 import unimessenger.userinteraction.CLI;
+import unimessenger.userinteraction.Inputs;
 import unimessenger.userinteraction.Outputs;
 import unimessenger.util.Updater;
 import unimessenger.util.enums.MENU;
@@ -26,7 +27,7 @@ public class MenuConversationList
         System.out.println("12) Print test last PreKey");//TODO: Remove
         System.out.println("13) TestStuff");//TODO: Remove
 
-        int userInput = Outputs.getIntAnswerFrom("Please enter the number of the option you would like to choose.");
+        int userInput = Inputs.getIntAnswerFrom("Please enter the number of the option you would like to choose.");
         switch(userInput)
         {
             case 1:
@@ -58,7 +59,7 @@ public class MenuConversationList
                 WireCryptoHandler.testCase();
                 break;
             default:
-                Outputs.cannotHandleUserInput();
+                Outputs.create("Invalid option").always().WARNING().print();
                 break;
         }
     }
@@ -78,7 +79,7 @@ public class MenuConversationList
 
     private static boolean selectChat()
     {
-        String userInput = Outputs.getStringAnswerFrom("Please type in the name of the person or group you would like to see the chat from");
+        String userInput = Inputs.getStringAnswerFrom("Please type in the name of the person or group you would like to see the chat from");
         IData data = new APIAccess().getDataInterface(CLI.currentService);
 
         ArrayList<String> ids = data.getAllConversationIDs();
@@ -111,7 +112,7 @@ public class MenuConversationList
             {
                 System.out.println((i + 1) + ") " + names.get(matches.get(i)));
             }
-            int input = Outputs.getIntAnswerFrom("Select the number of the chat you would like to view");
+            int input = Inputs.getIntAnswerFrom("Select the number of the chat you would like to view");
             if(input > matches.size() || input <= 0)
             {
                 System.out.println("Couldn't find that conversation");

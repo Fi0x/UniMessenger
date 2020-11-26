@@ -11,6 +11,7 @@ import unimessenger.abstraction.encryption.WireCrypto.WireCryptoHandler;
 import unimessenger.abstraction.interfaces.IUtil;
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.communication.HTTP;
+import unimessenger.userinteraction.Inputs;
 import unimessenger.userinteraction.Outputs;
 import unimessenger.util.enums.REQUEST;
 
@@ -204,7 +205,7 @@ public class WireUtil implements IUtil
         sigkeys.put("mackey", Base64.getEncoder().encodeToString(new byte[32]));
         obj.put("sigkeys", sigkeys);
         
-        String pw = Outputs.getStringAnswerFrom("Please enter your password to register this client");
+        String pw = Inputs.getStringAnswerFrom("Please enter your password to register this client");
         obj.put("password", pw);
         
         if(persistent) obj.put("type", "permanent");

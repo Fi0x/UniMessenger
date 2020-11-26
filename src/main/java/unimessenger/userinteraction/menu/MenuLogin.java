@@ -10,6 +10,7 @@ import unimessenger.abstraction.interfaces.ILoginOut;
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.communication.HTTP;
 import unimessenger.userinteraction.CLI;
+import unimessenger.userinteraction.Inputs;
 import unimessenger.userinteraction.Outputs;
 import unimessenger.util.Updater;
 import unimessenger.util.enums.MENU;
@@ -27,7 +28,7 @@ public class MenuLogin
         System.out.println("3) Exit Program");
         System.out.println("10) AutoLogin");//TODO: Remove
 
-        int userInput = Outputs.getIntAnswerFrom("Please enter the number of the option you would like to choose.");
+        int userInput = Inputs.getIntAnswerFrom("Please enter the number of the option you would like to choose.");
         switch(userInput)
         {
             case 1:
@@ -50,7 +51,7 @@ public class MenuLogin
                 CLI.currentMenu = MENU.CONVERSATION_LIST;
                 break;
             default:
-                Outputs.cannotHandleUserInput();
+                Outputs.create("Invalid option").always().WARNING().print();
                 break;
         }
     }
