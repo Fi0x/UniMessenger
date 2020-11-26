@@ -47,15 +47,6 @@ public class WireMessageReceiver
                         if(keys.contains("type") && load.get("type").equals("conversation.otr-message-add"))
                         {
                             System.out.println("Type: " + load.get("type"));
-//                            if(keys.contains("client")) System.out.println("Client: " + load.get("type"));
-//                            if(keys.contains("data")) System.out.println("Data: " + load.get("type"));
-//                            if(keys.contains("from")) System.out.println("From: " + load.get("type"));
-//                            if(keys.contains("time")) System.out.println("Time: " + load.get("type"));
-//                            if(keys.contains("conversation")) System.out.println("Conversation: " + load.get("type"));
-//                            if(keys.contains("connection")) System.out.println("Connection: " + load.get("type"));
-//                            if(keys.contains("user")) System.out.println("User: " + load.get("type"));
-//                            if(keys.contains("value")) System.out.println("Value: " + load.get("type"));
-//                            if(keys.contains("key")) System.out.println("Key: " + load.get("type"));
                         }
                     }
                 }

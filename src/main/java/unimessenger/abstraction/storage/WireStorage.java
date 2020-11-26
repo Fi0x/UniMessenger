@@ -49,6 +49,7 @@ public class WireStorage
             }
         }
     }
+
     public static void saveDataInFile()
     {
         saveDataInFile(cookie);
@@ -67,7 +68,11 @@ public class WireStorage
 
     public static boolean isBearerTokenStillValid()
     {
-        return bearerToken != null && bearerExpiringTime != null && bearerExpiringTime.getTime() > System.currentTimeMillis();
+        if(bearerToken == null) Outputs.create("Bearer token is null").verbose().INFO().print();
+        else if(bearerExpiringTime == null) Outputs.create("Bearer token has no expiring time").verbose().INFO().print();
+        else if(bearerExpiringTime.getTime() <= System.currentTimeMillis()) Outputs.create("Bearer token expired").verbose().INFO().print();
+        else return true;
+        return false;
     }
 
     public static void clearUserData()

@@ -19,8 +19,18 @@ public class WireLogin implements ILoginOut
     @Override
     public boolean checkIfLoggedIn()
     {
-        if(WireStorage.cookie == null) return false;
-        return WireStorage.isBearerTokenStillValid();
+        if(WireStorage.cookie == null)
+        {
+            Outputs.create("No cookie stored").verbose().INFO().print();
+            return false;
+        }
+        if(WireStorage.isBearerTokenStillValid())
+        {
+            Outputs.create("Bearer token is valid").verbose().INFO().print();
+            return true;
+        }
+        Outputs.create("Bearer token not valid", this.getClass().getName()).debug().INFO().print();
+        return false;
     }
 
     @Override
