@@ -39,7 +39,7 @@ public class WireMessageSender
         return false;
     }
 
-    private static String buildBody(String chatID, String msg)
+    private String buildBody(String chatID, String msg)
     {
         JSONObject obj = new JSONObject();
 
@@ -75,7 +75,7 @@ public class WireMessageSender
         return obj.toJSONString();
     }
 
-    private static ArrayList<String> getClientIDsFromUser(String userID)
+    private ArrayList<String> getClientIDsFromUser(String userID)
     {
         String url = URL.WIRE + URL.WIRE_USERS + "/" + userID + URL.WIRE_CLIENTS + URL.WIRE_TOKEN + WireStorage.getBearerToken();
         String[] headers = new String[]{
@@ -104,7 +104,7 @@ public class WireMessageSender
         return null;
     }
 
-    private static Prekey getPreKeyForClient(String userID, String clientID)
+    private Prekey getPreKeyForClient(String userID, String clientID)
     {
         String url = URL.WIRE + URL.WIRE_USERS + "/" + userID + URL.WIRE_PREKEY + "/" + clientID + URL.WIRE_TOKEN + WireStorage.getBearerToken();
         String[] headers = new String[]{
