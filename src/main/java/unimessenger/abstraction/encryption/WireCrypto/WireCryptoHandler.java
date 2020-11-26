@@ -60,7 +60,7 @@ public class WireCryptoHandler
         byte[] content = getByteStreamFromMessage(msg);
         //outsourced to methode for generally equal results
         String id = generateSeassionID(userID, clientID);
-        PreKey key = new PreKey(pk.getID(), Base64.getDecoder().decode(pk.getKey()));
+        PreKey key = toCryptoPreKey(pk);
         //made null for null checking the return value
         byte[] cypher = null;
         try
