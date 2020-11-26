@@ -14,12 +14,6 @@ public class Outputs
     private String text = "";
     private boolean canPrint = false;
 
-    @Deprecated
-    public static void printError(String text)
-    {
-        if(Main.verbose || Main.debug) System.out.println(RED + text + RESET);
-    }
-
     public static Outputs create(String message)
     {
         Outputs o = new Outputs();
