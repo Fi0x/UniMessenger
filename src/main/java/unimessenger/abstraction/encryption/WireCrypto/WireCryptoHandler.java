@@ -84,7 +84,7 @@ public class WireCryptoHandler
         String sID = generateSeassionID(from.toString(), sender);
 
         try {
-            dec = box.decrypt(sID, Base64.getDecoder().decode(text));
+            dec = box.decrypt(sID, text);
         } catch (CryptoException e) {
             Outputs.create("CryptoException @ Wireryptohandler:decrypt").always().ERROR();
             dec = new byte[1];
