@@ -29,7 +29,7 @@ public class WireConversations implements IConversations
 
         if(response == null)
         {
-            Outputs.printError("Couldn't get a HTTP response");
+            Outputs.create("Could not get a HTTP response", this.getClass().getName()).debug().WARNING().print();
             return false;
         } else if(response.statusCode() == 200)
         {
@@ -48,16 +48,16 @@ public class WireConversations implements IConversations
                 }
 
                 WireStorage.conversations = newConList;
-                Outputs.printDebug("Successfully reloaded all conversations");
+                Outputs.create("Successfully reloaded all conversations").verbose().INFO().print();
                 return true;
             } catch(ParseException ignored)
             {
             }
-            Outputs.printDebug("Failed to reload all conversations");
+            Outputs.create("Failed to reload all conversations", this.getClass().getName()).debug().WARNING().print();
             return false;
         } else
         {
-            Outputs.printDebug("Response code is not 200");
+            Outputs.create("Response code is " + response.statusCode(), this.getClass().getName()).debug().WARNING().print();
             return false;
         }
     }

@@ -32,10 +32,8 @@ public class WireUtil implements IUtil
 
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.POST, "", headers);
 
-        if(response == null)
-        {
-            Outputs.printError("Couldn't get a HTTP response");
-        } else if(response.statusCode() == 200)
+        if(response == null) Outputs.create("Could not get a HTTP response", this.getClass().getName()).debug().WARNING().print();
+        else if(response.statusCode() == 200)
         {
             JSONObject obj;
             try
@@ -44,15 +42,15 @@ public class WireUtil implements IUtil
                 obj = (JSONObject) new JSONParser().parse(response.body());
                 WireStorage.setBearerToken(obj.get("access_token").toString(), Integer.parseInt(obj.get("expires_in").toString()));
                 WireStorage.userID = obj.get("user").toString();
-                Outputs.printDebug("Successfully refreshed token");
+                Outputs.create("Successfully refreshed token").verbose().INFO().print();
                 return true;
             } catch(ParseException ignored)
             {
-                Outputs.printError("Failed refreshing token");
+                Outputs.create("Refreshing token failed", this.getClass().getName()).debug().WARNING().print();
             }
         } else
         {
-            Outputs.printDebug("Response code is " + response.statusCode() + ". Deleting Wire access cookie...");
+            Outputs.create("Response code is " + response.statusCode() + ". Deleting Wire access cookie...", this.getClass().getName()).debug().ERROR().print();
             WireStorage.cookie = null;
             WireStorage.clearFile();
         }
@@ -69,7 +67,7 @@ public class WireUtil implements IUtil
 
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
 
-        if(response == null) Outputs.printError("No response received");
+        if(response == null) Outputs.create("No response received", this.getClass().getName()).debug().WARNING().print();
         else if(response.statusCode() == 200)
         {
             try
@@ -92,9 +90,9 @@ public class WireUtil implements IUtil
                 return true;
             } catch(ParseException ignored)
             {
-                Outputs.printError("Json parsing error");
+                Outputs.create("Json parsing error. Data not saved in file", this.getClass().getName()).debug().WARNING().print();
             }
-        } else Outputs.printError("Http response was " + response.statusCode());
+        } else Outputs.create("Response code was " + response.statusCode(), this.getClass().getName()).debug().WARNING().print();
 
         return false;
     }
@@ -141,7 +139,7 @@ public class WireUtil implements IUtil
 
         if(response == null)
         {
-            Outputs.printError("No response received");
+            Outputs.create("No response received", "WireUtil").debug().WARNING().print();
             return null;
         } else if(response.statusCode() == 200)
         {
@@ -154,7 +152,7 @@ public class WireUtil implements IUtil
                 clients.remove(0);
             }
             return ids;
-        } else Outputs.printError("Response code is " + response.statusCode());
+        } else Outputs.create("Response code is " + response.statusCode(), "WireUtil").debug().WARNING().print();
 
         return null;
     }
@@ -166,7 +164,7 @@ public class WireUtil implements IUtil
 
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
 
-        if(response == null) Outputs.printError("No response received");
+        if(response == null) Outputs.create("No response received", "WireUtil").debug().WARNING().print();
         else if(response.statusCode() == 200)
         {
             JSONObject obj = (JSONObject) new JSONParser().parse(response.body());
@@ -174,11 +172,11 @@ public class WireUtil implements IUtil
             {
                 if(obj.get("cookie").toString().equals(WireStorage.cookie))
                 {
-                    Outputs.printDebug("Client ID found");
+                    Outputs.create("Client ID found").verbose().INFO().print();
                     return true;
                 }
-            } else Outputs.printDebug("Client response didn't contain a cookie");
-        } else Outputs.printError("Response code is " + response.statusCode());
+            } else Outputs.create("Client response contained no cookie", "WireUtil").debug().INFO().print();
+        } else Outputs.create("Response code is " + response.statusCode(), "WireUtil").debug().WARNING().print();
 
         return false;
     }
@@ -221,14 +219,14 @@ public class WireUtil implements IUtil
 
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.POST, body, headers);
         
-        if(response == null) Outputs.printError("No response received");
+        if(response == null) Outputs.create("No response received", "WireUtil").debug().WARNING().print();
         else if(response.statusCode() == 201)
         {
             JSONObject resObj = (JSONObject) new JSONParser().parse(response.body());
             WireStorage.clientID = resObj.get("id").toString();
-            Outputs.printDebug("Client ID stored");
+            Outputs.create("Client ID stored").verbose().INFO().print();
             return WireStorage.clientID;
-        } else Outputs.printError("Response code is " + response.statusCode());
+        } else Outputs.create("Response code is " + response.statusCode(), "WireUtil").debug().WARNING().print();
         return null;
     }
     private static JSONArray getPreKeys()
