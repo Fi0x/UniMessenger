@@ -2,7 +2,7 @@ package unimessenger.abstraction.storage;
 
 import java.util.LinkedList;
 
-public class Conversation {
+public class Conversation{
     private String convID;
     private String partnerID;
     private String partnerReadable;
