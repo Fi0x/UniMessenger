@@ -121,7 +121,7 @@ public class MenuConversationList
             selectedConversation = matches.get(input - 1);
         }
 
-        Outputs.printDebug("Opening conversation '" + selectedConversation + "'...");
+        Outputs.create("Opening conversation '" + selectedConversation + "'...").verbose().INFO().print();
         CLI.currentChatID = ids.get(selectedConversation);
         return true;
     }

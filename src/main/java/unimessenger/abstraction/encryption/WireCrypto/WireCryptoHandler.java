@@ -68,7 +68,7 @@ public class WireCryptoHandler
             cypher = box.encryptFromPreKeys(id, key, content);
         } catch(CryptoException ignored)
         {
-            Outputs.printError("Encrypting message failed");
+            Outputs.create("Encrypting message failed", "WireCryptoHandler").debug().ERROR().print();
         }
         return Base64.getEncoder().encodeToString(cypher);
     }

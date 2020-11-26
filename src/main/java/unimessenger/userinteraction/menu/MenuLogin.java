@@ -66,7 +66,7 @@ public class MenuLogin
         else if(login.login()) loggedIn = true;
         if(loggedIn)
         {
-            if(!access.getUtilInterface(CLI.currentService).loadProfile()) Outputs.printError("Couldn't load profile");
+            if(!access.getUtilInterface(CLI.currentService).loadProfile()) Outputs.create("Could not load profile", "MenuLogin").verbose().debug().ERROR().print();
             return true;
         } else
         {
@@ -112,11 +112,11 @@ public class MenuLogin
             if(arr.length > 1) arr = arr[1].split(";");
             WireStorage.cookie = "zuid=" + arr[0];
 
-            Outputs.printDebug("Token Type: " + obj.get("token_type"));
-            Outputs.printDebug("Expires in: " + obj.get("expires_in"));
-            Outputs.printDebug("Access Token: " + WireStorage.getBearerToken());
-            Outputs.printDebug("User: " + WireStorage.userID);
-            Outputs.printDebug("Cookie: " + WireStorage.cookie);
+            Outputs.create("Token Type: " + obj.get("token_type")).verbose().print();
+            Outputs.create("Expires in: " + obj.get("expires_in")).verbose().print();
+            Outputs.create("Access Token: " + WireStorage.getBearerToken()).verbose().print();
+            Outputs.create("User: " + WireStorage.userID).verbose().print();
+            Outputs.create("Cookie: " + WireStorage.cookie).verbose().print();
         } catch(ParseException ignored)
         {
         }

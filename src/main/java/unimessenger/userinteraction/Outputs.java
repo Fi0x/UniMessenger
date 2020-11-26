@@ -15,11 +15,6 @@ public class Outputs
     private boolean canPrint = false;
 
     @Deprecated
-    public static void printDebug(String text)
-    {
-        if(Main.debug) System.out.println(YELLOW + text + RESET);
-    }
-    @Deprecated
     public static void printError(String text)
     {
         if(Main.verbose || Main.debug) System.out.println(RED + text + RESET);

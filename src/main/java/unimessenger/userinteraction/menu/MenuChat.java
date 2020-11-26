@@ -27,7 +27,7 @@ public class MenuChat
             case 1:
                 if(sendMessage())
                 {
-                    Outputs.printDebug("Message successfully sent");
+                    Outputs.create("Message successfully sent").verbose().INFO().print();
                 } else System.out.println("Couldn't send the message");
                 break;
             case 2:
