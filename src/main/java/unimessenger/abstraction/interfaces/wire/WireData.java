@@ -20,7 +20,7 @@ public class WireData implements IData
             ids.add(con.id);
         }
 
-        Outputs.printDebug("Returning " + ids.size() + " Conversation IDs");
+        Outputs.create("Returning" + ids.size() + " conversation IDs").verbose().INFO().print();
         return ids;
     }
 

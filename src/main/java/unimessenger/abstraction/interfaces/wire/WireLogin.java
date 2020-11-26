@@ -59,16 +59,16 @@ public class WireLogin implements ILoginOut
 
         if(response == null)
         {
-            Outputs.printError("Couldn't get a HTTP response");
+            Outputs.create("Could not get a HTTP response").debug().WARNING().print();
             return false;
         } else if(response.statusCode() == 200)
         {
-            Outputs.printDebug("Successfully logged out");
+            Outputs.create("Successfully logged out").verbose().INFO().print();
             WireStorage.clearUserData();
             return true;
         } else
         {
-            Outputs.printDebug("Response code is not 200");
+            Outputs.create("Response code is " + response.statusCode()).debug().WARNING().print();
             return false;
         }
     }
@@ -96,8 +96,8 @@ public class WireLogin implements ILoginOut
             if(arr.length > 1) arr = arr[1].split(";");
             WireStorage.cookie = "zuid=" + arr[0];
 
-            Outputs.printDebug("User: " + WireStorage.userID);
-            Outputs.printDebug("Expires in: " + obj.get("expires_in") + " seconds");
+            Outputs.create("User: " + WireStorage.userID).verbose().INFO().print();
+            Outputs.create("Expires in: " + obj.get("expires_in") + " seconds").verbose().INFO().print();
         } catch(ParseException ignored)
         {
             return false;
