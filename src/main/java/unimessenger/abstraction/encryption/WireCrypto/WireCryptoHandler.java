@@ -74,7 +74,7 @@ public class WireCryptoHandler
         return Base64.getEncoder().encodeToString(cypher);
     }
 
-    //TODO TEST private notes Page 8 || UUID is payload.from Sender is payload.data.sender
+    //UUID is payload.from Sender is payload.data.sender
     public static String decrypt(UUID from, String sender, String text){
         if(box == null){
             box = CryptoFactory.getCryptoInstance();
@@ -94,7 +94,7 @@ public class WireCryptoHandler
         }
         try {
             Messages.GenericMessage m = Messages.GenericMessage.parseFrom(dec);
-            //TODO check if the content is actually the plain text string or something weird but seems to be
+            //Returns the readable Plain text
             ret = m.getText().getContent();
 
         } catch (InvalidProtocolBufferException e) {
