@@ -58,8 +58,8 @@ public class WireCryptoHandler
         }
 
         byte[] content = getByteStreamFromMessage(msg);
-        //String.format for safer formating
-        String id = String.format("%s_%s", userID, clientID);
+        //outsourced to methode for generally equal results
+        String id = generateSeassionID(userID, clientID);
         PreKey key = new PreKey(pk.getID(), Base64.getDecoder().decode(pk.getKey()));
         //made null for null checking the return value
         byte[] cypher = null;
@@ -73,15 +73,24 @@ public class WireCryptoHandler
         return Base64.getEncoder().encodeToString(cypher);
     }
 
-    public static String decrypt(){
+    //SEE private notes Page 8 UUID is payload.from Sender is payload.data.sender
+    public static String decrypt(UUID from, String sender, String text){
         if(box == null){
             box = CryptoFactory.getCryptoInstance();
         }
 
-        String ret = "";
+        byte[] dec;
 
+        String sID = generateSeassionID(from.toString(), sender);
 
-        return ret;
+        try {
+            dec = box.decrypt(sID, Base64.getDecoder().decode(text));
+        } catch (CryptoException e) {
+            Outputs.create("CryptoException @ Wireryptohandler:decrypt").always().ERROR();
+            dec = new byte[1];
+        }
+
+        return Base64.getEncoder().encodeToString(dec);
     }
 
     private static byte[] getByteStreamFromMessage(String message)
@@ -97,6 +106,10 @@ public class WireCryptoHandler
 
     private static PreKey toCryptoPreKey (Prekey old){
         return new PreKey(old.getID(), Base64.getDecoder().decode(old.getKey()));
+    }
+
+    private static String generateSeassionID(String userID, String clientID){
+        return String.format("%s_%s", userID, clientID);
     }
 
     public static void cleanUp ()
