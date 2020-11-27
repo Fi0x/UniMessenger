@@ -13,6 +13,7 @@ import unimessenger.userinteraction.Outputs;
 import unimessenger.util.enums.REQUEST;
 
 import java.net.http.HttpResponse;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 public class WireMessageReceiver
@@ -20,9 +21,10 @@ public class WireMessageReceiver
     public boolean receiveNewMessages()
     {
         String token = URL.wireBearerToken();
-        String since = "&since=2020-11-27T08:56:35.062Z";//TODO: Fix string
+        String since = "&since=2020-11-27T10:47:39.941Z";//TODO: Fix string
         String client = "&client=" + WireStorage.clientID;
         String url = URL.WIRE + URL.WIRE_NOTIFICATIONS + token + since + client;
+
         String[] headers = new String[]{
                 Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
                 Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
@@ -50,13 +52,16 @@ public class WireMessageReceiver
                         }
                     }
                 }
+                if(obj.containsKey("has_more") && Boolean.getBoolean(obj.get("has_more").toString()))
+                {
+                    if(!receiveNewMessages()) return false;//TODO: Find out if it works
+                } else WireStorage.saveDataInFile();
             } catch(ParseException ignored)
             {
                 Outputs.create("Something went wrong when parsing the HTTP response", this.getClass().getName()).debug().WARNING();
             }
             return true;
-        } else
-            Outputs.create("Response code was " + response.statusCode(), this.getClass().getName()).debug().WARNING().print();
+        } else Outputs.create("Response code was " + response.statusCode(), this.getClass().getName()).debug().WARNING().print();
         return false;
     }
 
@@ -64,7 +69,7 @@ public class WireMessageReceiver
     {
         String conversation;
         String senderUser;
-        String time;
+        Timestamp time;
         String decryptedMsg;
 
         if(payload.containsKey("conversation"))
@@ -89,8 +94,9 @@ public class WireMessageReceiver
 
         if(payload.containsKey("time"))
         {
-            time = payload.get("time").toString();
-            System.out.println("Time: " + time);
+            time = Timestamp.valueOf(payload.get("time").toString().replace("T", " ").replace("Z", ""));
+            if(WireStorage.lastNotification != null && time.getTime() <= WireStorage.lastNotification.getTime()) return false;
+            else WireStorage.lastNotification = time;
         } else Outputs.create("Conversation notification has no 'time' key").verbose().WARNING().print();
 
         JSONObject data = (JSONObject) payload.get("data");
