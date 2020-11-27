@@ -112,32 +112,4 @@ public class WireMessageReceiver
 
         return true;
     }
-
-    @Deprecated
-    public void PrintNotifications()
-    {
-        String url = URL.WIRE + URL.WIRE_LAST_NOTIFICATION + URL.wireBearerToken();
-        String[] headers = new String[]{
-                "accept", "application/json",
-                "accept", "text/html"};
-        HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
-
-        System.out.println(response.body());
-        try
-        {
-            JSONObject temp = (JSONObject) new JSONParser().parse(response.body());
-            String pl = temp.get("payload").toString();
-            JSONArray payLArr = (JSONArray) new JSONParser().parse(pl);
-            JSONObject payL = (JSONObject) new JSONParser().parse(payLArr.get(0).toString());
-
-            if(!payL.get("type").toString().equals("conversation.otr-message-add")) return;
-
-            JSONObject data = (JSONObject) new JSONParser().parse(payL.get("data").toString());
-            String ret = WireCryptoHandler.decrypt(UUID.fromString(payL.get("from").toString()), data.get("sender").toString(), data.get("text").toString());
-            System.out.println("TextInGut: " + ret);
-
-        } catch(ParseException ignored)
-        {
-        }
-    }
 }
