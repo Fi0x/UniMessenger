@@ -17,8 +17,8 @@ public class CryptoFactory {
         return b;
     }
 
-    public static boolean closeBox(){
+    public static void closeBox(){
+        if(b!=null && !b.isClosed())
         b.close();
-        return true;
     }
 }
