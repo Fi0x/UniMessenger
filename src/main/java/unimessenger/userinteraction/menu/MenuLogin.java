@@ -63,7 +63,7 @@ public class MenuLogin
         boolean loggedIn = false;
 
         if(login.checkIfLoggedIn()) loggedIn = true;
-        else if(access.getUtilInterface(CLI.currentService).refreshSession()) loggedIn = true;
+        else if(WireStorage.getBearerToken() != null && access.getUtilInterface(CLI.currentService).refreshSession()) loggedIn = true;
         else if(login.login()) loggedIn = true;
         if(loggedIn)
         {

@@ -1,10 +1,10 @@
 package unimessenger.abstraction.encryption.WireCrypto;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.waz.model.Messages;
 import com.wire.bots.cryptobox.CryptoBox;
 import com.wire.bots.cryptobox.CryptoException;
 import com.wire.bots.cryptobox.PreKey;
-import libraries.com.waz.model.Messages;
 import unimessenger.userinteraction.Outputs;
 
 import java.util.Base64;

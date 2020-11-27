@@ -13,7 +13,6 @@ import unimessenger.userinteraction.Outputs;
 import unimessenger.util.enums.REQUEST;
 
 import java.net.http.HttpResponse;
-import java.util.Set;
 import java.util.UUID;
 
 public class WireMessageReceiver
@@ -40,13 +39,14 @@ public class WireMessageReceiver
                 {
                     JSONObject note = (JSONObject) o;
                     JSONArray payload = (JSONArray) note.get("payload");
-                    for(Object pl : payload)//Contains: TYPE, client, data, from, time, conversation, connection, user, value, key
+                    for(Object pl : payload)
                     {
                         JSONObject load = (JSONObject) pl;
-                        Set keys = load.keySet();
-                        if(keys.contains("type") && load.get("type").equals("conversation.otr-message-add"))
+                        if(load.get("type").equals("conversation.otr-message-add"))
                         {
-                            System.out.println("Type: " + load.get("type"));
+
+                            if(!receiveMessageText(load))
+                                Outputs.create("Error receiving text of a notification").verbose().WARNING().print();
                         }
                     }
                 }
@@ -55,8 +55,49 @@ public class WireMessageReceiver
                 Outputs.create("Something went wrong when parsing the HTTP response", this.getClass().getName()).debug().WARNING();
             }
             return true;
-        } else Outputs.create("Response code was " + response.statusCode(), this.getClass().getName()).debug().WARNING().print();
+        } else
+            Outputs.create("Response code was " + response.statusCode(), this.getClass().getName()).debug().WARNING().print();
         return false;
+    }
+
+    private boolean receiveMessageText(JSONObject payload)
+    {
+        String conversation;
+        String senderUser;
+        String time;
+        String decryptedMsg;
+
+        if(payload.containsKey("conversation"))
+        {
+            conversation = payload.get("conversation").toString();
+        } else
+        {
+            Outputs.create("Conversation notification has no 'conversation' key", this.getClass().getName()).debug().WARNING().print();
+            return false;
+        }
+
+        if(!payload.containsKey("data"))
+        {
+            Outputs.create("Conversation notification has no 'data' key", this.getClass().getName()).debug().WARNING().print();
+            return false;
+        }
+
+        if(payload.containsKey("from"))
+        {
+            senderUser = payload.get("from").toString();
+        } else Outputs.create("Conversation notification has no 'from' key").verbose().WARNING().print();
+
+        if(payload.containsKey("time"))
+        {
+            time = payload.get("time").toString();
+        } else Outputs.create("Conversation notification has no 'time' key").verbose().WARNING().print();
+
+        JSONObject data = (JSONObject) payload.get("data");
+
+        decryptedMsg = WireCryptoHandler.decrypt(UUID.fromString(payload.get("from").toString()), data.get("sender").toString(), data.get("text").toString());
+        System.out.println("Decrypted Message: " + decryptedMsg);
+
+        return true;
     }
 
     @Deprecated
@@ -68,12 +109,16 @@ public class WireMessageReceiver
                 "accept", "text/html"};
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
 
+        System.out.println(response.body());
         try
         {
             JSONObject temp = (JSONObject) new JSONParser().parse(response.body());
             String pl = temp.get("payload").toString();
             JSONArray payLArr = (JSONArray) new JSONParser().parse(pl);
             JSONObject payL = (JSONObject) new JSONParser().parse(payLArr.get(0).toString());
+
+            if(!payL.get("type").toString().equals("conversation.otr-message-add")) return;
+
             JSONObject data = (JSONObject) new JSONParser().parse(payL.get("data").toString());
             String ret = WireCryptoHandler.decrypt(UUID.fromString(payL.get("from").toString()), data.get("sender").toString(), data.get("text").toString());
             System.out.println("TextInGut: " + ret);
