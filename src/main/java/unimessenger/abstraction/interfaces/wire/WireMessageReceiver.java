@@ -19,8 +19,10 @@ public class WireMessageReceiver
 {
     public boolean receiveNewMessages()
     {
-        String specifications = "?since=2020-11-26T16:30:00.000Z";//TODO: Fix string
-        String url = URL.WIRE + URL.WIRE_NOTIFICATIONS + specifications + URL.WIRE_TOKEN + WireStorage.getBearerToken();
+        String token = URL.wireBearerToken();
+        String since = "&since=2020-11-27T08:56:35.062Z";//TODO: Fix string
+        String client = "&client=" + WireStorage.clientID;
+        String url = URL.WIRE + URL.WIRE_NOTIFICATIONS + token + since + client;
         String[] headers = new String[]{
                 Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
                 Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
@@ -44,9 +46,7 @@ public class WireMessageReceiver
                         JSONObject load = (JSONObject) pl;
                         if(load.get("type").equals("conversation.otr-message-add"))
                         {
-
-                            if(!receiveMessageText(load))
-                                Outputs.create("Error receiving text of a notification").verbose().WARNING().print();
+                            if(!receiveMessageText(load)) Outputs.create("Error receiving text of a notification").verbose().WARNING().print();
                         }
                     }
                 }
@@ -90,9 +90,16 @@ public class WireMessageReceiver
         if(payload.containsKey("time"))
         {
             time = payload.get("time").toString();
+            System.out.println("Time: " + time);
         } else Outputs.create("Conversation notification has no 'time' key").verbose().WARNING().print();
 
         JSONObject data = (JSONObject) payload.get("data");
+
+        if(!data.get("recipient").toString().equals(WireStorage.clientID))
+        {
+            Outputs.create("Message is not for this client").verbose().INFO().print();
+            return false;
+        }
 
         decryptedMsg = WireCryptoHandler.decrypt(UUID.fromString(payload.get("from").toString()), data.get("sender").toString(), data.get("text").toString());
         System.out.println("Decrypted Message: " + decryptedMsg);
@@ -103,7 +110,7 @@ public class WireMessageReceiver
     @Deprecated
     public void PrintNotifications()
     {
-        String url = URL.WIRE + URL.WIRE_LAST_NOTIFICATION + URL.WIRE_TOKEN + WireStorage.getBearerToken();
+        String url = URL.WIRE + URL.WIRE_LAST_NOTIFICATION + URL.wireBearerToken();
         String[] headers = new String[]{
                 "accept", "application/json",
                 "accept", "text/html"};

@@ -23,7 +23,7 @@ public class WireMessageSender
 {
     public boolean sendMessage(String chatID, String text)
     {
-        String url = URL.WIRE + URL.WIRE_CONVERSATIONS + "/" + chatID + URL.WIRE_OTR_MESSAGES + URL.WIRE_TOKEN + WireStorage.getBearerToken();
+        String url = URL.WIRE + URL.WIRE_CONVERSATIONS + "/" + chatID + URL.WIRE_OTR_MESSAGES + URL.wireBearerToken();
         String[] headers = new String[]{
                 Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
                 Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
@@ -77,7 +77,7 @@ public class WireMessageSender
 
     private ArrayList<String> getClientIDsFromUser(String userID)
     {
-        String url = URL.WIRE + URL.WIRE_USERS + "/" + userID + URL.WIRE_CLIENTS + URL.WIRE_TOKEN + WireStorage.getBearerToken();
+        String url = URL.WIRE + URL.WIRE_USERS + "/" + userID + URL.WIRE_CLIENTS + URL.wireBearerToken();
         String[] headers = new String[]{
                 Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
@@ -106,7 +106,7 @@ public class WireMessageSender
 
     private Prekey getPreKeyForClient(String userID, String clientID)
     {
-        String url = URL.WIRE + URL.WIRE_USERS + "/" + userID + URL.WIRE_PREKEY + "/" + clientID + URL.WIRE_TOKEN + WireStorage.getBearerToken();
+        String url = URL.WIRE + URL.WIRE_USERS + "/" + userID + URL.WIRE_PREKEY + "/" + clientID + URL.wireBearerToken();
         String[] headers = new String[]{
                 Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
 

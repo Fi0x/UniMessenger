@@ -59,7 +59,7 @@ public class WireLogin implements ILoginOut
     @Override
     public boolean logout()
     {
-        String url = URL.WIRE + URL.WIRE_LOGOUT + URL.WIRE_TOKEN + WireStorage.getBearerToken();
+        String url = URL.WIRE + URL.WIRE_LOGOUT + URL.wireBearerToken();
         String[] headers = new String[]{
                 "cookie", WireStorage.cookie,
                 Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
