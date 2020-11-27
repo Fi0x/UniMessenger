@@ -2,7 +2,7 @@ package unimessenger.abstraction.encryption.WireCrypto;
 
 import com.wire.bots.cryptobox.CryptoBox;
 
-public class CryptoFactory { //TODO IMPORTANT make sure this is ALWAYS closed on program exit data leak is security relevant
+public class CryptoFactory {
     private static CryptoBox b;
 
     public static CryptoBox getCryptoInstance(){
