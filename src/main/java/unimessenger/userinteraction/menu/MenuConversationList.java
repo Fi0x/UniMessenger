@@ -1,9 +1,9 @@
 package unimessenger.userinteraction.menu;
 
 import unimessenger.abstraction.APIAccess;
-import unimessenger.abstraction.encryption.WireCrypto.WireCryptoHandler;
 import unimessenger.abstraction.interfaces.IData;
 import unimessenger.abstraction.interfaces.wire.WireMessageReceiver;
+import unimessenger.abstraction.storage.ConversationHandler;
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Inputs;
 import unimessenger.userinteraction.Outputs;
@@ -48,7 +48,7 @@ public class MenuConversationList
                 new WireMessageReceiver().receiveNewMessages();
                 break;
             case 13:
-                WireCryptoHandler.testCase();
+                ConversationHandler.Test();
                 break;
             default:
                 Outputs.create("Invalid option").always().WARNING().print();

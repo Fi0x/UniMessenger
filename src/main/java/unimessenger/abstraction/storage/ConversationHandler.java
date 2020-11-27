@@ -1,5 +1,7 @@
 package unimessenger.abstraction.storage;
 
+import unimessenger.userinteraction.Outputs;
+
 import java.io.*;
 import java.util.LinkedList;
 
@@ -19,27 +21,34 @@ public class ConversationHandler implements Serializable {
         return conversations;
     }
 
-    public void newConversation(){
+    public void newConversation(Conversation c){
+        conversations.add(c);
+    }
 
+    public Conversation getConvByID(){
+
+
+        return null;
     }
 
     //TODO test
     public static ConversationHandler getInstance(){
         if(cH == null){
-            try (FileInputStream fis = new FileInputStream("Chats");
+            try (FileInputStream fis = new FileInputStream("DataStorage/Chats");
                  ObjectInputStream ois = new ObjectInputStream(fis)) {
 
                 // read object from file
                 cH = (ConversationHandler) ois.readObject();
 
             } catch (IOException | ClassNotFoundException ex) {
-                ex.printStackTrace();
+                Outputs.create("ConnectionHandler not on disc or not loaded, Generating new one");
+                cH = new ConversationHandler();
             }
         }
         return cH;
     }
 
-    public static void writeToDisc(){
+    public static void save(){
         //TODO write the conversations to the disc
 
         try {
@@ -53,7 +62,15 @@ public class ConversationHandler implements Serializable {
         }
     }
     @Deprecated
-    public void Test(){
-        ConversationHandler ch = new ConversationHandler();
+    public static void Test(){
+        ConversationHandler ch = ConversationHandler.getInstance();
+        String PartnerReadable = "Partner";
+        ch.newConversation(new Conversation("1234", "sadf", PartnerReadable));
+        ConversationHandler.save();
+        cH = null;
+        ch = null;
+        ch = ConversationHandler.getInstance();
+        assert ch.getConversations().get(0).getPartnerReadable()==PartnerReadable;
+        System.out.println("Here Assert complete");
     }
 }

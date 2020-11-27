@@ -8,7 +8,7 @@ public class CryptoFactory { //TODO IMPORTANT make sure this is ALWAYS closed on
     public static CryptoBox getCryptoInstance(){
         if (b == null){
             try {
-                b = CryptoBox.open("TestDir");          //Todo Change to better Dire name if i know what it really does
+                b = CryptoBox.open("DataStorage/Box");
             } catch (Exception e) {
                 e.printStackTrace();
             }

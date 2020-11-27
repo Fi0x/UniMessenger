@@ -1,8 +1,9 @@
 package unimessenger.abstraction.storage;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
-public class Conversation{
+public class Conversation implements Serializable {
     private String convID;
     private String partnerID;
     private String partnerReadable;

@@ -20,7 +20,7 @@ public class WireStorage
     private static String bearerToken;
     public static String cookie;
     private static Timestamp bearerExpiringTime;
-    public static final String storageFile = "../dataWire.json";
+    public static final String storageFile = "DataStorage/access.json";
 
     public static WireProfile selfProfile = new WireProfile();
     public static ArrayList<WireConversation> conversations = new ArrayList<>();
