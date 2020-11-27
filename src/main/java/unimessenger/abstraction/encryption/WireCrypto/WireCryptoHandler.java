@@ -54,7 +54,8 @@ public class WireCryptoHandler
 
     public static String encrypt(String userID, String clientID, Prekey pk, String msg)
     {
-        if(box == null){
+        if(box == null)
+        {
             box = CryptoFactory.getCryptoInstance();
         }
 
@@ -75,8 +76,10 @@ public class WireCryptoHandler
     }
 
     //UUID is payload.from Sender is payload.data.sender
-    public static String decrypt(UUID from, String sender, String text){
-        if(box == null){
+    public static String decrypt(UUID from, String sender, String text)
+    {
+        if(box == null)
+        {
             box = CryptoFactory.getCryptoInstance();
         }
 
@@ -86,19 +89,23 @@ public class WireCryptoHandler
 
         String sID = generateSeassionID(from.toString(), sender);
 
-        try {
+        try
+        {
             dec = box.decrypt(sID, Base64.getDecoder().decode(text));
-        } catch (CryptoException e) {
-            Outputs.create("CryptoException @ Wireryptohandler:decrypt").always().ERROR();
+        } catch(CryptoException e)
+        {
+            Outputs.create("Decrypt CryptoException", "WireCryptoHandler").always().ERROR();
             dec = new byte[1];
         }
-        try {
+        try
+        {
             Messages.GenericMessage m = Messages.GenericMessage.parseFrom(dec);
             //Returns the readable Plain text
             ret = m.getText().getContent();
 
-        } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+        } catch(InvalidProtocolBufferException e)
+        {
+            Outputs.create("Invalid Protocol Buffer", "WireCryptoHandler").debug().ERROR().print();
         }
 
         return ret;
@@ -110,20 +117,22 @@ public class WireCryptoHandler
         UUID id = UUID.randomUUID();
         Messages.Text.Builder builder = Messages.Text.newBuilder();
         builder.setContent(message);
-        byte [] content = Messages.GenericMessage.newBuilder().setMessageId(id.toString()).setText(builder).build().toByteArray();
+        byte[] content = Messages.GenericMessage.newBuilder().setMessageId(id.toString()).setText(builder).build().toByteArray();
 
         return content;
     }
 
-    private static PreKey toCryptoPreKey (Prekey old){
+    private static PreKey toCryptoPreKey(Prekey old)
+    {
         return new PreKey(old.getID(), Base64.getDecoder().decode(old.getKey()));
     }
 
-    private static String generateSeassionID(String userID, String clientID){
+    private static String generateSeassionID(String userID, String clientID)
+    {
         return String.format("%s_%s", userID, clientID);
     }
 
-    public static void cleanUp ()
+    public static void cleanUp()
     {
         CryptoFactory.closeBox();
     }

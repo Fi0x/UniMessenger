@@ -22,7 +22,8 @@ public class MenuConversationList
         System.out.println("3) Log out of '" + CLI.currentService + "'");
         System.out.println("4) Show Main Menu");
         System.out.println("5) Exit Program");
-        System.out.println("10) Receive all notifications");
+        System.out.println("10) Receive all notifications");//TODO: Remove
+        System.out.println("11) Receive last notification");//TODO: Remove
         System.out.println("13) TestStuff");//TODO: Remove
 
         int userInput = Inputs.getIntAnswerFrom("Please enter the number of the option you would like to choose.");
@@ -46,6 +47,9 @@ public class MenuConversationList
                 break;
             case 10:
                 new WireMessageReceiver().receiveNewMessages();
+                break;
+            case 11:
+                new WireMessageReceiver().PrintNotifications();
                 break;
             case 13:
                 ConversationHandler.Test();
