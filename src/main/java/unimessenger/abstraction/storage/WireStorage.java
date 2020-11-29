@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class WireStorage
 {
     public static String userID;
-    public static String clientID = "7ec6cfc08fc9db51";
+    public static String clientID = null;
     public static boolean persistent = false;
     private static String bearerToken;
     public static String cookie;
