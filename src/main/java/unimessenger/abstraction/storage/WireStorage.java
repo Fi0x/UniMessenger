@@ -21,15 +21,15 @@ public class WireStorage
     public static String cookie;
     private static Timestamp bearerExpiringTime;
     public static Timestamp lastNotification = null;
-    public static String projectDirectory;
+    public static String storageDirectory;
     private static String storageFile;
     public static WireProfile selfProfile = new WireProfile();
     public static ArrayList<WireConversation> conversations = new ArrayList<>();
 
     public static void setProjectDirectory()
     {
-        projectDirectory = System.getProperty("User.dir").replace("\\", "/"+"/DataStorage");
-        storageFile = projectDirectory + "/access.json";
+        storageDirectory = System.getProperty("User.dir").replace("\\", "/" + "/DataStorage");
+        storageFile = storageDirectory + "/access.json";
     }
 
     public static void saveDataInFile(String accessCookie)
@@ -77,8 +77,10 @@ public class WireStorage
     public static boolean isBearerTokenStillValid()
     {
         if(bearerToken == null) Outputs.create("Bearer token is null").verbose().INFO().print();
-        else if(bearerExpiringTime == null) Outputs.create("Bearer token has no expiring time").verbose().INFO().print();
-        else if(bearerExpiringTime.getTime() <= System.currentTimeMillis()) Outputs.create("Bearer token expired").verbose().INFO().print();
+        else if(bearerExpiringTime == null)
+            Outputs.create("Bearer token has no expiring time").verbose().INFO().print();
+        else if(bearerExpiringTime.getTime() <= System.currentTimeMillis())
+            Outputs.create("Bearer token expired").verbose().INFO().print();
         else return true;
         return false;
     }

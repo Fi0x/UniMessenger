@@ -5,35 +5,42 @@ import unimessenger.userinteraction.Outputs;
 import java.io.*;
 import java.util.LinkedList;
 
-public class ConversationHandler implements Serializable {
+public class ConversationHandler implements Serializable
+{
 
-    private static final String FILEPATH=WireStorage.projectDirectory;
+    private static final String FILEPATH = WireStorage.storageDirectory + "/Chats";
 
     private static ConversationHandler cH;
 
     private LinkedList<Conversation> conversations;
 
-    public ConversationHandler(){
+    public ConversationHandler()
+    {
         conversations = new LinkedList<Conversation>();
     }
 
-    public LinkedList<Conversation> getConversations(){
+    public LinkedList<Conversation> getConversations()
+    {
         return conversations;
     }
 
-    public void newConversation(Conversation c){
+    public void newConversation(Conversation c)
+    {
         conversations.add(c);
     }
 
     /*
-    * Returns a conversation by ID
-    * Returns null if conv is not found
-    *
-    *
-    * */
-    public Conversation getConvByID(String convID){
-        for(Conversation c : conversations){
-            if(c.getConvID()==convID){
+     * Returns a conversation by ID
+     * Returns null if conv is not found
+     *
+     *
+     * */
+    public Conversation getConvByID(String convID)
+    {
+        for(Conversation c : conversations)
+        {
+            if(c.getConvID() == convID)
+            {
                 return c;
             }
         }
@@ -41,15 +48,19 @@ public class ConversationHandler implements Serializable {
     }
 
     //TODO test
-    public static ConversationHandler getInstance(){
-        if(cH == null){
-            try (FileInputStream fis = new FileInputStream(FILEPATH);
-                 ObjectInputStream ois = new ObjectInputStream(fis)) {
+    public static ConversationHandler getInstance()
+    {
+        if(cH == null)
+        {
+            try(FileInputStream fis = new FileInputStream(FILEPATH);
+                ObjectInputStream ois = new ObjectInputStream(fis))
+            {
 
                 // read object from file
                 cH = (ConversationHandler) ois.readObject();
 
-            } catch (IOException | ClassNotFoundException ex) {
+            } catch(IOException | ClassNotFoundException ex)
+            {
                 Outputs.create("ConnectionHandler not on disc or not loaded, Generating new one");
                 cH = new ConversationHandler();
             }
@@ -57,19 +68,24 @@ public class ConversationHandler implements Serializable {
         return cH;
     }
 
-    public static void save(){
-        try {
+    public static void save()
+    {
+        try
+        {
             FileOutputStream fileOut = new FileOutputStream(FILEPATH);
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
             objectOut.writeObject(cH);
             objectOut.close();
 
-        } catch (Exception ex) {
+        } catch(Exception ex)
+        {
             ex.printStackTrace();
         }
     }
+
     @Deprecated
-    public static void Test(){
+    public static void Test()
+    {
         ConversationHandler ch = ConversationHandler.getInstance();
         String PartnerReadable = "Partner";
         ch.newConversation(new Conversation("1234", "sadf", PartnerReadable));
