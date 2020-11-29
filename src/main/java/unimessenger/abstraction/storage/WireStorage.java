@@ -21,10 +21,17 @@ public class WireStorage
     public static String cookie;
     private static Timestamp bearerExpiringTime;
     public static Timestamp lastNotification = null;
-    public static final String storageFile = System.getProperty("User.dir").replace("\\", "/")+"/DataStorage/access.json";
+    public static String projectDirectory;
+    private static String storageFile;
 
     public static WireProfile selfProfile = new WireProfile();
     public static ArrayList<WireConversation> conversations = new ArrayList<>();
+
+    public static void setProjectDirectory()
+    {
+        projectDirectory = System.getProperty("User.dir").replace("\\", "/");
+        storageFile = projectDirectory + "/DataStorage/access.json";
+    }
 
     public static void saveDataInFile(String accessCookie)
     {
