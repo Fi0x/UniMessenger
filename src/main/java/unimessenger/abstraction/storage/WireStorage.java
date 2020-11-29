@@ -23,14 +23,13 @@ public class WireStorage
     public static Timestamp lastNotification = null;
     public static String projectDirectory;
     private static String storageFile;
-
     public static WireProfile selfProfile = new WireProfile();
     public static ArrayList<WireConversation> conversations = new ArrayList<>();
 
     public static void setProjectDirectory()
     {
-        projectDirectory = System.getProperty("User.dir").replace("\\", "/");
-        storageFile = projectDirectory + "/DataStorage/access.json";
+        projectDirectory = System.getProperty("User.dir").replace("\\", "/"+"/DataStorage");
+        storageFile = projectDirectory + "/access.json";
     }
 
     public static void saveDataInFile(String accessCookie)

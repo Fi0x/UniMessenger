@@ -1,6 +1,7 @@
 package unimessenger.abstraction.encryption.WireCrypto;
 
 import com.wire.bots.cryptobox.CryptoBox;
+import unimessenger.abstraction.storage.WireStorage;
 
 public class CryptoFactory {
     private static CryptoBox b;
@@ -8,7 +9,7 @@ public class CryptoFactory {
     public static CryptoBox getCryptoInstance(){
         if (b == null){
             try {
-                b = CryptoBox.open(System.getProperty("User.dir").replace("\\", "/")+"/DataStorage/Box");
+                b = CryptoBox.open(WireStorage.projectDirectory);
             } catch (Exception e) {
                 e.printStackTrace();
             }
