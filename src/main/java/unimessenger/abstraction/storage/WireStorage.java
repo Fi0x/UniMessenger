@@ -28,7 +28,9 @@ public class WireStorage
 
     public static void setProjectDirectory()
     {
-        storageDirectory = System.getProperty("User.dir").replace("\\", "/" + "/DataStorage");
+        storageDirectory = System.getProperty("User.dir");
+        if(storageDirectory == null) storageDirectory = "..";
+        else storageDirectory = storageDirectory.replace("\\", "/" + "/DataStorage");
         storageFile = storageDirectory + "/access.json";
     }
 
