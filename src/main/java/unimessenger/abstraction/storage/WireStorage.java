@@ -6,6 +6,7 @@ import unimessenger.abstraction.storage.MessengerStructure.WireConversation;
 import unimessenger.abstraction.storage.MessengerStructure.WireProfile;
 import unimessenger.userinteraction.Outputs;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -29,9 +30,10 @@ public class WireStorage
     public static void setProjectDirectory()
     {
         storageDirectory = System.getProperty("User.dir");
-        if(storageDirectory == null) storageDirectory = "..";
-        else storageDirectory = storageDirectory.replace("\\", "/" + "/DataStorage");
+        if(storageDirectory == null) storageDirectory = "../DataStorage";
+        else storageDirectory = storageDirectory.replace("\\", "/") + "/DataStorage";
         storageFile = storageDirectory + "/access.json";
+        new File(storageDirectory).mkdirs();
     }
 
     public static void saveDataInFile(String accessCookie)
