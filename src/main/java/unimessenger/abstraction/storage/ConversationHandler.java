@@ -7,7 +7,7 @@ import java.util.LinkedList;
 
 public class ConversationHandler implements Serializable {
 
-    private static final String FILEPATH="DataStorage/Chats";
+    private static final String FILEPATH=System.getProperty("User.dir").replace("\\", "/")+"../DataStorage/Chats";
 
     private static ConversationHandler cH;
 

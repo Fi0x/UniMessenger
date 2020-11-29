@@ -21,7 +21,7 @@ public class WireStorage
     public static String cookie;
     private static Timestamp bearerExpiringTime;
     public static Timestamp lastNotification = null;
-    public static final String storageFile = "DataStorage/access.json";
+    public static final String storageFile = System.getProperty("User.dir").replace("\\", "/")+"../DataStorage/access.json";
 
     public static WireProfile selfProfile = new WireProfile();
     public static ArrayList<WireConversation> conversations = new ArrayList<>();

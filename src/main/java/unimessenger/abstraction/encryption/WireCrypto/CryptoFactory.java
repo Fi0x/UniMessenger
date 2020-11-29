@@ -8,7 +8,7 @@ public class CryptoFactory {
     public static CryptoBox getCryptoInstance(){
         if (b == null){
             try {
-                b = CryptoBox.open("DataStorage/Box");
+                b = CryptoBox.open(System.getProperty("User.dir").replace("\\", "/")+"/DataStorage/Box");
             } catch (Exception e) {
                 e.printStackTrace();
             }
