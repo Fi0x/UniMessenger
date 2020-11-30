@@ -62,6 +62,7 @@ public class Inputs
         System.out.println("Empty line to finish text input");
 
         String ret = "";
+        boolean firstLine = true;
         while(true)
         {
             String line = "";
@@ -73,7 +74,8 @@ public class Inputs
                 Outputs.create("Problem with reading a line", "Inputs").debug().ERROR().print();
             }
             if(line.equals("")) break;
-            ret += System.lineSeparator();
+            if(firstLine) firstLine = false;
+            else ret += System.lineSeparator();
             ret += line;
         }
 

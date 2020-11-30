@@ -17,8 +17,6 @@ public class MenuChat
 {
     public static void showMenu()
     {
-        //TODO: Show chat of current service
-
         System.out.println("1) Show Messages");
         System.out.println("2) Write new Message");
         System.out.println("3) Show all Conversations in '" + CLI.currentService + "'");
@@ -50,7 +48,8 @@ public class MenuChat
                 CLI.currentMenu = MENU.EXIT;
                 break;
             case 6:
-                if(CLI.currentService == SERVICE.WIRE) new WireMessageSender().sendMessage(CLI.currentChatID, "");//TODO: Fix to send correct ping message
+                //TODO: Fix to send correct ping message
+                if(CLI.currentService == SERVICE.WIRE) new WireMessageSender().sendMessage(CLI.currentChatID, "");
                 break;
             default:
                 Outputs.create("Invalid option").always().WARNING().print();
@@ -106,7 +105,8 @@ public class MenuChat
 
         for(Message msg : messages)
         {
-            System.out.println(msg.getTime() + " -- " + msg.getSenderID() + ": " + msg.getText());//TODO: Change to display actual name
+            //TODO: Change to display actual name
+            System.out.println(msg.getTime() + " -- " + msg.getSenderID() + ": " + msg.getText());
         }
     }
 }

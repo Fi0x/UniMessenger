@@ -15,7 +15,6 @@ public class Prekey
         this.key = key;
     }
 
-    //Generate the Prekey in our format from a com.wire.bots.cryptobox.PreKey
     Prekey(PreKey pk)
     {
         this.ID = pk.id;
@@ -36,6 +35,4 @@ public class Prekey
     {
         return key;
     }
-
-
 }

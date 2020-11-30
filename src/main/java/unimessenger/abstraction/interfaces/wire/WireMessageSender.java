@@ -117,7 +117,6 @@ public class WireMessageSender
         String url = URL.WIRE + URL.WIRE_USERS + "/" + userID + URL.WIRE_PREKEY + "/" + clientID + URL.wireBearerToken();
         String[] headers = new String[]{
                 Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
-
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
 
         if(response == null) Outputs.create("Could not get a prekey for a client", "WireMessages").debug().WARNING().print();
