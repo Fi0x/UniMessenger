@@ -31,7 +31,6 @@ public class WireData implements IData
         {
             if(con.id.equals(id))
             {
-                //TODO: Return name of chat partner if conversation type is NORMAL
                 return con.conversationName;
             }
         }
