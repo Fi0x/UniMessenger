@@ -16,7 +16,6 @@ import unimessenger.util.enums.CONVERSATIONTYPE;
 import unimessenger.util.enums.REQUEST;
 
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
 
 public class WireConversations implements IConversations
 {
@@ -37,19 +36,28 @@ public class WireConversations implements IConversations
             //TODO: If "has more" key in body is true, ask for more conversations
             //TODO: Sort chats after most recent activity
 
-            ArrayList<WireConversation> newConList = new ArrayList<>();
-
             try
             {
                 JSONObject obj = (JSONObject) new JSONParser().parse(response.body());
                 JSONArray conArr = (JSONArray) obj.get("conversations");
                 for(Object o : conArr)
                 {
-                    WireConversation con = getConversation((JSONObject) new JSONParser().parse(o.toString()));
-                    if(con.conversationName != null) newConList.add(con);
+                    WireConversation newConversation = getConversation((JSONObject) new JSONParser().parse(o.toString()));
+                    if(newConversation.conversationName != null)
+                    {
+                        boolean exists = false;
+                        for(WireConversation con : WireStorage.conversations)
+                        {
+                            if(con.id.equals(newConversation.id))
+                            {
+                                exists = true;
+                                break;
+                            }
+                        }
+                        if(!exists) WireStorage.conversations.add(newConversation);
+                    }
                 }
 
-                WireStorage.conversations = newConList;
                 Outputs.create("Successfully reloaded all conversations").verbose().INFO().print();
                 return true;
             } catch(ParseException ignored)

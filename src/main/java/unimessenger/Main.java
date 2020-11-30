@@ -24,9 +24,9 @@ public class Main
         if(arguments.contains("-v")) verbose = true;
 
         Outputs.create("Uni-Messenger starting...").verbose().INFO().print();
-        Outputs.create("Setting directory...").verbose().INFO().print();
+        Outputs.create("Initializing storage...").verbose().INFO().print();
         WireStorage.init();
-        Outputs.create("Directory set").verbose().INFO().print();
+        Outputs.create("Storage initialized").verbose().INFO().print();
         Outputs.create("Loading login files...").verbose().INFO().print();
         WireStorage.readDataFromFiles();
         Outputs.create("File-loading finished").verbose().INFO().print();

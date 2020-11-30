@@ -6,7 +6,6 @@ import unimessenger.abstraction.storage.MessengerStructure.WireConversation;
 import unimessenger.abstraction.storage.MessengerStructure.WireProfile;
 import unimessenger.userinteraction.Outputs;
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,26 +15,36 @@ import java.util.ArrayList;
 public class WireStorage
 {
     public static String userID;
-    public static String clientID = null;
-    public static boolean persistent = false;
+    public static String clientID;
+    public static boolean persistent;
     private static String bearerToken;
     public static String cookie;
     private static Timestamp bearerExpiringTime;
-    public static Timestamp lastNotification = null;
+    public static Timestamp lastNotification;
+    public static WireProfile selfProfile;
+    public static ArrayList<WireConversation> conversations;
+
     public static String storageDirectory;
-    public static ConversationHandler convH;
     private static String storageFile;
-    public static WireProfile selfProfile = new WireProfile();
-    public static ArrayList<WireConversation> conversations = new ArrayList<>();
+    public static ConversationHandler convH;
 
     public static void init()
     {
+        userID = null;
+        clientID = null;
+        persistent = false;
+        bearerToken = null;
+        cookie = null;
+        bearerExpiringTime = null;
+        lastNotification = null;
+        selfProfile = new WireProfile();
+        conversations = new ArrayList<>();
+
         storageDirectory = System.getProperty("User.dir");
         if(storageDirectory == null) storageDirectory = "../DataStorage";
         else storageDirectory = storageDirectory.replace("\\", "/") + "/DataStorage";
         storageFile = storageDirectory + "/access.json";
 
-        System.out.println("Created Storage at :" + storageDirectory + "bool: "+ new File(storageDirectory).mkdirs());
         convH = ConversationHandler.getInstance();
     }
 

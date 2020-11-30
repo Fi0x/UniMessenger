@@ -69,11 +69,12 @@ public class WireConversation
     }
     public ArrayList<Message> getNewMessages()
     {
-        ArrayList<Message> msgs = newMessages;
+        ArrayList<Message> msgs = new ArrayList<>();
 
         while(!newMessages.isEmpty())
         {
             messages.add(newMessages.get(0));
+            msgs.add(newMessages.get(0));
             newMessages.remove(0);
         }
         return msgs;
