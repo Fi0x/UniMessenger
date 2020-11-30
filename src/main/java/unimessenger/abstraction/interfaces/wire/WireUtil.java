@@ -189,6 +189,7 @@ public class WireUtil implements IUtil
         Prekey lastKey = WireCryptoHandler.generateLastPrekey();
 
         JSONObject lastkey = new JSONObject();
+        assert lastKey != null;
         lastkey.put("key", lastKey.getKey());
         lastkey.put("id", lastKey.getID());
         obj.put("lastkey", lastkey);

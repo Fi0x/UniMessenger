@@ -6,8 +6,8 @@ import java.util.Base64;
 
 public class Prekey
 {
-    private int ID;
-    private String key;
+    private final int ID;
+    private final String key;
 
     public Prekey(int ID, String key)
     {
@@ -19,11 +19,6 @@ public class Prekey
     {
         this.ID = pk.id;
         this.key = Base64.getEncoder().encodeToString(pk.data);
-    }
-
-    public void setKey(String key)
-    {
-        this.key = key;
     }
 
     public int getID()

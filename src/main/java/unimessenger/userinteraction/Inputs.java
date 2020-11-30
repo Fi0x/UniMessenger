@@ -61,7 +61,7 @@ public class Inputs
         System.out.println(question);
         System.out.println("Empty line to finish text input");
 
-        String ret = "";
+        StringBuilder ret = new StringBuilder();
         boolean firstLine = true;
         while(true)
         {
@@ -75,10 +75,10 @@ public class Inputs
             }
             if(line.equals("")) break;
             if(firstLine) firstLine = false;
-            else ret += System.lineSeparator();
-            ret += line;
+            else ret.append(System.lineSeparator());
+            ret.append(line);
         }
 
-        return ret;
+        return ret.toString();
     }
 }

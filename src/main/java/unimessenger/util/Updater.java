@@ -25,7 +25,10 @@ public class Updater implements Runnable
                 {
                     APIAccess access = new APIAccess();
                     access.getConversationInterface(service).requestAllConversations();//TODO: Refresh only changed conversations if possible
-                    access.getMessageInterface(service).receiveNewMessages();//TODO: Might need to change to /await
+                    if(!access.getMessageInterface(service).receiveNewMessages())//TODO: Might need to change to /await
+                    {
+                        Outputs.create("Error receiving new messages", this.getClass().getName()).verbose().WARNING().print();
+                    }
                 } else removeService(service);
             }
             try

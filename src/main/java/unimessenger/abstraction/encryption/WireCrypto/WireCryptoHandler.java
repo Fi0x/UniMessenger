@@ -97,9 +97,8 @@ public class WireCryptoHandler
         UUID id = UUID.randomUUID();
         Messages.Text.Builder builder = Messages.Text.newBuilder();
         builder.setContent(message);
-        byte[] content = Messages.GenericMessage.newBuilder().setMessageId(id.toString()).setText(builder).build().toByteArray();
 
-        return content;
+        return Messages.GenericMessage.newBuilder().setMessageId(id.toString()).setText(builder).build().toByteArray();
     }
 
     private static PreKey toCryptoPreKey(Prekey old)

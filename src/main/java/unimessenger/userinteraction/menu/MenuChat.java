@@ -79,7 +79,7 @@ public class MenuChat
         System.out.println("3) Show a certain amount of messages");
 
         int in = Inputs.getIntAnswerFrom("Select an option");
-        ArrayList<Message> messages = null;
+        ArrayList<Message> messages;
         IData data = new APIAccess().getDataInterface(CLI.currentService);
         switch(in)
         {
