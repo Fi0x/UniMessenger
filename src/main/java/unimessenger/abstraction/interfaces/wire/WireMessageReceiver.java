@@ -70,7 +70,7 @@ public class WireMessageReceiver
     private boolean receiveMessageText(JSONObject payload)
     {
         String conversationID;
-        String senderUser;
+        String senderUser = null;
         Timestamp time = null;
         String decryptedMsg;
 
@@ -116,7 +116,7 @@ public class WireMessageReceiver
         decryptedMsg = WireCryptoHandler.decrypt(UUID.fromString(payload.get("from").toString()), data.get("sender").toString(), data.get("text").toString());
 
         WireConversation conversation = WireStorage.getConversationByID(conversationID);
-        Message msg = new Message(decryptedMsg, time);
+        Message msg = new Message(decryptedMsg, time, senderUser);
 
         if(conversation != null) conversation.addMessage(msg);
         else Outputs.create("ConversationID not found", this.getClass().getName()).debug().WARNING().print();
