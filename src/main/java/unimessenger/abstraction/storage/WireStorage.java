@@ -23,11 +23,12 @@ public class WireStorage
     private static Timestamp bearerExpiringTime;
     public static Timestamp lastNotification = null;
     public static String storageDirectory;
+    public static ConversationHandler convH;
     private static String storageFile;
     public static WireProfile selfProfile = new WireProfile();
     public static ArrayList<WireConversation> conversations = new ArrayList<>();
 
-    public static void setProjectDirectory()
+    public static void init()
     {
         storageDirectory = System.getProperty("User.dir");
         if(storageDirectory == null) storageDirectory = "../DataStorage";
@@ -35,6 +36,7 @@ public class WireStorage
         storageFile = storageDirectory + "/access.json";
 
         System.out.println("Created Storage at :" + storageDirectory + "bool: "+ new File(storageDirectory).mkdirs());
+        convH = ConversationHandler.getInstance();
     }
 
     public static void saveDataInFile(String accessCookie)
@@ -66,6 +68,7 @@ public class WireStorage
     public static void saveDataInFile()
     {
         saveDataInFile(cookie);
+        ConversationHandler.save();
     }
 
     public static void setBearerToken(String token, int ttl)
@@ -98,6 +101,7 @@ public class WireStorage
         bearerExpiringTime = null;
         lastNotification = null;
         clearFile();
+        ConversationHandler.clearFile();
     }
 
     public static void readDataFromFiles()

@@ -20,6 +20,10 @@ public class ConversationHandler implements Serializable
         conversations = new LinkedList<WireConversation>();
     }
 
+    public static void clearFile() {
+        //TODO delteFILE
+    }
+
     public LinkedList<WireConversation> getConversations()
     {
         return conversations;
@@ -64,6 +68,7 @@ public class ConversationHandler implements Serializable
             {
                 Outputs.create("ConnectionHandler not on disc or not loaded, Generating new one");
                 cH = new ConversationHandler();
+                save();
             }
         }
         return cH;

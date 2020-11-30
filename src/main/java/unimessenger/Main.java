@@ -25,7 +25,7 @@ public class Main
 
         Outputs.create("Uni-Messenger starting...").verbose().INFO().print();
         Outputs.create("Setting directory...").verbose().INFO().print();
-        WireStorage.setProjectDirectory();
+        WireStorage.init();
         Outputs.create("Directory set").verbose().INFO().print();
         Outputs.create("Loading login files...").verbose().INFO().print();
         WireStorage.readDataFromFiles();
