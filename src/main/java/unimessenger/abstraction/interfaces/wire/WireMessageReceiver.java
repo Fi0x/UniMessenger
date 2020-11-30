@@ -114,9 +114,9 @@ public class WireMessageReceiver
 
         decryptedMsg = WireCryptoHandler.decrypt(UUID.fromString(payload.get("from").toString()), data.get("sender").toString(), data.get("text").toString());
 
-        if(decryptedMsg.equals(""))
+        if(decryptedMsg.equals("") && WireStorage.getConversationByID(conversationID) != null)
         {
-            Outputs.create("You have been pinged!").always().ALERT().print();
+            Outputs.create("You have been pinged! Chat: " + WireStorage.getConversationByID(conversationID).conversationName).always().ALERT().print();
             decryptedMsg = "PING!";
         }
 
