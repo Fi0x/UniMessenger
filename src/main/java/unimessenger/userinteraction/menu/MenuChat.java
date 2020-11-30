@@ -101,7 +101,7 @@ public class MenuChat
 
         for(Message msg : messages)
         {
-            System.out.println(msg.getTime() + ": " + msg.getText());
+            System.out.println(msg.getTime() + " -- " + msg.getSenderID() + ": " + msg.getText());//TODO: Change to display actual name
         }
     }
 }

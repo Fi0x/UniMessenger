@@ -101,8 +101,7 @@ public class WireMessageReceiver
             {
                 Outputs.create("Notification filtered because of timestamp").verbose().INFO().print();
                 return false;
-            }
-            else WireStorage.lastNotification = time;
+            } else WireStorage.lastNotification = time;
         } else Outputs.create("Conversation notification has no 'time' key").verbose().WARNING().print();
 
         JSONObject data = (JSONObject) payload.get("data");
@@ -114,6 +113,12 @@ public class WireMessageReceiver
         }
 
         decryptedMsg = WireCryptoHandler.decrypt(UUID.fromString(payload.get("from").toString()), data.get("sender").toString(), data.get("text").toString());
+
+        if(decryptedMsg.equals(""))
+        {
+            Outputs.create("You have been pinged!").always().ALERT().print();
+            decryptedMsg = "PING!";
+        }
 
         WireConversation conversation = WireStorage.getConversationByID(conversationID);
         Message msg = new Message(decryptedMsg, time, senderUser);
