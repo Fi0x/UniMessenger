@@ -1,8 +1,10 @@
 package unimessenger.abstraction.storage.MessengerStructure;
 
+import unimessenger.abstraction.storage.Message;
 import unimessenger.util.enums.CONVERSATIONTYPE;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class WireConversation
 {
@@ -18,6 +20,7 @@ public class WireConversation
     public String last_event_time;
     public String message_timer;
     public String last_event;
+    private LinkedList<Message> messages;
 
     public WireConversation()
     {
@@ -33,6 +36,7 @@ public class WireConversation
         last_event_time = null;
         message_timer = null;
         last_event = null;
+        messages = new LinkedList<Message>();
     }
 
     public void setConversationType(int type)
@@ -52,5 +56,14 @@ public class WireConversation
                 conversationType = CONVERSATIONTYPE.UNKNOWN;
                 break;
         }
+    }
+
+    public void addMessage(Message m)
+    {
+        messages.add(m);
+    }
+    public LinkedList<Message> getMessages()
+    {
+        return messages;
     }
 }

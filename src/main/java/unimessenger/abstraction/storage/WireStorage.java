@@ -128,4 +128,13 @@ public class WireStorage
             Outputs.create("Could not clear Wire file", "Wire Storage").debug().WARNING().print();
         }
     }
+
+    public static WireConversation getConversationByID(String conversationID)
+    {
+        for(WireConversation con : conversations)
+        {
+            if(con.id.equals(conversationID)) return con;
+        }
+        return null;
+    }
 }

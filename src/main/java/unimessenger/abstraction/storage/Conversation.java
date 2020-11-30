@@ -3,6 +3,7 @@ package unimessenger.abstraction.storage;
 import java.io.Serializable;
 import java.util.LinkedList;
 
+@Deprecated
 public class Conversation implements Serializable {
     private String convID;
     private String partnerID;
