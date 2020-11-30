@@ -6,6 +6,7 @@ import unimessenger.abstraction.storage.MessengerStructure.WireConversation;
 import unimessenger.abstraction.storage.MessengerStructure.WireProfile;
 import unimessenger.userinteraction.Outputs;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -40,10 +41,13 @@ public class WireStorage
         selfProfile = new WireProfile();
         conversations = new ArrayList<>();
 
-        storageDirectory = System.getProperty("User.dir");
+        storageDirectory = System.getProperty("user.dir");
         if(storageDirectory == null) storageDirectory = "../DataStorage";
         else storageDirectory = storageDirectory.replace("\\", "/") + "/DataStorage";
         storageFile = storageDirectory + "/access.json";
+
+        if(new File(storageDirectory).mkdirs()) Outputs.create("Storage folder successfully created").verbose().INFO().print();
+        else Outputs.create("Storage folder not created", "WireStorage").debug().WARNING().print();
 
         convH = ConversationHandler.getInstance();
     }
