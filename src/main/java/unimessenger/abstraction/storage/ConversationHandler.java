@@ -20,7 +20,8 @@ public class ConversationHandler implements Serializable
         conversations = new ArrayList<>();
     }
 
-    public static void clearFile() {
+    public static void clearFile()
+    {
         //TODO delteFILE
     }
 
@@ -34,7 +35,8 @@ public class ConversationHandler implements Serializable
         conversations.add(c);
     }
 
-    public void clearConvs(){
+    public void clearConvs()
+    {
         conversations = new ArrayList<>();
     }
 
@@ -43,17 +45,6 @@ public class ConversationHandler implements Serializable
      * Returns null if conv is not found
      *
      * */
-    public WireConversation getConvByID(String convID)
-    {
-        for(WireConversation c : conversations)
-        {
-            if(c.id == convID)
-            {
-                return c;
-            }
-        }
-        return null;
-    }
 
     public static ConversationHandler getInstance()
     {

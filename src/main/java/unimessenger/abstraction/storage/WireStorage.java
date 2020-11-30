@@ -76,16 +76,18 @@ public class WireStorage
                 Outputs.create("Could not write to Wire file", "WireStorage").debug().WARNING().print();
             }
         }
+
+        convH.clearConvs();
+        for(WireConversation c : conversations)
+        {
+            convH.newConversation(c);
+        }
+        ConversationHandler.save();
     }
 
     public static void saveDataInFile()
     {
         saveDataInFile(cookie);
-        convH.clearConvs();
-        for(WireConversation c : conversations){
-            convH.newConversation(c);
-        }
-        ConversationHandler.save();
     }
 
     public static void setBearerToken(String token, int ttl)
@@ -157,6 +159,10 @@ public class WireStorage
 
     public static WireConversation getConversationByID(String conversationID)
     {
-        return convH.getConvByID(conversationID);
+        for(WireConversation c : conversations)
+        {
+            if(c.id.equals(conversationID)) return c;
+        }
+        return null;
     }
 }
