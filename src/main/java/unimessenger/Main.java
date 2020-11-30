@@ -31,10 +31,6 @@ public class Main
         WireStorage.readDataFromFiles();
         Outputs.create("File-loading finished").verbose().INFO().print();
 
-        Outputs.create("Loading stored messages...").verbose().INFO().print();
-        Outputs.create("Missing function", "Main").always().ERROR().print();//TODO: Load files with previously saved messages of all messengers
-        Outputs.create("Message loading finished").verbose().INFO().print();
-
         Outputs.create("Creating new thread for updater").verbose().INFO().print();
         updt = new Thread(new Updater());
         Outputs.create("Updater thread created").verbose().INFO().print();

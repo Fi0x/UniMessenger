@@ -81,6 +81,10 @@ public class WireStorage
     public static void saveDataInFile()
     {
         saveDataInFile(cookie);
+        convH.clearConvs();
+        for(WireConversation c : conversations){
+            convH.newConversation(c);
+        }
         ConversationHandler.save();
     }
 
@@ -127,6 +131,10 @@ public class WireStorage
             bearerExpiringTime = new Timestamp((long) obj.get("bearerTime"));
             clientID = obj.get("clientID").toString();
             lastNotification = new Timestamp((long) obj.get("lastNotification"));
+
+            //Loading the messages and cons into conversations list
+            conversations = convH.getConversations();
+
         } catch(Exception ignored)
         {
             Outputs.create("Failed to load Wire file", "WireStorage").debug().WARNING().print();
@@ -149,10 +157,6 @@ public class WireStorage
 
     public static WireConversation getConversationByID(String conversationID)
     {
-        for(WireConversation con : conversations)
-        {
-            if(con.id.equals(conversationID)) return con;
-        }
-        return null;
+        return convH.getConvByID(conversationID);
     }
 }
