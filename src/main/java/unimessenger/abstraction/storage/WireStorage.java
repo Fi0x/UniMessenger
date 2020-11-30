@@ -33,7 +33,8 @@ public class WireStorage
         if(storageDirectory == null) storageDirectory = "../DataStorage";
         else storageDirectory = storageDirectory.replace("\\", "/") + "/DataStorage";
         storageFile = storageDirectory + "/access.json";
-        new File(storageDirectory).mkdirs();
+
+        System.out.println("Created Storage at :" + storageDirectory + "bool: "+ new File(storageDirectory).mkdirs());
     }
 
     public static void saveDataInFile(String accessCookie)

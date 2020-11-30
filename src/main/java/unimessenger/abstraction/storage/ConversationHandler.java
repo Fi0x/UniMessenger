@@ -1,5 +1,6 @@
 package unimessenger.abstraction.storage;
 
+import unimessenger.abstraction.storage.MessengerStructure.WireConversation;
 import unimessenger.userinteraction.Outputs;
 
 import java.io.*;
@@ -12,19 +13,19 @@ public class ConversationHandler implements Serializable
 
     private static ConversationHandler cH;
 
-    private LinkedList<Conversation> conversations;
+    private LinkedList<WireConversation> conversations;
 
     public ConversationHandler()
     {
-        conversations = new LinkedList<Conversation>();
+        conversations = new LinkedList<WireConversation>();
     }
 
-    public LinkedList<Conversation> getConversations()
+    public LinkedList<WireConversation> getConversations()
     {
         return conversations;
     }
 
-    public void newConversation(Conversation c)
+    public void newConversation(WireConversation c)
     {
         conversations.add(c);
     }
@@ -35,11 +36,11 @@ public class ConversationHandler implements Serializable
      *
      *
      * */
-    public Conversation getConvByID(String convID)
+    public WireConversation getConvByID(String convID)
     {
-        for(Conversation c : conversations)
+        for(WireConversation c : conversations)
         {
-            if(c.getConvID() == convID)
+            if(c.id == convID)
             {
                 return c;
             }
@@ -86,13 +87,6 @@ public class ConversationHandler implements Serializable
     @Deprecated
     public static void Test()
     {
-        ConversationHandler ch = ConversationHandler.getInstance();
-        String PartnerReadable = "Partner";
-        ch.newConversation(new Conversation("1234", "sadf", PartnerReadable));
-        ConversationHandler.save();
-        cH = null;
-        ch = ConversationHandler.getInstance();
-        System.out.println(ch.getConversations().get(0).getPartnerReadable());
-        System.out.println("Here Assert complete");
+
     }
 }
