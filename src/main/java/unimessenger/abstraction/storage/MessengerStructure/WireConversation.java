@@ -3,9 +3,10 @@ package unimessenger.abstraction.storage.MessengerStructure;
 import unimessenger.abstraction.storage.Message;
 import unimessenger.util.enums.CONVERSATIONTYPE;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class WireConversation
+public class WireConversation implements Serializable
 {
     public ArrayList<String> access;
     public String creatorID;
