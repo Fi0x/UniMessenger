@@ -4,7 +4,6 @@ import unimessenger.abstraction.storage.Message;
 import unimessenger.util.enums.CONVERSATIONTYPE;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class WireConversation
 {
@@ -20,7 +19,8 @@ public class WireConversation
     public String last_event_time;
     public String message_timer;
     public String last_event;
-    private LinkedList<Message> messages;
+    private ArrayList<Message> newMessages;
+    private ArrayList<Message> messages;
 
     public WireConversation()
     {
@@ -36,7 +36,8 @@ public class WireConversation
         last_event_time = null;
         message_timer = null;
         last_event = null;
-        messages = new LinkedList<Message>();
+        newMessages = new ArrayList<>();
+        messages = new ArrayList<>();
     }
 
     public void setConversationType(int type)
@@ -60,10 +61,21 @@ public class WireConversation
 
     public void addMessage(Message m)
     {
-        messages.add(m);
+        newMessages.add(m);
     }
-    public LinkedList<Message> getMessages()
+    public ArrayList<Message> getMessages()
     {
         return messages;
+    }
+    public ArrayList<Message> getNewMessages()
+    {
+        ArrayList<Message> msgs = newMessages;
+
+        while(!newMessages.isEmpty())
+        {
+            messages.add(newMessages.get(0));
+            newMessages.remove(0);
+        }
+        return msgs;
     }
 }

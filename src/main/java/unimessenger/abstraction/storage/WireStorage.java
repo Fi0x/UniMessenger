@@ -133,7 +133,7 @@ public class WireStorage
     {
         for(WireConversation con : conversations)
         {
-            if(con.id.equals(conversationID)) return con;
+            if(con.id == conversationID) return con;
         }
         return null;
     }

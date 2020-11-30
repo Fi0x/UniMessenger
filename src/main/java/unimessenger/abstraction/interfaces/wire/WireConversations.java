@@ -134,6 +134,6 @@ public class WireConversations implements IConversations
     private static String getNameFromPartnerID(String userID)
     {
         //TODO: Get name of specified user
-        return null;
+        return userID;
     }
 }
