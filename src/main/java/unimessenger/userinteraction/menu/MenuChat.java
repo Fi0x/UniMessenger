@@ -3,6 +3,7 @@ package unimessenger.userinteraction.menu;
 import unimessenger.abstraction.APIAccess;
 import unimessenger.abstraction.interfaces.IData;
 import unimessenger.abstraction.interfaces.IMessages;
+import unimessenger.abstraction.interfaces.wire.WireMessageSender;
 import unimessenger.abstraction.storage.Message;
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Inputs;
@@ -23,6 +24,7 @@ public class MenuChat
         System.out.println("3) Show all Conversations in '" + CLI.currentService + "'");
         System.out.println("4) Show Main Menu");
         System.out.println("5) Exit Program");
+        if(CLI.currentService == SERVICE.WIRE) System.out.println("6) PING!");
         int userInput = Inputs.getIntAnswerFrom("Please enter the number of the option you would like to choose.");
         switch(userInput)
         {
@@ -46,6 +48,9 @@ public class MenuChat
                 break;
             case 5:
                 CLI.currentMenu = MENU.EXIT;
+                break;
+            case 6:
+                if(CLI.currentService == SERVICE.WIRE) new WireMessageSender().sendMessage(CLI.currentChatID, "");//TODO: Fix to send correct ping message
                 break;
             default:
                 Outputs.create("Invalid option").always().WARNING().print();
