@@ -42,7 +42,7 @@ public class WireConversations implements IConversations
                 for(Object o : conArr)
                 {
                     WireConversation newConversation = getConversation((JSONObject) new JSONParser().parse(o.toString()));
-                    if(newConversation.conversationName != null)
+                    if(newConversation.getConversationName() != null)
                     {
                         boolean exists = false;
                         for(WireConversation con : WireStorage.conversations)
@@ -98,9 +98,9 @@ public class WireConversations implements IConversations
             {
                 String partnerID = con.members.get(1).id;
                 String conName = getNameFromPartnerID(partnerID);
-                if(conName != null) con.conversationName = conName;
+                if(conName != null) con.setConversationName(conName);
             }
-        } else if(conObj.get("name") != null) con.conversationName = conObj.get("name").toString();
+        } else if(conObj.get("name") != null) con.setConversationName(conObj.get("name").toString());
         if(conObj.get("team") != null) con.team = conObj.get("team").toString();
         con.id = conObj.get("id").toString();
         if(conObj.get("receipt_mode") != null) con.receipt_mode = conObj.get("receipt_mode").toString();
