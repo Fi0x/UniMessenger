@@ -137,9 +137,24 @@ public class WireConversations implements IConversations
 
         return person;
     }
-    private static String getNameFromPartnerID(String userID)
+    private static String getNameFromPartnerID(String userID) throws ParseException
     {
-        //TODO: Get name of specified user
+        String url = URL.WIRE + URL.WIRE_USERS + URL.wireBearerToken() + "&ids=" + userID;
+        String[] headers = new String[]{
+                Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
+        HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
+
+        if(response == null) Outputs.create("Could not get a username", "WireConversations").verbose().WARNING().print();
+        else if(response.statusCode() == 200)
+        {
+            JSONArray arr = (JSONArray) new JSONParser().parse(response.body());
+            if(arr.size() > 0)
+            {
+                JSONObject user = (JSONObject) arr.get(0);
+                return user.get("name").toString();
+            } else Outputs.create("No user returned", "WireConversations").debug().WARNING().print();
+        } else Outputs.create("Response code of getting user was " + response.statusCode()).verbose().WARNING().print();
+
         return userID;
     }
 }
