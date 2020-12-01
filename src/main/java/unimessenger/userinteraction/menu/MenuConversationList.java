@@ -1,14 +1,18 @@
 package unimessenger.userinteraction.menu;
 
 import unimessenger.abstraction.APIAccess;
+import unimessenger.abstraction.URL;
 import unimessenger.abstraction.interfaces.IData;
+import unimessenger.communication.HTTP;
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Inputs;
 import unimessenger.userinteraction.Outputs;
 import unimessenger.util.Updater;
 import unimessenger.util.enums.MENU;
+import unimessenger.util.enums.REQUEST;
 import unimessenger.util.enums.SERVICE;
 
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 
 public class MenuConversationList
@@ -39,6 +43,9 @@ public class MenuConversationList
                 break;
             case 5:
                 CLI.currentMenu = MENU.EXIT;
+                break;
+            case 10:
+                TestUsers();
                 break;
             default:
                 Outputs.create("Invalid option").always().WARNING().print();
@@ -112,5 +119,15 @@ public class MenuConversationList
 
         System.out.println("There was a logout error");
         return false;
+    }
+
+    @Deprecated
+    private static void TestUsers(){
+        String url = "https://prod-nginz-https.wire.com/users?ids=e22e08fe-083a-464b-bd39-606b25771da4"+URL.wireBearerToken();
+        String[] headers = new String[]{
+                "accept", "*/*"};
+        String body = "";
+        HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, body, headers);
+        System.out.println("Response: " + response.body());
     }
 }
