@@ -1,6 +1,7 @@
 package unimessenger.userinteraction.menu;
 
 import unimessenger.abstraction.APIAccess;
+import unimessenger.abstraction.Headers;
 import unimessenger.abstraction.URL;
 import unimessenger.abstraction.interfaces.IData;
 import unimessenger.communication.HTTP;
@@ -122,12 +123,13 @@ public class MenuConversationList
     }
 
     @Deprecated
-    private static void TestUsers(){
-        String url = "https://prod-nginz-https.wire.com/users?ids=e22e08fe-083a-464b-bd39-606b25771da4"+URL.wireBearerToken();
+    private static void TestUsers()
+    {
+        String url = URL.WIRE + URL.WIRE_USERS + URL.wireBearerToken() + "&ids=e22e08fe-083a-464b-bd39-606b25771da4";
         String[] headers = new String[]{
-                "accept", "*/*"};
-        String body = "";
-        HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, body, headers);
+                Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
+        HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
+        System.out.println("Code: " + response.statusCode());
         System.out.println("Response: " + response.body());
     }
 }
