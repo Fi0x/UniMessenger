@@ -1,7 +1,5 @@
 package unimessenger.abstraction.wire.crypto;
 
-import com.google.protobuf.InvalidProtocolBufferException;
-import com.waz.model.Messages;
 import com.wire.bots.cryptobox.CryptoBox;
 import com.wire.bots.cryptobox.CryptoException;
 import com.wire.bots.cryptobox.PreKey;
@@ -79,53 +77,6 @@ public class WireCryptoHandler
         }
 
         return dec;
-    }
-
-    @Deprecated
-    public static String encrypt(String userID, String clientID, Prekey pk, String msg)
-    {
-        byte[] content;
-
-        if(msg.equals("")) content = getByteStreamForPing();
-        else content = getByteStreamForMessage(msg);
-
-        return encrypt(userID, clientID, pk, content);
-    }
-
-    @Deprecated
-    public static String decryptOld(UUID from, String sender, String text)
-    {
-        String ret = "";
-        byte[] dec = decrypt(from, sender, text);
-
-        try
-        {
-            Messages.GenericMessage m = Messages.GenericMessage.parseFrom(dec);
-            ret = m.getText().getContent();
-        } catch(InvalidProtocolBufferException ignored)
-        {
-            Outputs.create("Invalid Protocol Buffer", "WireCryptoHandler").debug().ERROR().print();
-        }
-        return ret;
-    }
-
-    @Deprecated
-    private static byte[] getByteStreamForMessage(String message)
-    {
-        //TODO understand Code because i dont ^^ see page 7 hand written documentation
-        UUID id = UUID.randomUUID();
-        Messages.Text.Builder builder = Messages.Text.newBuilder();
-        builder.setContent(message);
-
-        return Messages.GenericMessage.newBuilder().setMessageId(id.toString()).setText(builder).build().toByteArray();
-    }
-    @Deprecated
-    private static byte[] getByteStreamForPing()
-    {
-        UUID id = UUID.randomUUID();
-        Messages.Knock.Builder builder = Messages.Knock.newBuilder().setHotKnock(false);
-
-        return Messages.GenericMessage.newBuilder().setMessageId(id.toString()).setKnock(builder).build().toByteArray();
     }
 
     private static PreKey toCryptoPreKey(Prekey old)
