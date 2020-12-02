@@ -118,19 +118,44 @@ public class WireMessageReceiver
             return false;
         }
 
+        WireConversation conversation = WireStorage.getConversationByID(conversationID);
+        if(conversation == null)
+        {
+            Outputs.create("ConversationID not found", this.getClass().getName()).debug().WARNING().print();
+            return false;
+        }
+
         if(message.hasKnock() && WireStorage.getConversationByID(conversationID) != null) Outputs.create("You have been pinged in: '" + WireStorage.getConversationByID(conversationID).getConversationName() + "'").always().ALERT().print();
         else if(message.hasText())
         {
-            WireConversation conversation = WireStorage.getConversationByID(conversationID);
-            Message msg = new Message(message.getText().getContent(), time, senderUser);
-            if(conversation != null) conversation.addMessage(msg);
-            else Outputs.create("ConversationID not found", this.getClass().getName()).debug().WARNING().print();
+            //TODO: Filter gifs
+            Message msg = new Message(message.getText().getContent(), time, WireConversations.getNameFromUserID(senderUser));
+            conversation.addMessage(msg);
         } else if(message.hasAsset())
         {
-            WireConversation conversation = WireStorage.getConversationByID(conversationID);
-            Message msg = new Message("FILE", time, senderUser);
-            if(conversation != null) conversation.addMessage(msg);
-            else Outputs.create("ConversationID not found", this.getClass().getName()).debug().WARNING().print();
+            //TODO: Handle asset messages
+            Message msg = new Message("FILE", time, WireConversations.getNameFromUserID(senderUser));
+            conversation.addMessage(msg);
+        } else if(message.hasCalling())
+        {
+            //TODO: Find out the difference between start and end of a call
+            Outputs.create("Sommeone is calling you, please accept the call on a different client").always().ALERT().print();
+        } else if(message.hasConfirmation())
+        {
+            Outputs.create("Your message has been received").verbose().INFO().print();
+        } else if(message.hasDeleted())
+        {
+            //TODO: Delete the deleted message on local storage
+        } else if(message.hasEdited())
+        {
+            //TODO: Update the edited message on storage
+        } else if(message.hasEphemeral())
+        {
+            //TODO: Handle timed message
+        } else if(message.hasLocation())
+        {
+            //TODO: Give more information about the location
+            Outputs.create("Location has been shared").always().INFO().print();
         } else Outputs.create("Unknown message type received").verbose().INFO().print();
 
         return true;
