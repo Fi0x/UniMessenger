@@ -42,15 +42,15 @@ public class FileAsset implements IGeneric, IAsset
     private String assetKey;
     private String assetToken;
 
-    public FileAsset(File file, String mimeType, UUID messageId) throws Exception
+    public FileAsset(File file, String mimeType) throws Exception
     {
-        this(readFile(file), mimeType, messageId);
+        this(readFile(file), mimeType);
     }
 
-    public FileAsset(byte[] bytes, String mimeType, UUID messageId) throws Exception
+    public FileAsset(byte[] bytes, String mimeType) throws Exception
     {
         this.mimeType = mimeType;
-        this.messageId = messageId;
+        this.messageId = UUID.randomUUID();
 
         otrKey = newOtrKey();
         encBytes = encrypt(bytes);

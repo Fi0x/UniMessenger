@@ -125,6 +125,12 @@ public class WireMessageReceiver
             Message msg = new Message(message.getText().getContent(), time, senderUser);
             if(conversation != null) conversation.addMessage(msg);
             else Outputs.create("ConversationID not found", this.getClass().getName()).debug().WARNING().print();
+        } else if(message.hasAsset())
+        {
+            WireConversation conversation = WireStorage.getConversationByID(conversationID);
+            Message msg = new Message("FILE", time, senderUser);
+            if(conversation != null) conversation.addMessage(msg);
+            else Outputs.create("ConversationID not found", this.getClass().getName()).debug().WARNING().print();
         } else Outputs.create("Unknown message type received").verbose().INFO().print();
 
         return true;

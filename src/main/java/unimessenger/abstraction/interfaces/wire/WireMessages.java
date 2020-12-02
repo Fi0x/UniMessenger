@@ -20,14 +20,24 @@ public class WireMessages implements IMessages
     {
         WireConversation conversation = WireStorage.getConversationByID(chatID);
         if(conversation != null) conversation.addMessage(new Message(text, new Timestamp(System.currentTimeMillis()), WireStorage.userID));
-        else Outputs.create("ConversationID not found", this.getClass().getName()).debug().WARNING().print();
+        else
+        {
+            Outputs.create("ConversationID not found", this.getClass().getName()).debug().WARNING().print();
+            return false;
+        }
         return sender.sendMessage(chatID, MessageCreator.createGenericTextMessage(text));
     }
     @Override
     public boolean sendFile(String chatID, File file)
     {
-        //TODO: Implement
-        return false;
+        WireConversation conversation = WireStorage.getConversationByID(chatID);
+        if(conversation != null) conversation.addMessage(new Message("FILE", new Timestamp(System.currentTimeMillis()), WireStorage.userID));
+        else
+        {
+            Outputs.create("ConversationID not found", this.getClass().getName()).debug().WARNING().print();
+            return false;
+        }
+        return sender.sendMessage(chatID, MessageCreator.createGenericFileMessage(file));
     }
 
     @Override
