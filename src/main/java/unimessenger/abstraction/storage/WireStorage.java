@@ -148,6 +148,7 @@ public class WireStorage
             FileWriter fw = new FileWriter(storageFile);
             fw.write("{}");
             fw.close();
+            new File(storageFile).delete();
             Outputs.create("Successfully cleared Wire file").verbose().INFO().print();
         } catch(IOException ignored)
         {

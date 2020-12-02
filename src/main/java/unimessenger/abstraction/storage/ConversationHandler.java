@@ -22,6 +22,7 @@ public class ConversationHandler implements Serializable
     public static void clearFile()
     {
         //TODO: Delete or overwrite file
+
     }
 
     public ArrayList<WireConversation> getConversations()
