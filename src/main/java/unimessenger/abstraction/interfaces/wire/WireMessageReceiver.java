@@ -6,10 +6,10 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import unimessenger.abstraction.Headers;
 import unimessenger.abstraction.URL;
-import unimessenger.abstraction.encryption.WireCrypto.WireCryptoHandler;
 import unimessenger.abstraction.storage.Message;
-import unimessenger.abstraction.storage.MessengerStructure.WireConversation;
 import unimessenger.abstraction.storage.WireStorage;
+import unimessenger.abstraction.wire.crypto.WireCryptoHandler;
+import unimessenger.abstraction.wire.structures.WireConversation;
 import unimessenger.communication.HTTP;
 import unimessenger.userinteraction.Outputs;
 import unimessenger.util.enums.REQUEST;
@@ -106,7 +106,7 @@ public class WireMessageReceiver
             return false;
         }
 
-        decryptedMsg = WireCryptoHandler.decrypt(UUID.fromString(payload.get("from").toString()), data.get("sender").toString(), data.get("text").toString());
+        decryptedMsg = WireCryptoHandler.decryptOld(UUID.fromString(payload.get("from").toString()), data.get("sender").toString(), data.get("text").toString());
 
         if(decryptedMsg.equals("") && WireStorage.getConversationByID(conversationID) != null)
         {

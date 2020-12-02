@@ -7,8 +7,8 @@ import org.json.simple.parser.ParseException;
 import unimessenger.abstraction.APIAccess;
 import unimessenger.abstraction.Headers;
 import unimessenger.abstraction.URL;
-import unimessenger.abstraction.encryption.WireCrypto.WireCryptoHandler;
 import unimessenger.abstraction.interfaces.IData;
+import unimessenger.abstraction.wire.crypto.WireCryptoHandler;
 import unimessenger.communication.HTTP;
 import unimessenger.userinteraction.CLI;
 import unimessenger.userinteraction.Inputs;
@@ -150,7 +150,7 @@ public class MenuConversationList
             System.out.println("From: " + payload.get("from").toString());
             System.out.println("Sender: " + data.get("sender").toString());
             System.out.println("Text: " + data.get("text").toString());
-            decryptedMsg = WireCryptoHandler.decrypt(UUID.fromString(payload.get("from").toString()), data.get("sender").toString(), data.get("text").toString());
+            decryptedMsg = WireCryptoHandler.decryptOld(UUID.fromString(payload.get("from").toString()), data.get("sender").toString(), data.get("text").toString());
         } catch(ParseException e)
         {
             e.printStackTrace();
