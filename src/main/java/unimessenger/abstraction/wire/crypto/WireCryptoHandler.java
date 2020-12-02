@@ -1,7 +1,5 @@
 package unimessenger.abstraction.wire.crypto;
 
-import com.google.protobuf.InvalidProtocolBufferException;
-import com.waz.model.Messages;
 import com.wire.bots.cryptobox.CryptoBox;
 import com.wire.bots.cryptobox.CryptoException;
 import com.wire.bots.cryptobox.PreKey;
@@ -79,23 +77,6 @@ public class WireCryptoHandler
         }
 
         return dec;
-    }
-
-    @Deprecated
-    public static String decryptOld(UUID from, String sender, String text)
-    {
-        String ret = "";
-        byte[] dec = decrypt(from, sender, text);
-
-        try
-        {
-            Messages.GenericMessage m = Messages.GenericMessage.parseFrom(dec);
-            ret = m.getText().getContent();
-        } catch(InvalidProtocolBufferException ignored)
-        {
-            Outputs.create("Invalid Protocol Buffer", "WireCryptoHandler").debug().ERROR().print();
-        }
-        return ret;
     }
 
     private static PreKey toCryptoPreKey(Prekey old)
