@@ -40,12 +40,6 @@ public class MessageText implements IGeneric
         return messageId;
     }
 
-    @Override
-    public byte[] getByteArray()
-    {
-        return new byte[0];
-    }
-
     public Messages.Text.Builder getBuilder()
     {
         return builder;
