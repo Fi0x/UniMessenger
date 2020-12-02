@@ -3,6 +3,8 @@ package unimessenger.abstraction.storage;
 import unimessenger.abstraction.wire.structures.WireConversation;
 import unimessenger.userinteraction.Outputs;
 
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -67,5 +69,38 @@ public class ConversationHandler implements Serializable
         {
             Outputs.create("Error when saving Conversations to file", "ConversationHandler").debug().WARNING().print();
         }
+    }
+
+    public static void test(){
+        String originalContent = "foobar";
+        SecretKey secretKey = null;
+        try {
+            secretKey = KeyGenerator.getInstance("AES").generateKey();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        StorageCrypto fileEncrypterDecrypter
+                = null;
+        try {
+            fileEncrypterDecrypter = new StorageCrypto(secretKey, "AES/CBC/PKCS5Padding");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            fileEncrypterDecrypter.encrypt(originalContent, "baz.enc");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String decryptedContent = null;
+        try {
+            decryptedContent = fileEncrypterDecrypter.decrypt("baz.enc");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("Text: "+ decryptedContent);
+
+        new File("baz.enc").delete(); // cleanup
     }
 }
