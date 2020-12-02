@@ -50,7 +50,7 @@ public class WireMessageReceiver
                         JSONObject load = (JSONObject) pl;
                         if(load.get("type").equals("conversation.otr-message-add"))
                         {
-                            if(!receiveMessageText(load)) Outputs.create("Error receiving text of a notification").verbose().WARNING().print();
+                            if(!handleMessage(load)) Outputs.create("Error receiving text of a notification").verbose().WARNING().print();
                         }
                     }
                 }
@@ -67,7 +67,7 @@ public class WireMessageReceiver
         return false;
     }
 
-    private boolean receiveMessageText(JSONObject payload)
+    private boolean handleMessage(JSONObject payload)
     {
         String conversationID;
         String senderUser = null;
@@ -145,12 +145,15 @@ public class WireMessageReceiver
             Outputs.create("Your message has been received").verbose().INFO().print();
         } else if(message.hasDeleted())
         {
+            Outputs.create("Message deletion request received").verbose().INFO().print();
             //TODO: Delete the deleted message on local storage
         } else if(message.hasEdited())
         {
+            Outputs.create("Message editing request received").verbose().INFO().print();
             //TODO: Update the edited message on storage
         } else if(message.hasEphemeral())
         {
+            Outputs.create("Timed message received").verbose().INFO().print();
             //TODO: Handle timed message
         } else if(message.hasLocation())
         {
