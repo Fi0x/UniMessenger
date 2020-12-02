@@ -1,0 +1,20 @@
+{
+  "message_id": "859a2a7d-1b71-4806-a604-7aab4f6e009d",
+  "asset": {
+    "original": {
+      "mime_type": "image/png",
+      "size": 2305,
+      "image": {
+        "width": 64,
+        "height": 256
+      }
+    },
+    "uploaded": {
+      "otr_key": "\3427\371\264^\263V$\225h\306\206\270\267\331\362f\273\352\246\032\231\034\243\242\254\276\031g^MF",
+      "sha256": "\235\340N6m\203\364\311\004\200\201B\375\304\346\a\263\"\275\333|\317~\r\201\224\n:\"o\261J",
+      "asset_id": "3-2-4eb4a131-4f12-4fd0-83b4-d898734e1725"
+    },
+    "expects_read_confirmation": false,
+    "legal_hold_status": "DISABLED"
+  }
+}
