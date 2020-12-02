@@ -1,4 +1,4 @@
-package unimessenger.abstraction.encryption.WireCrypto;
+package unimessenger.abstraction.wire.crypto;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.waz.model.Messages;
@@ -45,14 +45,10 @@ public class WireCryptoHandler
         return null;
     }
 
-    public static String encrypt(String userID, String clientID, Prekey pk, String msg)
+    public static String encrypt(String userID, String clientID, Prekey pk, byte[] content)
     {
         if(box == null) box = CryptoFactory.getCryptoInstance();
-        byte[] content;
-
-        if(msg.equals("")) content = getByteStreamForPing();
-        else content = getByteStreamForMessage(msg);
-        String id = generateSeassionID(userID, clientID);
+        String id = generateSessionID(userID, clientID);
         PreKey key = toCryptoPreKey(pk);
         byte[] cypher = null;
 
@@ -66,13 +62,12 @@ public class WireCryptoHandler
         return Base64.getEncoder().encodeToString(cypher);
     }
 
-    public static String decrypt(UUID from, String sender, String text)
+    public static byte[] decrypt(UUID from, String sender, String text)
     {
         if(box == null) box = CryptoFactory.getCryptoInstance();
 
-        String ret = "";
         byte[] dec;
-        String sID = generateSeassionID(from.toString(), sender);
+        String sID = generateSessionID(from.toString(), sender);
 
         try
         {
@@ -82,6 +77,27 @@ public class WireCryptoHandler
             Outputs.create("Decrypt CryptoException", "WireCryptoHandler").always().ERROR();
             dec = new byte[1];
         }
+
+        return dec;
+    }
+
+    @Deprecated
+    public static String encrypt(String userID, String clientID, Prekey pk, String msg)
+    {
+        byte[] content;
+
+        if(msg.equals("")) content = getByteStreamForPing();
+        else content = getByteStreamForMessage(msg);
+
+        return encrypt(userID, clientID, pk, content);
+    }
+
+    @Deprecated
+    public static String decryptOld(UUID from, String sender, String text)
+    {
+        String ret = "";
+        byte[] dec = decrypt(from, sender, text);
+
         try
         {
             Messages.GenericMessage m = Messages.GenericMessage.parseFrom(dec);
@@ -93,15 +109,17 @@ public class WireCryptoHandler
         return ret;
     }
 
+    @Deprecated
     private static byte[] getByteStreamForMessage(String message)
     {
-        //TODO understand Code because i dont ^^ see page 7 hand written doku
+        //TODO understand Code because i dont ^^ see page 7 hand written documentation
         UUID id = UUID.randomUUID();
         Messages.Text.Builder builder = Messages.Text.newBuilder();
         builder.setContent(message);
 
         return Messages.GenericMessage.newBuilder().setMessageId(id.toString()).setText(builder).build().toByteArray();
     }
+    @Deprecated
     private static byte[] getByteStreamForPing()
     {
         UUID id = UUID.randomUUID();
@@ -115,7 +133,7 @@ public class WireCryptoHandler
         return new PreKey(old.getID(), Base64.getDecoder().decode(old.getKey()));
     }
 
-    private static String generateSeassionID(String userID, String clientID)
+    private static String generateSessionID(String userID, String clientID)
     {
         return String.format("%s_%s", userID, clientID);
     }
