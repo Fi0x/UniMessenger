@@ -9,4 +9,5 @@ public interface IGeneric
     Messages.GenericMessage createGenericMsg() throws Exception;
 
     UUID getMessageId();
+    byte[] getByteArray();
 }
