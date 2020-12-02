@@ -119,13 +119,13 @@ public class WireMessageReceiver
         }
 
         if(message.hasKnock() && WireStorage.getConversationByID(conversationID) != null) Outputs.create("You have been pinged in: '" + WireStorage.getConversationByID(conversationID).getConversationName() + "'").always().ALERT().print();
-        else
+        else if(message.hasText())
         {
             WireConversation conversation = WireStorage.getConversationByID(conversationID);
             Message msg = new Message(message.getText().getContent(), time, senderUser);
             if(conversation != null) conversation.addMessage(msg);
             else Outputs.create("ConversationID not found", this.getClass().getName()).debug().WARNING().print();
-        }
+        } else Outputs.create("Unknown message type received").verbose().INFO().print();
 
         return true;
     }
