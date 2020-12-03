@@ -1,6 +1,9 @@
 package unimessenger.abstraction.wire.crypto;
 
 import com.waz.model.Messages;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import unimessenger.abstraction.Headers;
 import unimessenger.abstraction.URL;
 import unimessenger.abstraction.wire.messages.*;
@@ -12,7 +15,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.UUID;
 
 public class MessageCreator
@@ -57,57 +59,48 @@ public class MessageCreator
     }
 
 
-    /**
-    Code from lithium
-    **/
     private static AssetKey uploadAsset(IAsset asset) throws Exception
     {
+        String boundary = "frontier" + UUID.randomUUID().toString();
+        /*
+         Code from lithium
+         */
         StringBuilder sb = new StringBuilder();
-
-        // Part 1
         String strMetadata = String.format("{\"public\": %s, \"retention\": \"%s\"}", asset.isPublic(), asset.getRetention());
-        sb.append("--frontier\r\n");
+        sb.append("--").append(boundary).append("\r\n");
         sb.append("Content-Type: application/json; charset=utf-8\r\n");
         sb.append("Content-Length: ").append(strMetadata.length()).append("\r\n\r\n");
         sb.append(strMetadata).append("\r\n");
-
-        // Part 2
-        sb.append("--frontier\r\n");
+        sb.append("--").append(boundary).append("\r\n");
         sb.append("Content-Type: ").append(asset.getMimeType()).append("\r\n");
         sb.append("Content-Length: ").append(asset.getEncryptedData().length).append("\r\n");
         sb.append("Content-MD5: ").append(Util.calcMd5(asset.getEncryptedData())).append("\r\n\r\n");
-
-        // Complete
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         os.write(sb.toString().getBytes(StandardCharsets.UTF_8));
         os.write(asset.getEncryptedData());
-        os.write("\r\n--frontier--\r\n".getBytes(StandardCharsets.UTF_8));
+        os.write(("\r\n--" + boundary + "--\r\n").getBytes(StandardCharsets.UTF_8));
 
-//        Response res = assets.post(Entity.entity(os.toByteArray(), "multipart/mixed; boundary=frontier"));
-
-
-
-        String url = URL.WIRE + URL.WIRE_ASSETS + URL.wireBearerToken();//TODO: Create correct request to upload asset
+        String url = URL.WIRE + URL.WIRE_ASSETS + URL.wireBearerToken();
         String[] headers = new String[]{
-                Headers.CONTENT, Headers.MIXED + "; boundary=frontier",
+                Headers.CONTENT, Headers.MIXED + "; boundary=" + boundary,
                 Headers.ACCEPT, Headers.JSON};
-        String body = Arrays.toString(os.toByteArray());
-
+        String body = os.toString();
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.POST, body, headers);
 
         if(response == null) Outputs.create("No HTTP response received", "MessagesCreator").debug().INFO().print();
         else if(response.statusCode() == 200 || response.statusCode() == 201)
         {
-            System.out.println("Successfully uploaded asset");
+            Outputs.create("Successfully uploaded asset").verbose().INFO().print();
             return keyFromResponse(response);
         } else Outputs.create("Response code is " + response.statusCode()).verbose().WARNING().print();
 
-        System.out.println("Body: " + response.body());
         return null;
     }
-    private static AssetKey keyFromResponse(HttpResponse<String> response)//TODO: Get correct asset key from upload
+    private static AssetKey keyFromResponse(HttpResponse<String> response) throws ParseException
     {
-//        return res.readEntity(AssetKey.class);
+        JSONObject obj = (JSONObject) new JSONParser().parse(response.body());
+
+        if(obj.containsKey("key") && obj.containsKey("token")) return new AssetKey(obj.get("key").toString(), obj.get("token").toString());
         return null;
     }
 }
