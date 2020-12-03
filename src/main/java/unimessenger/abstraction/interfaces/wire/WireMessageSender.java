@@ -28,7 +28,7 @@ public class WireMessageSender
 
         String url = URL.WIRE + URL.WIRE_CONVERSATIONS + "/" + chatID + URL.WIRE_OTR_MESSAGES + URL.wireBearerToken();
         String[] headers = new String[]{
-                Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
+                Headers.CONTENT, Headers.JSON,
                 Headers.ACCEPT, Headers.JSON};
         String body = buildBody(chatID, msg);
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.POST, body, headers);

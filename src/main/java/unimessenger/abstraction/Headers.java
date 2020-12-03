@@ -6,7 +6,5 @@ public class Headers
     public static final String CONTENT = "content-type";
 
     public static final String JSON = "application/json";
-
-    @Deprecated
-    public static final String[] CONTENT_JSON = new String[]{"content-type", "application/json"};
+    public static final String MIXED = "multipart/mixed";
 }

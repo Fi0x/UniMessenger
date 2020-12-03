@@ -27,7 +27,7 @@ public class WireUtil implements IUtil
         String url = URL.WIRE + URL.WIRE_ACCESS + URL.wireBearerToken();
         String[] headers = new String[]{
                 "cookie", WireStorage.cookie,
-                Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
+                Headers.CONTENT, Headers.JSON,
                 Headers.ACCEPT, Headers.JSON};
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.POST, "", headers);
 
@@ -61,7 +61,7 @@ public class WireUtil implements IUtil
     {
         String url = URL.WIRE + URL.WIRE_SELF + URL.wireBearerToken();
         String[] headers = new String[]{
-                Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
+                Headers.CONTENT, Headers.JSON,
                 Headers.ACCEPT, Headers.JSON};
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
 
@@ -180,7 +180,7 @@ public class WireUtil implements IUtil
     {
         String url = URL.WIRE + URL.WIRE_CLIENTS + URL.wireBearerToken();
         String[] headers = new String[]{
-                Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
+                Headers.CONTENT, Headers.JSON,
                 Headers.ACCEPT, Headers.JSON};
 
         JSONObject obj = new JSONObject();

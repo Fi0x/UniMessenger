@@ -28,7 +28,7 @@ public class WireMessageReceiver
         String token = URL.wireBearerToken();
         String url = URL.WIRE + URL.WIRE_NOTIFICATIONS + client + since + token;
         String[] headers = new String[]{
-                Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
+                Headers.CONTENT, Headers.JSON,
                 Headers.ACCEPT, Headers.JSON};
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
 
