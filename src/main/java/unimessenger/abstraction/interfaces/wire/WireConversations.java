@@ -24,7 +24,7 @@ public class WireConversations implements IConversations
     {
         String url = URL.WIRE + URL.WIRE_CONVERSATIONS + URL.wireBearerToken();
         String[] headers = new String[]{
-                Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
+                Headers.ACCEPT, Headers.JSON};
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
 
         if(response == null)
@@ -141,7 +141,7 @@ public class WireConversations implements IConversations
     {
         String url = URL.WIRE + URL.WIRE_USERS + URL.wireBearerToken() + "&ids=" + userID;
         String[] headers = new String[]{
-                Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
+                Headers.ACCEPT, Headers.JSON};
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
 
         if(response == null) Outputs.create("Could not get a username", "WireConversations").verbose().WARNING().print();

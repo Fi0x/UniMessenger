@@ -28,7 +28,7 @@ public class WireUtil implements IUtil
         String[] headers = new String[]{
                 "cookie", WireStorage.cookie,
                 Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
-                Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
+                Headers.ACCEPT, Headers.JSON};
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.POST, "", headers);
 
         if(response == null) Outputs.create("Could not get a HTTP response", this.getClass().getName()).debug().WARNING().print();
@@ -62,7 +62,7 @@ public class WireUtil implements IUtil
         String url = URL.WIRE + URL.WIRE_SELF + URL.wireBearerToken();
         String[] headers = new String[]{
                 Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
-                Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
+                Headers.ACCEPT, Headers.JSON};
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
 
         if(response == null) Outputs.create("No response received", this.getClass().getName()).debug().WARNING().print();
@@ -131,7 +131,7 @@ public class WireUtil implements IUtil
     {
         String url = URL.WIRE + URL.WIRE_CLIENTS + URL.wireBearerToken();
         String[] headers = new String[]{
-                Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
+                Headers.ACCEPT, Headers.JSON};
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
 
         if(response == null)
@@ -157,7 +157,7 @@ public class WireUtil implements IUtil
     {
         String url = URL.WIRE + URL.WIRE_CLIENTS + "/" + clientID + URL.wireBearerToken();
         String[] headers = new String[]{
-                Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
+                Headers.ACCEPT, Headers.JSON};
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
 
         if(response == null) Outputs.create("No response received", "WireUtil").debug().WARNING().print();
@@ -181,7 +181,7 @@ public class WireUtil implements IUtil
         String url = URL.WIRE + URL.WIRE_CLIENTS + URL.wireBearerToken();
         String[] headers = new String[]{
                 Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],
-                Headers.ACCEPT_JSON[0], Headers.ACCEPT_JSON[1]};
+                Headers.ACCEPT, Headers.JSON};
 
         JSONObject obj = new JSONObject();
         obj.put("cookie", WireStorage.cookie);
