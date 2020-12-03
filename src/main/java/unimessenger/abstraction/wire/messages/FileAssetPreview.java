@@ -20,6 +20,7 @@ package unimessenger.abstraction.wire.messages;
 
 import com.waz.model.Messages;
 
+import java.io.File;
 import java.util.UUID;
 
 public class FileAssetPreview implements IGeneric
@@ -29,12 +30,12 @@ public class FileAssetPreview implements IGeneric
     private final long size;
     private final UUID messageId;
 
-    public FileAssetPreview(String name, String mimeType, long size, UUID messageId)
+    public FileAssetPreview(File file, String mimeType, UUID messageId)
     {
         this.messageId = messageId;
-        this.name = name;
+        this.name = file.getName();
         this.mimeType = mimeType;
-        this.size = size;
+        this.size = file.length();
     }
 
     @Override

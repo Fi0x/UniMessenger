@@ -32,7 +32,7 @@ public class MessageCreator
     public static Messages.GenericMessage createGenericFilePreviewMessage(File file, UUID id)
     {
         String mimeType = "image/png";//TODO: Set correct mime type
-        FileAssetPreview preview = new FileAssetPreview(file.getName(), mimeType, file.length(), id);
+        FileAssetPreview preview = new FileAssetPreview(file, mimeType, id);
         return preview.createGenericMsg();
     }
     public static Messages.GenericMessage createGenericFileMessage(File file, UUID id)
@@ -103,7 +103,6 @@ public class MessageCreator
         } else Outputs.create("Response code is " + response.statusCode()).verbose().WARNING().print();
 
         System.out.println("Body: " + response.body());
-
         return null;
     }
     private static AssetKey keyFromResponse(HttpResponse<String> response)//TODO: Get correct asset key from upload
