@@ -13,8 +13,10 @@ import unimessenger.util.enums.REQUEST;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.UUID;
 
 public class MessageCreator
@@ -33,7 +35,14 @@ public class MessageCreator
 
     public static Messages.GenericMessage createGenericFilePreviewMessage(File file, UUID id)
     {
-        String mimeType = "image/png";//TODO: Set correct mime type
+        String mimeType = null;
+        try
+        {
+            mimeType = Files.probeContentType(file.toPath());
+        } catch(IOException ignored)
+        {
+        }
+        if(mimeType == null) mimeType = "content/unknown";
         FileAssetPreview preview = new FileAssetPreview(file, mimeType, id);
         return preview.createGenericMsg();
     }
@@ -41,7 +50,8 @@ public class MessageCreator
     {
         try
         {
-            String mimeType = "image/png";//TODO: Set correct mime type
+            String mimeType = Files.probeContentType(file.toPath());
+            if(mimeType == null) mimeType = "content/unknown";
             FileAsset asset = new FileAsset(file, mimeType, id);
 
             AssetKey ak = uploadAsset(asset);

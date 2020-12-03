@@ -53,7 +53,6 @@ public class MenuChat
                 CLI.currentMenu = MENU.EXIT;
                 break;
             case 7:
-                //TODO: Fix to send correct ping message
                 if(CLI.currentService == SERVICE.WIRE) new WireMessageSender().sendMessage(CLI.currentChatID, MessageCreator.createGenericPingMessage());
                 break;
             default:
@@ -98,7 +97,6 @@ public class MenuChat
 
         for(Message msg : messages)
         {
-            //TODO: Change to display actual name
             System.out.println(msg.getTime() + " -- " + msg.getSenderID() + ": " + msg.getText());
         }
     }

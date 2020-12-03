@@ -20,7 +20,7 @@ public class WireMessages implements IMessages
     public boolean sendTextMessage(String chatID, String text)
     {
         WireConversation conversation = WireStorage.getConversationByID(chatID);
-        if(conversation != null) conversation.addMessage(new Message(text, new Timestamp(System.currentTimeMillis()), WireStorage.userID));
+        if(conversation != null) conversation.addMessage(new Message(text, new Timestamp(System.currentTimeMillis()), WireStorage.selfProfile.userName));
         else
         {
             Outputs.create("ConversationID not found", this.getClass().getName()).debug().WARNING().print();
@@ -32,7 +32,7 @@ public class WireMessages implements IMessages
     public boolean sendFile(String chatID, File file)
     {
         WireConversation conversation = WireStorage.getConversationByID(chatID);
-        if(conversation != null) conversation.addMessage(new Message("FILE", new Timestamp(System.currentTimeMillis()), WireStorage.userID));
+        if(conversation != null) conversation.addMessage(new Message("FILE", new Timestamp(System.currentTimeMillis()), WireStorage.selfProfile.userName));
         else
         {
             Outputs.create("ConversationID not found", this.getClass().getName()).debug().WARNING().print();
