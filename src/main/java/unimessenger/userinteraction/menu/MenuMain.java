@@ -31,7 +31,7 @@ public class MenuMain
                 CLI.currentMenu = MENU.EXIT;
                 break;
             case 10:
-                ConversationHandler.test();
+                ConversationHandler.test("TestPW");
                 break;
             default:
                 Outputs.create("Invalid option").always().WARNING().print();

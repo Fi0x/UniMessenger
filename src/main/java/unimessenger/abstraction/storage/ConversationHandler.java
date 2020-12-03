@@ -3,8 +3,6 @@ package unimessenger.abstraction.storage;
 import unimessenger.abstraction.wire.structures.WireConversation;
 import unimessenger.userinteraction.Outputs;
 
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -72,36 +70,64 @@ public class ConversationHandler implements Serializable
         }
     }
 
-    public static void test(){
+    public static void test(String password){
         String originalContent = "foobar";
-        SecretKey secretKey = null;
+        /*SecretKey secretKey = null;
+        char[] pwdArr = password.toCharArray();
+        KeyStore ks = null;
+
+        //Init keystore
+        try (FileOutputStream fos = new FileOutputStream(FILEPATH + "KeyStoreTest")){
+            ks = KeyStore.getInstance(KeyStore.getDefaultType());
+            ks.load(null, pwdArr);
+            ks.store(fos, pwdArr);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //Init secretKey
         try {
             secretKey = KeyGenerator.getInstance("AES").generateKey();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        //Store/Load secretKey
+        KeyStore.SecretKeyEntry secret
+                = new KeyStore.SecretKeyEntry(secretKey);
+        KeyStore.ProtectionParameter pwenc
+                = new KeyStore.PasswordProtection(pwdArr);
+        try {
+            ks.setEntry("KeyUserCookie", secret, pwenc);
+
+            secretKey = (SecretKey) ks.getKey("KeyUserCookie", pwdArr);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+
+        //EncryptDecryptStuff
         StorageCrypto fileEncrypterDecrypter
                 = null;
         try {
-            fileEncrypterDecrypter = new StorageCrypto(secretKey, "AES/CBC/PKCS5Padding");
+            fileEncrypterDecrypter = new StorageCrypto("passwort1");
         } catch (Exception e) {
             e.printStackTrace();
         }
         try {
-            fileEncrypterDecrypter.encrypt(originalContent, "baz.enc");
+            fileEncrypterDecrypter.encrypt(originalContent);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         String decryptedContent = null;
         try {
-            decryptedContent = fileEncrypterDecrypter.decrypt("baz.enc");
+            decryptedContent = fileEncrypterDecrypter.decrypt();
         } catch (Exception e) {
             e.printStackTrace();
         }
         System.out.println("Text: "+ decryptedContent);
 
-        new File("baz.enc").delete(); // cleanup
+
     }
 }
