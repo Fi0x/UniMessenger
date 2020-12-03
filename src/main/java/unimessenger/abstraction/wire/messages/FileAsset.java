@@ -42,15 +42,15 @@ public class FileAsset implements IGeneric, IAsset
     private String assetKey;
     private String assetToken;
 
-    public FileAsset(File file, String mimeType) throws Exception
+    public FileAsset(File file, String mimeType, UUID id) throws Exception
     {
-        this(readFile(file), mimeType);
+        this(readFile(file), mimeType, id);
     }
 
-    public FileAsset(byte[] bytes, String mimeType) throws Exception
+    public FileAsset(byte[] bytes, String mimeType, UUID id) throws Exception
     {
         this.mimeType = mimeType;
-        this.messageId = UUID.randomUUID();
+        this.messageId = id;
 
         otrKey = newOtrKey();
         encBytes = encrypt(bytes);
@@ -101,7 +101,6 @@ public class FileAsset implements IGeneric, IAsset
     @Override
     public Messages.GenericMessage createGenericMsg()
     {
-        // Remote
         Messages.Asset.RemoteData.Builder remote = Messages.Asset.RemoteData.newBuilder().setOtrKey(ByteString.copyFrom(otrKey)).setSha256(ByteString.copyFrom(sha256)).setAssetId(assetKey).setAssetToken(assetToken);
         Messages.Asset.Builder asset = Messages.Asset.newBuilder().setUploaded(remote);
 

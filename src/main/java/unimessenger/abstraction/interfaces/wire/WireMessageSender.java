@@ -24,6 +24,8 @@ public class WireMessageSender
 {
     public boolean sendMessage(String chatID, Messages.GenericMessage msg)
     {
+        if(msg == null) return false;
+
         String url = URL.WIRE + URL.WIRE_CONVERSATIONS + "/" + chatID + URL.WIRE_OTR_MESSAGES + URL.wireBearerToken();
         String[] headers = new String[]{
                 Headers.CONTENT_JSON[0], Headers.CONTENT_JSON[1],

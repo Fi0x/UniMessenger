@@ -9,6 +9,7 @@ import unimessenger.userinteraction.Outputs;
 
 import java.io.File;
 import java.sql.Timestamp;
+import java.util.UUID;
 
 public class WireMessages implements IMessages
 {
@@ -37,7 +38,10 @@ public class WireMessages implements IMessages
             Outputs.create("ConversationID not found", this.getClass().getName()).debug().WARNING().print();
             return false;
         }
-        return sender.sendMessage(chatID, MessageCreator.createGenericFileMessage(file));
+        UUID id = UUID.randomUUID();
+        boolean previewSent = sender.sendMessage(chatID, MessageCreator.createGenericFilePreviewMessage(file, id));
+        boolean assetSent = sender.sendMessage(chatID, MessageCreator.createGenericFileMessage(file, id));
+        return previewSent && assetSent;
     }
 
     @Override
