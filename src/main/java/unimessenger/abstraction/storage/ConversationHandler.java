@@ -110,7 +110,7 @@ public class ConversationHandler implements Serializable
         StorageCrypto fileEncrypterDecrypter
                 = null;
         try {
-            fileEncrypterDecrypter = new StorageCrypto("passwort1");
+            fileEncrypterDecrypter = new StorageCrypto();
         } catch (Exception e) {
             e.printStackTrace();
         }

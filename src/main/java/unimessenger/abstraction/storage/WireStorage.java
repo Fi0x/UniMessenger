@@ -7,9 +7,9 @@ import unimessenger.abstraction.wire.structures.WireProfile;
 import unimessenger.userinteraction.Outputs;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.UnrecoverableKeyException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -24,6 +24,8 @@ public class WireStorage
     public static Timestamp lastNotification;
     public static WireProfile selfProfile;
     public static ArrayList<WireConversation> conversations;
+
+    private static StorageCrypto storageCrypto;
 
     public static String storageDirectory;
     private static String storageFile;
@@ -40,6 +42,12 @@ public class WireStorage
         lastNotification = null;
         selfProfile = new WireProfile();
         conversations = new ArrayList<>();
+
+        try {
+            storageCrypto = new StorageCrypto();
+        } catch (UnrecoverableKeyException e) {
+            Outputs.create("Something went wrong in the Key reading").ERROR().debug().verbose().print();
+        }
 
         storageDirectory = System.getProperty("user.dir");
         if(storageDirectory == null) storageDirectory = "../DataStorage";
@@ -67,11 +75,9 @@ public class WireStorage
 
             try
             {
-                FileWriter fw = new FileWriter(storageFile);
-                fw.write(obj.toJSONString());
-                fw.close();
+                storageCrypto.encrypt(obj.toJSONString());
                 Outputs.create("Successfully wrote to Wire file").verbose().INFO().print();
-            } catch(IOException ignored)
+            } catch(Exception ignored)
             {
                 Outputs.create("Could not write to Wire file", "WireStorage").debug().WARNING().print();
             }
@@ -125,7 +131,7 @@ public class WireStorage
     {
         try
         {
-            JSONObject obj = (JSONObject) new JSONParser().parse(new FileReader(storageFile));
+            JSONObject obj = (JSONObject) new JSONParser().parse(storageCrypto.decrypt());
             cookie = obj.get("accessCookie").toString();
             bearerToken = obj.get("bearerToken").toString();
             bearerExpiringTime = new Timestamp((long) obj.get("bearerTime"));

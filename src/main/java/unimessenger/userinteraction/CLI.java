@@ -3,12 +3,16 @@ package unimessenger.userinteraction;
 import unimessenger.Main;
 import unimessenger.abstraction.APIAccess;
 import unimessenger.abstraction.interfaces.IData;
+import unimessenger.abstraction.storage.StorageCrypto;
 import unimessenger.userinteraction.menu.MenuChat;
 import unimessenger.userinteraction.menu.MenuConversationList;
 import unimessenger.userinteraction.menu.MenuLogin;
 import unimessenger.userinteraction.menu.MenuMain;
 import unimessenger.util.enums.MENU;
 import unimessenger.util.enums.SERVICE;
+
+import java.security.UnrecoverableKeyException;
+import java.util.Scanner;
 
 public class CLI implements Runnable
 {
@@ -19,7 +23,41 @@ public class CLI implements Runnable
     @Override
     public void run()
     {
+        checkPassword();
         startCLI();
+    }
+
+    private void checkPassword() {
+        Scanner s = new Scanner(System.in);
+        String in;
+        do{
+            System.out.println("Do you want to encrypt your stored information on disc? Y/N");
+            System.out.println("If you have ever encrypted anything, you won't be able to read it without the Password");
+            System.out.println("If you forgot your password or want to delete your local data for any other reason, you can delete it with D");
+            in = s.next();
+        }while(in.equalsIgnoreCase("Y") && in.equalsIgnoreCase("N") && in.equalsIgnoreCase("D"));
+        if(in.equalsIgnoreCase("N")){
+            StorageCrypto.setPassphrase("");
+        }
+        else if(in.equalsIgnoreCase("D")){
+            System.out.println("Are you certain? All files will be deleted beyond recovery! Type DELETE to confirm:");
+            in = s.next();
+            if(in.equalsIgnoreCase("DELETE")){
+                StorageCrypto.removeAll();
+            }
+            //TODO possibly go back to the start or something
+            System.exit(0);
+        }
+        else{
+            in=s.next();
+            StorageCrypto.setPassphrase(in);
+            //Creating a crypto file to test the validity of the passphrase
+            try {
+                new StorageCrypto();
+            } catch (UnrecoverableKeyException e) {
+                System.out.println("Wrong Password, please try again.");
+            }
+        }
     }
 
     public static void startCLI()

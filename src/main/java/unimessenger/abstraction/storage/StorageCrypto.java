@@ -6,17 +6,18 @@ import java.io.*;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.KeyStore;
-import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
 
 public class StorageCrypto {
     private SecretKey key;
     private Cipher cipher;
     private KeyStore ks;
-    private final String FILEPATH_KEYSTORE = WireStorage.storageDirectory + "/KeyStore";
-    private final String FILEPATH_DATASTORE = WireStorage.storageDirectory + "/DataStore";
-    private final String ALIAS_KEY_ENRYPTION = "KeyUserCookie";
+    private static String passphrase;
+    private static final String FILEPATH_KEYSTORE = WireStorage.storageDirectory + "/KeyStore";
+    private static final String FILEPATH_DATASTORE = WireStorage.storageDirectory + "/DataStore";
+    private static final String ALIAS_KEY_ENRYPTION = "KeyUserCookie";
 
-    public StorageCrypto(String passphrase) throws NoSuchPaddingException, NoSuchAlgorithmException {
+    public StorageCrypto() throws UnrecoverableKeyException{
 
         //Trying to load the Keystore from the disc, if the file is not found, its created
 
@@ -30,7 +31,7 @@ public class StorageCrypto {
                 ks.load(null, passphrase.toCharArray());
                 FileOutputStream fos = new FileOutputStream(FILEPATH_KEYSTORE);
 
-                //Generatinga key to be stored
+                //Generating a key to be stored
                 key = KeyGenerator.getInstance("AES").generateKey();
 
                 //Storing the key
@@ -45,11 +46,26 @@ public class StorageCrypto {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+        //Apearently, UnreacoverableKeyExceptions are IOExceptions
+        } catch (IOException e) {
+            throw
+                    new UnrecoverableKeyException();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //Getting the cipher according to the specified Advanced encryption standard, cipher block chaining
-        this.cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        //Getting the cipher according to the specified Advanced encryption standard, cipher block chaining, Padding standard
+        try {
+            this.cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void setPassphrase(String passp){
+        if(!passp.equalsIgnoreCase(""))
+        passphrase = passp;
+        else passphrase = "a";
     }
 
     public void encrypt(String content) throws InvalidKeyException, IOException {
@@ -89,7 +105,7 @@ public class StorageCrypto {
         return content;
     }
 
-    public void removeAll(){
+    public static void removeAll(){
         //Cleaning all written files
         new File(FILEPATH_DATASTORE).delete();
         new File(FILEPATH_KEYSTORE).delete();
