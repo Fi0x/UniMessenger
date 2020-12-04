@@ -113,7 +113,7 @@ public class WireMessageReceiver
             message = Messages.GenericMessage.parseFrom(decrypted);
         } catch(InvalidProtocolBufferException e)
         {
-            Outputs.create("Unabled to parse to a generic message", this.getClass().getName()).debug().WARNING().print();
+            Outputs.create("Unable to parse to a generic message", this.getClass().getName()).debug().WARNING().print();
             return false;
         }
 

@@ -68,7 +68,6 @@ public class MessageCreator
         return null;
     }
 
-
     private static AssetKey uploadAsset(IAsset asset) throws Exception
     {
         String boundary = "frontier" + UUID.randomUUID().toString();
