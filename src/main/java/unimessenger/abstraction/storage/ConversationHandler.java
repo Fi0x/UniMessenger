@@ -19,7 +19,7 @@ public class ConversationHandler implements Serializable
 
     public static void clearFile()
     {
-        //TODO: Delete or overwrite file
+        new File(FILEPATH).delete();
 
     }
 
@@ -68,66 +68,5 @@ public class ConversationHandler implements Serializable
         {
             Outputs.create("Error when saving Conversations to file", "ConversationHandler").debug().WARNING().print();
         }
-    }
-
-    public static void test(String password){
-        String originalContent = "foobar";
-        /*SecretKey secretKey = null;
-        char[] pwdArr = password.toCharArray();
-        KeyStore ks = null;
-
-        //Init keystore
-        try (FileOutputStream fos = new FileOutputStream(FILEPATH + "KeyStoreTest")){
-            ks = KeyStore.getInstance(KeyStore.getDefaultType());
-            ks.load(null, pwdArr);
-            ks.store(fos, pwdArr);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        //Init secretKey
-        try {
-            secretKey = KeyGenerator.getInstance("AES").generateKey();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        //Store/Load secretKey
-        KeyStore.SecretKeyEntry secret
-                = new KeyStore.SecretKeyEntry(secretKey);
-        KeyStore.ProtectionParameter pwenc
-                = new KeyStore.PasswordProtection(pwdArr);
-        try {
-            ks.setEntry("KeyUserCookie", secret, pwenc);
-
-            secretKey = (SecretKey) ks.getKey("KeyUserCookie", pwdArr);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-
-        //EncryptDecryptStuff
-        StorageCrypto fileEncrypterDecrypter
-                = null;
-        try {
-            fileEncrypterDecrypter = new StorageCrypto();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            fileEncrypterDecrypter.encrypt(originalContent);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        String decryptedContent = null;
-        try {
-            decryptedContent = fileEncrypterDecrypter.decrypt();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println("Text: "+ decryptedContent);
-
-
     }
 }

@@ -127,7 +127,6 @@ public class WireStorage
             storageCrypto = new StorageCrypto();
 
             JSONObject obj = (JSONObject) new JSONParser().parse(storageCrypto.decrypt());
-            System.err.println(obj.toJSONString());
             cookie = obj.get("accessCookie").toString();
             bearerToken = obj.get("bearerToken").toString();
             bearerExpiringTime = new Timestamp((long) obj.get("bearerTime"));
