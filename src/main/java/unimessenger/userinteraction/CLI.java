@@ -23,11 +23,14 @@ public class CLI implements Runnable
     @Override
     public void run()
     {
-        checkPassword();
         startCLI();
     }
 
-    private void checkPassword() {
+    public static void preRun(){
+        checkPassword();
+    }
+
+    private static void checkPassword() {
         Scanner s = new Scanner(System.in);
         String in;
         do{
@@ -49,6 +52,7 @@ public class CLI implements Runnable
             System.exit(0);
         }
         else{
+            System.out.println("Please enter your Password (if you used encryption on this device before, decrypt by entering the old password): ");
             in=s.next();
             StorageCrypto.setPassphrase(in);
             //Creating a crypto file to test the validity of the passphrase

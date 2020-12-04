@@ -9,7 +9,6 @@ import unimessenger.userinteraction.Outputs;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.security.UnrecoverableKeyException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -42,12 +41,6 @@ public class WireStorage
         lastNotification = null;
         selfProfile = new WireProfile();
         conversations = new ArrayList<>();
-
-        try {
-            storageCrypto = new StorageCrypto();
-        } catch (UnrecoverableKeyException e) {
-            Outputs.create("Something went wrong in the Key reading").ERROR().debug().verbose().print();
-        }
 
         storageDirectory = System.getProperty("user.dir");
         if(storageDirectory == null) storageDirectory = "../DataStorage";
@@ -131,12 +124,16 @@ public class WireStorage
     {
         try
         {
+            storageCrypto = new StorageCrypto();
+
             JSONObject obj = (JSONObject) new JSONParser().parse(storageCrypto.decrypt());
+            System.err.println(obj.toJSONString());
             cookie = obj.get("accessCookie").toString();
             bearerToken = obj.get("bearerToken").toString();
             bearerExpiringTime = new Timestamp((long) obj.get("bearerTime"));
             clientID = obj.get("clientID").toString();
             lastNotification = new Timestamp((long) obj.get("lastNotification"));
+
 
             //Loading the messages and cons into conversations list
             conversations = convH.getConversations();
