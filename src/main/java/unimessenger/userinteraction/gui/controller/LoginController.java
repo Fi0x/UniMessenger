@@ -46,6 +46,9 @@ public class LoginController
             {
                 box = loader.load();
                 loader.<MessengerController>getController().setTabController(tabController);
+
+                tabController.clearTab();
+                tabController.addToTab(box);
             } catch(IOException ignored)
             {
                 Outputs.create("Error loading messenger").debug().WARNING().print();
@@ -56,6 +59,7 @@ public class LoginController
     @FXML
     private void cancel()
     {
+        tabController.closeTab();
     }
 
     public void setTabController(MessengerTabController controller)

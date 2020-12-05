@@ -70,7 +70,6 @@ public class Updater implements Runnable
     {
         if(!runningServices.contains(service)) runningServices.add(service);
     }
-
     public static void removeService(SERVICE service)
     {
         runningServices.remove(service);

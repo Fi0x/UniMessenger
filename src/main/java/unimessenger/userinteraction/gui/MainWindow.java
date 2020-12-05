@@ -16,6 +16,7 @@ public class MainWindow extends Application
 {
     private static MainWindow instance;
     private FXMLLoader mainLoader;
+    private Stage stage;
 
     public MainWindow()
     {
@@ -30,6 +31,7 @@ public class MainWindow extends Application
     @Override
     public void start(Stage primaryStage)
     {
+        stage = primaryStage;
         mainLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
 
         Parent root;
@@ -79,6 +81,16 @@ public class MainWindow extends Application
 
     public void resize()
     {
+        stage.setWidth(1600);
+        stage.setHeight(900);
         //TODO: Adjust size of all elements to current size
+    }
+    public double getWindowWidth()
+    {
+        return stage.getWidth();
+    }
+    public double getWindowHeight()
+    {
+        return stage.getHeight();
     }
 }

@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <HBox alignment="CENTER" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="unimessenger.userinteraction.gui.controller.MessengerController">
-    <VBox>
-        <HBox alignment="CENTER">
+    <VBox maxWidth="500.0" minWidth="300.0">
+        <HBox alignment="CENTER_RIGHT">
             <Label alignment="TOP_LEFT" contentDisplay="CENTER" text="Conversations">
                 <font>
-                    <Font size="18.0"/>
+                    <Font size="18.0" />
                 </font>
             </Label>
-            <Button alignment="TOP_LEFT" mnemonicParsing="false" text="General Settings">
-                <font>
-                    <Font size="18.0"/>
-                </font>
-            </Button>
+         <MenuButton mnemonicParsing="false" text="General Settings">
+           <items>
+             <MenuItem mnemonicParsing="false" text="Show Profile" />
+             <MenuItem mnemonicParsing="false" text="Settings" />
+               <MenuItem mnemonicParsing="false" text="Log out" />
+           </items>
+            <font>
+               <Font size="18.0" />
+            </font>
+         </MenuButton>
         </HBox>
         <TextField promptText="Search for Conversation">
             <font>
-                <Font size="18.0"/>
+                <Font size="18.0" />
             </font>
         </TextField>
         <TabPane side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
             <Tab text="Contacts">
                 <AnchorPane>
                     <ScrollPane>
-                        <AnchorPane/>
+                        <AnchorPane />
                     </ScrollPane>
                 </AnchorPane>
             </Tab>
             <Tab text="Conversations">
-                <AnchorPane>
-                    <ScrollPane>
-                        <AnchorPane/>
-                    </ScrollPane>
-                </AnchorPane>
+                <AnchorPane fx:id="conversationAnchor"/>
             </Tab>
             <Tab text="Archived">
                 <AnchorPane>
                     <ScrollPane>
-                        <AnchorPane/>
+                        <AnchorPane />
                     </ScrollPane>
                 </AnchorPane>
             </Tab>
@@ -51,41 +51,41 @@
         <HBox alignment="CENTER_RIGHT">
             <Label text="CONVERSATIONNAME">
                 <font>
-                    <Font size="18.0"/>
+                    <Font size="18.0" />
                 </font>
             </Label>
             <Button mnemonicParsing="false" text="Call">
                 <font>
-                    <Font size="18.0"/>
+                    <Font size="18.0" />
                 </font>
             </Button>
             <Button mnemonicParsing="false" text="Conversation Settings">
                 <font>
-                    <Font size="18.0"/>
+                    <Font size="18.0" />
                 </font>
             </Button>
         </HBox>
         <ScrollPane>
-            <AnchorPane/>
+            <AnchorPane />
         </ScrollPane>
         <HBox alignment="CENTER_LEFT">
             <MenuButton mnemonicParsing="false" text="Special Message">
                 <items>
-                    <MenuItem mnemonicParsing="false" text="Voice Message"/>
-                    <MenuItem mnemonicParsing="false" text="File"/>
+                    <MenuItem mnemonicParsing="false" text="Voice Message" />
+                    <MenuItem mnemonicParsing="false" text="File" />
                 </items>
                 <font>
-                    <Font size="18.0"/>
+                    <Font size="18.0" />
                 </font>
             </MenuButton>
             <TextField promptText="Write a message">
                 <font>
-                    <Font size="18.0"/>
+                    <Font size="18.0" />
                 </font>
             </TextField>
             <Button mnemonicParsing="false" text="Send">
                 <font>
-                    <Font size="18.0"/>
+                    <Font size="18.0" />
                 </font>
             </Button>
         </HBox>
