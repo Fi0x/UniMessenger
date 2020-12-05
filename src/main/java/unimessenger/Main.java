@@ -59,6 +59,6 @@ public class Main
 
         Outputs.create("Uni-Messenger started").verbose().INFO().print();
 
-        new MainWindow().runGUI();
+        MainWindow.launch(MainWindow.class, args);
     }
 }

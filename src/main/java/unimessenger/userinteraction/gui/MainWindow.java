@@ -10,22 +10,32 @@ import javafx.stage.Stage;
 import unimessenger.Main;
 import unimessenger.userinteraction.tui.Outputs;
 
+import java.io.IOException;
+
 public class MainWindow extends Application
 {
+    private static MainWindow instance;
     private FXMLLoader mainLoader;
-    private FXMLLoader tabLoader;
+
+    public MainWindow()
+    {
+        instance = this;
+    }
+    public static MainWindow getInstance()
+    {
+        if(instance == null) instance = new MainWindow();
+        return instance;
+    }
 
     @Override
     public void start(Stage primaryStage)
     {
         mainLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
-        tabLoader = new FXMLLoader(getClass().getResource("/fxml/messengerTab.fxml"));
+
         Parent root;
-        Tab messengerTab;
         try
         {
             root = mainLoader.load();
-            messengerTab = tabLoader.load();
         } catch(Exception ignored)
         {
             Outputs.create("Could not load GUI. Shutting down").always().WARNING().print();
@@ -33,18 +43,11 @@ public class MainWindow extends Application
             return;
         }
 
-        messengerTab.setText("New Messenger");
-        addMessengerTab(messengerTab);
+        addMessengerTab();
 
         primaryStage.setTitle("UniMessenger");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
-    }
-
-    public void addMessengerTab(Tab tab)
-    {
-        TabPane pane = (TabPane) mainLoader.getNamespace().get("tpMain");
-        pane.getTabs().add(tab);
     }
 
     @Override
@@ -54,8 +57,22 @@ public class MainWindow extends Application
         Main.stp.start();
     }
 
-    public void runGUI()
+    public void addMessengerTab()
     {
-        launch();
+        FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("/fxml/messengerTab.fxml"));
+        Tab messengerTab;
+
+        try
+        {
+            messengerTab = tabLoader.load();
+        } catch(IOException ignored)
+        {
+            Outputs.create("Error loading Tab").debug().WARNING().print();
+            return;
+        }
+        messengerTab.setText("New Messenger");
+
+        TabPane pane = (TabPane) mainLoader.getNamespace().get("tpMain");
+        pane.getTabs().add(messengerTab);
     }
 }

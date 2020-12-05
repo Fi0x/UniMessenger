@@ -3,7 +3,7 @@ package unimessenger.userinteraction.gui.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
+import unimessenger.userinteraction.gui.MainWindow;
 
 public class MessengerTabController
 {
@@ -11,8 +11,6 @@ public class MessengerTabController
     private Tab tab;
     @FXML
     private AnchorPane anchor;
-    @FXML
-    private HBox messengerList;
 
     @FXML
     private void wire()
@@ -23,15 +21,20 @@ public class MessengerTabController
         {
             anchor.getChildren().remove(0);
         }
+
+        MainWindow.getInstance().addMessengerTab();
     }
 
     @FXML
     private void telegram()
     {
         tab.setText("Telegram");
+
         while(anchor.getChildren().size() > 0)
         {
             anchor.getChildren().remove(0);
         }
+
+        MainWindow.getInstance().addMessengerTab();
     }
 }
