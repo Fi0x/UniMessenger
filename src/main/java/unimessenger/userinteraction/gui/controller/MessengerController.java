@@ -21,16 +21,21 @@ public class MessengerController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+    }
+    public void loadChats()
+    {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/chatList.fxml"));
         ScrollPane pane;
 
         try
         {
             pane = loader.load();
-            loader.<ChatListController>getController().setTabController(tabController);
+            ChatListController controller = loader.getController();
+            controller.setTabController(tabController);
+            controller.loadChats(tabController.getService());
         } catch(IOException ignored)
         {
-            Outputs.create("Error loading messenger").debug().WARNING().print();
+            Outputs.create("Error loading chat list").debug().WARNING().print();
             return;
         }
 

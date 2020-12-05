@@ -45,13 +45,15 @@ public class LoginController
             try
             {
                 box = loader.load();
-                loader.<MessengerController>getController().setTabController(tabController);
+                MessengerController controller = loader.getController();
+                controller.setTabController(tabController);
+                controller.loadChats();
 
                 tabController.clearTab();
                 tabController.addToTab(box);
             } catch(IOException ignored)
             {
-                Outputs.create("Error loading messenger").debug().WARNING().print();
+                Outputs.create("Error loading messenger", this.getClass().getName()).debug().WARNING().print();
             }
         }
     }

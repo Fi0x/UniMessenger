@@ -48,7 +48,7 @@ public class MessengerTabController implements Initializable
         APIAccess access = new APIAccess();
         if(access.getLoginInterface(service).checkIfLoggedIn())
         {
-            if(!access.getUtilInterface(service).loadProfile()) Outputs.create("Could not load profile", "MenuLogin").verbose().debug().ERROR().print();
+            if(!access.getUtilInterface(service).loadProfile()) Outputs.create("Could not load profile", this.getClass().getName()).verbose().debug().ERROR().print();
             loadMessenger();
         } else loadLogin();
     }
@@ -91,10 +91,12 @@ public class MessengerTabController implements Initializable
         try
         {
             box = loader.load();
-            loader.<MessengerController>getController().setTabController(this);
+            MessengerController controller = loader.getController();
+            controller.setTabController(this);
+            controller.loadChats();
         } catch(IOException ignored)
         {
-            Outputs.create("Error loading messenger").debug().WARNING().print();
+            Outputs.create("Error loading messenger", this.getClass().getName()).debug().WARNING().print();
             return;
         }
 
