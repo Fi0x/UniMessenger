@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <Tab id="tab" fx:id="tab" text="New Messenger" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="unimessenger.userinteraction.gui.controller.MessengerTabController">
     <AnchorPane id="anchor" fx:id="anchor">
-        <HBox id="messengerList" fx:id="messengerList" alignment="CENTER">
+        <HBox id="messengerList" alignment="CENTER">
             <Button mnemonicParsing="false" onAction="#wire" text="Wire"/>
             <Button mnemonicParsing="false" onAction="#telegram" text="Telegram"/>
         </HBox>

@@ -3,12 +3,30 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.*?>
 <VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="unimessenger.userinteraction.gui.controller.LoginController">
-    <TextField promptText="Username / E-Mail"/>
-    <TextField promptText="Password"/>
-    <SplitPane/>
+    <TextField promptText="Username / E-Mail">
+      <font>
+         <Font size="18.0" />
+      </font></TextField>
+    <TextField promptText="Password">
+      <font>
+         <Font size="18.0" />
+      </font></TextField>
+   <CheckBox mnemonicParsing="false" text="Stay loggen in">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </CheckBox>
+    <SplitPane />
     <HBox alignment="CENTER">
-        <Button mnemonicParsing="false" text="Login"/>
-        <Button mnemonicParsing="false" text="Cancel"/>
+        <Button mnemonicParsing="false" onAction="#login" text="Login">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+        <Button mnemonicParsing="false" onAction="#cancel" text="Cancel">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
     </HBox>
 </VBox>

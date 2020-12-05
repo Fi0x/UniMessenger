@@ -75,4 +75,9 @@ public class MainWindow extends Application
         TabPane pane = (TabPane) mainLoader.getNamespace().get("tpMain");
         pane.getTabs().add(messengerTab);
     }
+
+    public void resize()
+    {
+        //TODO: Adjust size of all elements to current size
+    }
 }
