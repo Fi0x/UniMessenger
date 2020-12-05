@@ -2,25 +2,35 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.text.*?>
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tabClosingPolicy="UNAVAILABLE">
+      <TabPane>
         <tabs>
           <Tab text="SERVICENAME">
             <content>
-              <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+              <AnchorPane>
                      <children>
-                        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                        <HBox alignment="CENTER">
                            <children>
                               <VBox>
                                  <children>
-                                    <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                                    <HBox alignment="CENTER">
                                        <children>
-                                          <Label text="Conversations" />
-                                          <Button mnemonicParsing="false" text="General Settings" />
+                                          <Label alignment="TOP_LEFT" contentDisplay="CENTER" text="Conversations">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font></Label>
+                                          <Button alignment="TOP_LEFT" mnemonicParsing="false" text="General Settings">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font></Button>
                                        </children></HBox>
-                                    <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Search for Conversation" />
-                                    <TabPane tabClosingPolicy="UNAVAILABLE" side="BOTTOM">
+                                    <TextField promptText="Search for Conversation">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font></TextField>
+                                    <TabPane side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
                                       <tabs>
                                         <Tab text="Contacts">
                                           <content>
@@ -28,7 +38,7 @@
                                                    <children>
                                                       <ScrollPane>
                                                         <content>
-                                                          <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                                                          <AnchorPane />
                                                         </content>
                                                       </ScrollPane>
                                                    </children>
@@ -41,7 +51,7 @@
                                               <children>
                                                 <ScrollPane>
                                                   <content>
-                                                    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                                                    <AnchorPane />
                                                   </content>
                                                 </ScrollPane>
                                               </children>
@@ -54,7 +64,7 @@
                                               <children>
                                                 <ScrollPane>
                                                   <content>
-                                                    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                                                    <AnchorPane />
                                                   </content>
                                                 </ScrollPane>
                                               </children>
@@ -64,29 +74,47 @@
                                       </tabs>
                                     </TabPane>
                                  </children></VBox>
-                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                              <VBox>
                                  <children>
-                                    <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                                    <HBox alignment="CENTER_RIGHT">
                                        <children>
-                                          <Label text="CONVERSATIONNAME" />
-                                          <Button mnemonicParsing="false" text="Call" />
-                                          <Button mnemonicParsing="false" text="Conversation Settings" />
+                                          <Label text="CONVERSATIONNAME">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font></Label>
+                                          <Button mnemonicParsing="false" text="Call">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font></Button>
+                                          <Button mnemonicParsing="false" text="Conversation Settings">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font></Button>
                                        </children></HBox>
-                                    <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                                    <ScrollPane>
                                       <content>
-                                        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                                        <AnchorPane />
                                       </content>
                                     </ScrollPane>
-                                    <HBox>
+                                    <HBox alignment="CENTER_LEFT">
                                        <children>
                                           <MenuButton mnemonicParsing="false" text="Special Message">
                                             <items>
-                                              <MenuItem mnemonicParsing="false" text="Action 1" />
-                                              <MenuItem mnemonicParsing="false" text="Action 2" />
+                                              <MenuItem mnemonicParsing="false" text="Voice Message" />
+                                              <MenuItem mnemonicParsing="false" text="File" />
                                             </items>
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
                                           </MenuButton>
-                                          <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Write a message" />
-                                          <Button mnemonicParsing="false" text="Send" />
+                                          <TextField promptText="Write a message">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font></TextField>
+                                          <Button mnemonicParsing="false" text="Send">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font></Button>
                                        </children>
                                     </HBox>
                                  </children></VBox>
