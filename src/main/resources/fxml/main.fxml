@@ -1,7 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="unimessenger.userinteraction.gui.MainController">
-    <Pane prefHeight="400.0" prefWidth="600.0" />
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="SERVICENAME">
+            <content>
+              <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                     <children>
+                        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                           <children>
+                              <VBox>
+                                 <children>
+                                    <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                                       <children>
+                                          <Label text="Conversations" />
+                                          <Button mnemonicParsing="false" text="General Settings" />
+                                       </children></HBox>
+                                    <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Search for Conversation" />
+                                    <TabPane tabClosingPolicy="UNAVAILABLE" side="BOTTOM">
+                                      <tabs>
+                                        <Tab text="Contacts">
+                                          <content>
+                                            <AnchorPane>
+                                                   <children>
+                                                      <ScrollPane>
+                                                        <content>
+                                                          <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                                                        </content>
+                                                      </ScrollPane>
+                                                   </children>
+                                                </AnchorPane>
+                                          </content>
+                                        </Tab>
+                                        <Tab text="Conversations">
+                                          <content>
+                                            <AnchorPane>
+                                              <children>
+                                                <ScrollPane>
+                                                  <content>
+                                                    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                                                  </content>
+                                                </ScrollPane>
+                                              </children>
+                                            </AnchorPane>
+                                          </content>
+                                        </Tab>
+                                        <Tab text="Archived">
+                                          <content>
+                                            <AnchorPane>
+                                              <children>
+                                                <ScrollPane>
+                                                  <content>
+                                                    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                                                  </content>
+                                                </ScrollPane>
+                                              </children>
+                                            </AnchorPane>
+                                          </content>
+                                        </Tab>
+                                      </tabs>
+                                    </TabPane>
+                                 </children></VBox>
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                                 <children>
+                                    <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                                       <children>
+                                          <Label text="CONVERSATIONNAME" />
+                                          <Button mnemonicParsing="false" text="Call" />
+                                          <Button mnemonicParsing="false" text="Conversation Settings" />
+                                       </children></HBox>
+                                    <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                                      <content>
+                                        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                                      </content>
+                                    </ScrollPane>
+                                    <HBox>
+                                       <children>
+                                          <MenuButton mnemonicParsing="false" text="Special Message">
+                                            <items>
+                                              <MenuItem mnemonicParsing="false" text="Action 1" />
+                                              <MenuItem mnemonicParsing="false" text="Action 2" />
+                                            </items>
+                                          </MenuButton>
+                                          <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Write a message" />
+                                          <Button mnemonicParsing="false" text="Send" />
+                                       </children>
+                                    </HBox>
+                                 </children></VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
 </AnchorPane>

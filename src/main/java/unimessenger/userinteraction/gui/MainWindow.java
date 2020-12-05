@@ -24,7 +24,7 @@ public class MainWindow extends Application
             return;
         }
 
-        primaryStage.setTitle("Decryption Program");
+        primaryStage.setTitle("UniMessenger");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
