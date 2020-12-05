@@ -1,8 +1,9 @@
 package unimessenger;
 
 import unimessenger.abstraction.storage.WireStorage;
-import unimessenger.userinteraction.CLI;
-import unimessenger.userinteraction.Outputs;
+import unimessenger.userinteraction.gui.MainWindow;
+import unimessenger.userinteraction.tui.CLI;
+import unimessenger.userinteraction.tui.Outputs;
 import unimessenger.util.Stop;
 import unimessenger.util.Updater;
 
@@ -57,5 +58,7 @@ public class Main
         Outputs.create("CLI thread started").verbose().INFO().print();
 
         Outputs.create("Uni-Messenger started").verbose().INFO().print();
+
+        new MainWindow().runGUI();
     }
 }

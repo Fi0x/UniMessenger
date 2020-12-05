@@ -3,7 +3,7 @@ package unimessenger.util;
 import unimessenger.abstraction.APIAccess;
 import unimessenger.abstraction.interfaces.ILoginOut;
 import unimessenger.abstraction.storage.WireStorage;
-import unimessenger.userinteraction.Outputs;
+import unimessenger.userinteraction.tui.Outputs;
 import unimessenger.util.enums.SERVICE;
 
 import java.util.ArrayList;

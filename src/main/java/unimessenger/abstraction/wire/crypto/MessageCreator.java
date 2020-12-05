@@ -8,7 +8,7 @@ import unimessenger.abstraction.Headers;
 import unimessenger.abstraction.URL;
 import unimessenger.abstraction.wire.messages.*;
 import unimessenger.communication.HTTP;
-import unimessenger.userinteraction.Outputs;
+import unimessenger.userinteraction.tui.Outputs;
 import unimessenger.util.enums.REQUEST;
 
 import java.io.ByteArrayOutputStream;

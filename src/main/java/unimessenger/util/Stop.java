@@ -3,7 +3,7 @@ package unimessenger.util;
 import unimessenger.Main;
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.abstraction.wire.crypto.CryptoFactory;
-import unimessenger.userinteraction.Outputs;
+import unimessenger.userinteraction.tui.Outputs;
 
 public class Stop implements Runnable
 {

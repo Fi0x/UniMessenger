@@ -2,7 +2,7 @@ package unimessenger.abstraction;
 
 import unimessenger.abstraction.interfaces.*;
 import unimessenger.abstraction.interfaces.wire.*;
-import unimessenger.userinteraction.Outputs;
+import unimessenger.userinteraction.tui.Outputs;
 import unimessenger.util.enums.SERVICE;
 
 public class APIAccess
