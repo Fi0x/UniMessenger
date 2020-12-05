@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="unimessenger.userinteraction.gui.controller.LoginController">
-    <VBox>
-        <TextField promptText="Username / E-Mail" />
-        <TextField promptText="Password" />
-      <SplitPane />
-        <HBox alignment="CENTER">
-            <Button mnemonicParsing="false" text="Login"/>
-            <Button mnemonicParsing="false" text="Cancel"/>
-        </HBox>
-    </VBox>
-</AnchorPane>
+<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="unimessenger.userinteraction.gui.controller.LoginController">
+    <TextField promptText="Username / E-Mail"/>
+    <TextField promptText="Password"/>
+    <SplitPane/>
+    <HBox alignment="CENTER">
+        <Button mnemonicParsing="false" text="Login"/>
+        <Button mnemonicParsing="false" text="Cancel"/>
+    </HBox>
+</VBox>
