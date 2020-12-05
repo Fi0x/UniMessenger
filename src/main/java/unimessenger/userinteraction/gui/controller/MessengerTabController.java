@@ -15,6 +15,8 @@ import java.io.IOException;
 
 public class MessengerTabController
 {
+    private SERVICE service = SERVICE.NONE;
+
     @FXML
     private Tab tab;
     @FXML
@@ -24,6 +26,8 @@ public class MessengerTabController
     private void wire()
     {
         tab.setText("Wire");
+        tab.setClosable(true);
+        service = SERVICE.WIRE;
         while(anchor.getChildren().size() > 0)
         {
             anchor.getChildren().remove(0);
@@ -32,9 +36,9 @@ public class MessengerTabController
         MainWindow.getInstance().addMessengerTab();
 
         APIAccess access = new APIAccess();
-        if(access.getLoginInterface(SERVICE.WIRE).checkIfLoggedIn())
+        if(access.getLoginInterface(service).checkIfLoggedIn())
         {
-//            if(!access.getUtilInterface(CLI.currentService).loadProfile()) Outputs.create("Could not load profile", "MenuLogin").verbose().debug().ERROR().print();
+            if(!access.getUtilInterface(service).loadProfile()) Outputs.create("Could not load profile", "MenuLogin").verbose().debug().ERROR().print();
             loadMessenger();
         } else loadLogin();
     }
@@ -42,6 +46,8 @@ public class MessengerTabController
     private void telegram()
     {
         tab.setText("Telegram");
+        tab.setClosable(true);
+        service = SERVICE.TELEGRAM;
         while(anchor.getChildren().size() > 0)
         {
             anchor.getChildren().remove(0);
@@ -60,6 +66,7 @@ public class MessengerTabController
         try
         {
             login = loader.load();
+            loader.<LoginController>getController().setTabController(this);
         } catch(IOException ignored)
         {
             Outputs.create("Error loading login menu").debug().WARNING().print();
@@ -76,6 +83,7 @@ public class MessengerTabController
         try
         {
             box = loader.load();
+            loader.<MessengerController>getController().setTabController(this);
         } catch(IOException ignored)
         {
             Outputs.create("Error loading messenger").debug().WARNING().print();
@@ -83,5 +91,10 @@ public class MessengerTabController
         }
 
         anchor.getChildren().add(box);
+    }
+
+    public SERVICE getService()
+    {
+        return service;
     }
 }

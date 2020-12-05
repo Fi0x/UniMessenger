@@ -5,15 +5,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.*?>
 <VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="unimessenger.userinteraction.gui.controller.LoginController">
-    <TextField promptText="Username / E-Mail">
+    <TextField fx:id="txtMail" promptText="Username / E-Mail">
       <font>
          <Font size="18.0" />
       </font></TextField>
-    <TextField promptText="Password">
+    <TextField fx:id="txtPW" promptText="Password">
       <font>
          <Font size="18.0" />
       </font></TextField>
-   <CheckBox mnemonicParsing="false" text="Stay loggen in">
+   <CheckBox fx:id="cbPermanent" mnemonicParsing="false" text="Stay loggen in">
       <font>
          <Font size="18.0" />
       </font>

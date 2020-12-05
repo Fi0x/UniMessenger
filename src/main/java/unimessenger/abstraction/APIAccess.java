@@ -15,6 +15,11 @@ public class APIAccess
 
     public IConversations getConversationInterface(SERVICE service)
     {
+        if(service == null)
+        {
+            Outputs.create("No service for interface provided", this.getClass().getName()).debug().WARNING().print();
+            return null;
+        }
         switch(service)
         {
             case WIRE:
@@ -29,6 +34,11 @@ public class APIAccess
     }
     public ILoginOut getLoginInterface(SERVICE service)
     {
+        if(service == null)
+        {
+            Outputs.create("No service for interface provided", this.getClass().getName()).debug().WARNING().print();
+            return null;
+        }
         switch(service)
         {
             case WIRE:
@@ -43,6 +53,11 @@ public class APIAccess
     }
     public IMessages getMessageInterface(SERVICE service)
     {
+        if(service == null)
+        {
+            Outputs.create("No service for interface provided", this.getClass().getName()).debug().WARNING().print();
+            return null;
+        }
         switch(service)
         {
             case WIRE:
@@ -57,6 +72,11 @@ public class APIAccess
     }
     public IUtil getUtilInterface(SERVICE service)
     {
+        if(service == null)
+        {
+            Outputs.create("No service for interface provided", this.getClass().getName()).debug().WARNING().print();
+            return null;
+        }
         switch(service)
         {
             case WIRE:
@@ -71,6 +91,11 @@ public class APIAccess
     }
     public IData getDataInterface(SERVICE service)
     {
+        if(service == null)
+        {
+            Outputs.create("No service for interface provided", this.getClass().getName()).debug().WARNING().print();
+            return null;
+        }
         switch(service)
         {
             case WIRE:

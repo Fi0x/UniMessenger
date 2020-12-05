@@ -11,7 +11,6 @@ import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.abstraction.wire.crypto.Prekey;
 import unimessenger.abstraction.wire.crypto.WireCryptoHandler;
 import unimessenger.communication.HTTP;
-import unimessenger.userinteraction.tui.Inputs;
 import unimessenger.userinteraction.tui.Outputs;
 import unimessenger.util.enums.REQUEST;
 
@@ -119,7 +118,8 @@ public class WireUtil implements IUtil
             }
         }
 
-        String pw = Inputs.getStringAnswerFrom("Please enter your password to register this client");
+//        String pw = Inputs.getStringAnswerFrom("Please enter your password to register this client");
+        String pw = "Passwort1!"; //TODO: Remove
         String id = registerClient(WireStorage.persistent, pw);
         if(id == null)
         {

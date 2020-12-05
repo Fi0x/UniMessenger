@@ -71,6 +71,7 @@ public class MainWindow extends Application
             return;
         }
         messengerTab.setText("New Messenger");
+        messengerTab.setClosable(false);
 
         TabPane pane = (TabPane) mainLoader.getNamespace().get("tpMain");
         pane.getTabs().add(messengerTab);

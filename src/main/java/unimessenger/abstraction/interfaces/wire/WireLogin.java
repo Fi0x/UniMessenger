@@ -40,7 +40,11 @@ public class WireLogin implements ILoginOut
         String mail = Inputs.getStringAnswerFrom("Please enter your E-Mail");//TestAccount: pechtl97@gmail.com
         String pw = Inputs.getStringAnswerFrom("Please enter your password");//TestAccount: Passwort1!
         WireStorage.persistent = Inputs.getBoolAnswerFrom("Do you want to stay logged in?");
-
+        return login(mail, pw);
+    }
+    @Override
+    public boolean login(String mail, String pw)
+    {
         String url = URL.WIRE + URL.WIRE_LOGIN;
         if(WireStorage.persistent) url += URL.WIRE_PERSIST;
 
