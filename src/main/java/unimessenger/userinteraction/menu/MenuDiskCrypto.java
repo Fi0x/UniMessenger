@@ -25,13 +25,11 @@ public class MenuDiskCrypto
                 else showMenu();
                 break;
             case 3:
-                if(!deleteFiles())
-                {
-                    System.out.println("Files not deleted");
-                    showMenu();
-                    break;
-                }
-                Outputs.create("Local user-information deleted").always().ALERT().print();
+                if(!deleteFiles()) System.out.println("Files not deleted");
+                else Outputs.create("Local user-information deleted").always().ALERT().print();
+                showMenu();
+                break;
+
             case 1:
                 StorageCrypto.setPassphrase("");
                 break;
