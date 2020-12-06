@@ -39,8 +39,9 @@ public class ChatListController implements Initializable
             l.setId(id);
             l.setFont(new Font(18));
 
-            l.setOnMouseClicked(mouseEvent -> {
-                messengerController.openChat(l.getId());
+            l.setOnMouseClicked(mouseEvent ->
+            {
+                if(!id.equals(messengerController.getCurrentChatID())) messengerController.openChat(l.getId());
             });
 
             chatList.getChildren().add(l);

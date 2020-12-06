@@ -25,7 +25,7 @@
         </Button>
     </HBox>
     <ScrollPane>
-        <AnchorPane/>
+        <AnchorPane fx:id="chatHistory"/>
     </ScrollPane>
     <HBox alignment="CENTER_LEFT">
         <MenuButton mnemonicParsing="false" text="Special Message">

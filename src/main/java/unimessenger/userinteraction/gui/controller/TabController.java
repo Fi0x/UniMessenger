@@ -11,7 +11,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import unimessenger.abstraction.APIAccess;
+import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.userinteraction.gui.MainWindow;
+import unimessenger.userinteraction.tui.CLI;
 import unimessenger.userinteraction.tui.Outputs;
 import unimessenger.util.Updater;
 import unimessenger.util.enums.SERVICE;
@@ -46,7 +48,7 @@ public class TabController implements Initializable
         MainWindow.getInstance().addMessengerTab();
 
         APIAccess access = new APIAccess();
-        if(access.getLoginInterface(service).checkIfLoggedIn())
+        if(access.getLoginInterface(service).checkIfLoggedIn() || WireStorage.getBearerToken() != null && access.getUtilInterface(CLI.currentService).refreshSession())
         {
             if(!access.getUtilInterface(service).loadProfile()) Outputs.create("Could not load profile", this.getClass().getName()).verbose().debug().ERROR().print();
             loadMessenger();
