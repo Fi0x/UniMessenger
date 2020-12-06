@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import java.net.URL?>
 <HBox alignment="CENTER" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="unimessenger.userinteraction.gui.controller.MessengerController">
     <VBox maxWidth="500.0" minWidth="300.0">
         <HBox alignment="CENTER_RIGHT">
@@ -90,4 +91,7 @@
             </Button>
         </HBox>
     </VBox>
+    <stylesheets>
+        <URL value="@../css/messenger.css"/>
+    </stylesheets>
 </HBox>

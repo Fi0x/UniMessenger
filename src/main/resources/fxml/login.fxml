@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.*?>
+<?import java.net.URL?>
 <VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="unimessenger.userinteraction.gui.controller.LoginController">
     <TextField fx:id="txtMail" promptText="Username / E-Mail">
       <font>
@@ -29,4 +30,7 @@
             <Font size="18.0" />
          </font></Button>
     </HBox>
+    <stylesheets>
+        <URL value="@../css/login.css"/>
+    </stylesheets>
 </VBox>

@@ -53,12 +53,16 @@ public class Main
         Outputs.create("Creating new Thread for CLI...").verbose().INFO().print();
         cli = new Thread(new CLI());
         Outputs.create("CLI thread created").verbose().INFO().print();
-        Outputs.create("Starting CLI thread").verbose().INFO().print();
-        cli.start();
-        Outputs.create("CLI thread started").verbose().INFO().print();
+
+        Outputs.create("Ask User to start GUI...").verbose().INFO().print();
+        if(MainWindow.showGUI()) Outputs.create("GUI started").verbose().INFO().print();
+        else
+        {
+            Outputs.create("Starting CLI thread").verbose().INFO().print();
+            cli.start();
+            Outputs.create("CLI thread started").verbose().INFO().print();
+        }
 
         Outputs.create("Uni-Messenger started").verbose().INFO().print();
-
-        MainWindow.launch(MainWindow.class, args);
     }
 }

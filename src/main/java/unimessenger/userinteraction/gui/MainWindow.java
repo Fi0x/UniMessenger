@@ -8,6 +8,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 import unimessenger.Main;
+import unimessenger.userinteraction.tui.Inputs;
 import unimessenger.userinteraction.tui.Outputs;
 
 import java.io.IOException;
@@ -51,17 +52,25 @@ public class MainWindow extends Application
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
-
     @Override
     public void stop()
     {
         Outputs.create("GUI closed. Shutting down").always().WARNING().print();
         Main.stp.start();
     }
+    public static boolean showGUI()
+    {
+        if(Inputs.getBoolAnswerFrom("Would you like to use a GUI?"))
+        {
+            launch();
+            return true;
+        }
+        return false;
+    }
 
     public void addMessengerTab()
     {
-        FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("/fxml/messengerTab.fxml"));
+        FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("/fxml/tab.fxml"));
         Tab messengerTab;
 
         try
