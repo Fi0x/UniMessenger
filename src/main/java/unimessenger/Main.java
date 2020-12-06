@@ -3,6 +3,7 @@ package unimessenger;
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.userinteraction.gui.MainWindow;
 import unimessenger.userinteraction.tui.CLI;
+import unimessenger.userinteraction.tui.Inputs;
 import unimessenger.userinteraction.tui.Outputs;
 import unimessenger.util.Stop;
 import unimessenger.util.Updater;
@@ -16,6 +17,7 @@ public class Main
     public static boolean verbose = false;
 
     public static Thread cli;
+    public static Thread gui;
     public static Thread updt;
     public static Thread stp;
 
@@ -46,17 +48,31 @@ public class Main
         Outputs.create("Creating new thread for updater...").verbose().INFO().print();
         updt = new Thread(new Updater());
         Outputs.create("Updater thread created").verbose().INFO().print();
-        Outputs.create("Starting updater thread").verbose().INFO().print();
-        updt.start();
-        Outputs.create("Updater thread started").verbose().INFO().print();
 
         Outputs.create("Creating new Thread for CLI...").verbose().INFO().print();
         cli = new Thread(new CLI());
         Outputs.create("CLI thread created").verbose().INFO().print();
 
-        Outputs.create("Ask User to start GUI...").verbose().INFO().print();
-        if(MainWindow.showGUI()) Outputs.create("GUI started").verbose().INFO().print();
-        else
+        Outputs.create("Creating new Thread for GUI...").verbose().INFO().print();
+        gui = new Thread(() -> MainWindow.launch(MainWindow.class, args));
+        Outputs.create("GUI thread created").verbose().INFO().print();
+
+        Outputs.create("Starting updater thread").verbose().INFO().print();
+        updt.start();
+        Outputs.create("Updater thread started").verbose().INFO().print();
+
+        boolean clib;
+        boolean guib = Inputs.getBoolAnswerFrom("Would you like to use a GUI?");
+        if(guib) clib = Inputs.getBoolAnswerFrom("Would you like to start the CLI as well?");
+        else clib = true;
+
+        if(guib)
+        {
+            Outputs.create("GUI starting...").verbose().INFO().print();
+            gui.start();
+            Outputs.create("GUI started").verbose().INFO().print();
+        }
+        if(clib)
         {
             Outputs.create("Starting CLI thread").verbose().INFO().print();
             cli.start();

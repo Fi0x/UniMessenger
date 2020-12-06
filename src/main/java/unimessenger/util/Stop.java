@@ -18,6 +18,10 @@ public class Stop implements Runnable
         Main.cli.interrupt();
         Outputs.create("CLI thread stopped").verbose().INFO().print();
 
+        Outputs.create("Stopping GUI thread...").verbose().INFO().print();
+        Main.gui.stop();
+        Outputs.create("GUI thread stopped").verbose().INFO().print();
+
         Outputs.create("Writing data to file...").verbose().INFO().print();
         WireStorage.saveDataInFile();
         Outputs.create("Storage written to file").verbose().INFO().print();

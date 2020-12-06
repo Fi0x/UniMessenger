@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 import unimessenger.abstraction.APIAccess;
 import unimessenger.userinteraction.gui.MainWindow;
 import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.util.Updater;
 import unimessenger.util.enums.SERVICE;
 
 import java.io.IOException;
@@ -50,6 +51,7 @@ public class TabController implements Initializable
         {
             if(!access.getUtilInterface(service).loadProfile()) Outputs.create("Could not load profile", this.getClass().getName()).verbose().debug().ERROR().print();
             loadMessenger();
+            Updater.addService(service);
         } else loadLogin();
     }
     @FXML

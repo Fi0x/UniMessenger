@@ -2,17 +2,14 @@ package unimessenger.userinteraction.gui.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import unimessenger.userinteraction.tui.Outputs;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
-public class MessengerController implements Initializable
+public class MessengerController
 {
     private TabController tabController;
     private String currentChatID;
@@ -22,10 +19,6 @@ public class MessengerController implements Initializable
     @FXML
     private AnchorPane conversationAnchor;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle)
-    {
-    }
     public void loadChats()
     {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/chatList.fxml"));

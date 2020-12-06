@@ -9,6 +9,7 @@ import unimessenger.abstraction.APIAccess;
 import unimessenger.abstraction.interfaces.ILoginOut;
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.util.Updater;
 
 import java.io.IOException;
 
@@ -39,6 +40,8 @@ public class LoginController
 
         if(login.login(mail, pw))
         {
+            Updater.addService(tabController.getService());
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/messenger.fxml"));
             HBox box;
 

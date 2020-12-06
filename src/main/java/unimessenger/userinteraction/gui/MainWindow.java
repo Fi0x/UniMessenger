@@ -8,7 +8,6 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 import unimessenger.Main;
-import unimessenger.userinteraction.tui.Inputs;
 import unimessenger.userinteraction.tui.Outputs;
 
 import java.io.IOException;
@@ -57,15 +56,6 @@ public class MainWindow extends Application
     {
         Outputs.create("GUI closed. Shutting down").always().WARNING().print();
         Main.stp.start();
-    }
-    public static boolean showGUI()
-    {
-        if(Inputs.getBoolAnswerFrom("Would you like to use a GUI?"))
-        {
-            launch();
-            return true;
-        }
-        return false;
     }
 
     public void addMessengerTab()
