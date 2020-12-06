@@ -1,7 +1,3 @@
-#displayedMessage {
-    -fx-font-size: 18;
-}
-
 #messageText {
     -fx-font-weight: bold;
     -fx-label-padding: 0 20 0 0;

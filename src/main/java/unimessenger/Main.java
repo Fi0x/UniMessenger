@@ -2,10 +2,10 @@ package unimessenger;
 
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.userinteraction.gui.MainWindow;
+import unimessenger.userinteraction.menu.MenuDiskCrypto;
 import unimessenger.userinteraction.tui.CLI;
 import unimessenger.userinteraction.tui.Inputs;
 import unimessenger.userinteraction.tui.Outputs;
-import unimessenger.userinteraction.menu.MenuDiskCrypto;
 import unimessenger.util.Stop;
 import unimessenger.util.Updater;
 
@@ -63,10 +63,6 @@ public class Main
         gui = new Thread(() -> MainWindow.launch(MainWindow.class, args));
         Outputs.create("GUI thread created").verbose().INFO().print();
 
-        Outputs.create("Starting updater thread").verbose().INFO().print();
-        updt.start();
-        Outputs.create("Updater thread started").verbose().INFO().print();
-
         startUI();
         Outputs.create("Uni-Messenger started").verbose().INFO().print();
     }
@@ -90,9 +86,6 @@ public class Main
             cli.start();
             Outputs.create("CLI thread started").verbose().INFO().print();
         }
-        Outputs.create("Starting CLI thread").verbose().INFO().print();
-        cli.start();
-        Outputs.create("CLI thread started").verbose().INFO().print();
 
         Outputs.create("Uni-Messenger started").verbose().INFO().print();
     }

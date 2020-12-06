@@ -2,10 +2,6 @@
     -fx-font-size: 18;
 }
 
-.button:hover {
-    -fx-background-color: #d6bc00;
-}
-
 .label {
     -fx-label-padding: 5 5 5 5;
 }
