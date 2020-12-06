@@ -5,7 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import unimessenger.abstraction.APIAccess;
 import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.util.Updater;
 
 import java.io.IOException;
 
@@ -18,6 +20,14 @@ public class MessengerController
     private AnchorPane conversationListAnchor;
     @FXML
     private AnchorPane conversationAnchor;
+
+    @FXML
+    private void logout()
+    {
+        new APIAccess().getLoginInterface(tabController.getService()).logout();
+        Updater.removeService(tabController.getService());
+        tabController.closeTab();
+    }
 
     public void loadChats()
     {

@@ -16,7 +16,7 @@
                 <items>
                     <MenuItem mnemonicParsing="false" text="Show Profile"/>
              <MenuItem mnemonicParsing="false" text="Settings" />
-               <MenuItem mnemonicParsing="false" text="Log out" />
+                    <MenuItem fx:id="logoutOption" mnemonicParsing="false" onAction="#logout" text="Log out"/>
            </items>
             <font>
                <Font size="18.0" />
