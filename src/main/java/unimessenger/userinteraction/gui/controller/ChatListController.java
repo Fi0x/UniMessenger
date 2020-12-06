@@ -15,7 +15,8 @@ import java.util.ResourceBundle;
 
 public class ChatListController implements Initializable
 {
-    private MessengerTabController tabController;
+    private TabController tabController;
+    private MessengerController messengerController;
 
     @FXML
     private VBox chatList;
@@ -39,15 +40,19 @@ public class ChatListController implements Initializable
             l.setFont(new Font(18));
 
             l.setOnMouseClicked(mouseEvent -> {
-                //TODO: Open specific chat
+                messengerController.openChat(l.getId());
             });
 
             chatList.getChildren().add(l);
         }
     }
 
-    public void setTabController(MessengerTabController controller)
+    public void setTabController(TabController controller)
     {
         tabController = controller;
+    }
+    public void setMessengerController(MessengerController controller)
+    {
+        messengerController = controller;
     }
 }

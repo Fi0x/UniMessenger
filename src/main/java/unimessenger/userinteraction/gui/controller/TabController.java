@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MessengerTabController implements Initializable
+public class TabController implements Initializable
 {
     private SERVICE service = SERVICE.NONE;
     private String currentChatID = null;

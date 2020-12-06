@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import unimessenger.userinteraction.tui.Outputs;
 
 import java.io.IOException;
@@ -13,10 +14,13 @@ import java.util.ResourceBundle;
 
 public class MessengerController implements Initializable
 {
-    private MessengerTabController tabController;
+    private TabController tabController;
+    private String currentChatID;
 
     @FXML
-    public AnchorPane conversationAnchor;
+    private AnchorPane conversationListAnchor;
+    @FXML
+    private AnchorPane conversationAnchor;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
@@ -30,8 +34,11 @@ public class MessengerController implements Initializable
         try
         {
             pane = loader.load();
+
             ChatListController controller = loader.getController();
             controller.setTabController(tabController);
+            controller.setMessengerController(this);
+
             controller.loadChats(tabController.getService());
         } catch(IOException ignored)
         {
@@ -39,11 +46,41 @@ public class MessengerController implements Initializable
             return;
         }
 
-        conversationAnchor.getChildren().add(pane);
+        conversationListAnchor.getChildren().add(pane);
     }
 
-    public void setTabController(MessengerTabController controller)
+    public void setTabController(TabController controller)
     {
         tabController = controller;
+    }
+    public void openChat(String chatID)
+    {
+        currentChatID = chatID;
+        while(conversationAnchor.getChildren().size() > 0)
+        {
+            conversationAnchor.getChildren().remove(0);
+        }
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/conversation.fxml"));
+        VBox box;
+
+        try
+        {
+            box = loader.load();
+
+            ConversationController controller = loader.getController();
+            controller.setTabController(tabController);
+            controller.setMessengerController(this);
+        } catch(IOException ignored)
+        {
+            Outputs.create("Chat could not be loaded", this.getClass().getName()).debug().WARNING().print();
+            return;
+        }
+
+        conversationAnchor.getChildren().add(box);
+    }
+    public String getCurrentChatID()
+    {
+        return currentChatID;
     }
 }

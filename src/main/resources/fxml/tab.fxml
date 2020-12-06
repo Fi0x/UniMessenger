@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import java.net.URL?>
-<Tab id="tab" fx:id="tab" text="New Messenger" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="unimessenger.userinteraction.gui.controller.MessengerTabController">
+<Tab xmlns:fx="http://javafx.com/fxml/1" id="tab" fx:id="tab" text="New Messenger" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="unimessenger.userinteraction.gui.controller.TabController">
     <AnchorPane id="anchor" fx:id="anchor">
         <HBox id="messengerList" alignment="CENTER">
             <Button mnemonicParsing="false" onAction="#wire" text="Wire"/>

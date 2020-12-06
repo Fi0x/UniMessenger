@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class LoginController
 {
-    private MessengerTabController tabController;
+    private TabController tabController;
 
     @FXML
     private TextField txtMail;
@@ -64,7 +64,7 @@ public class LoginController
         tabController.closeTab();
     }
 
-    public void setTabController(MessengerTabController controller)
+    public void setTabController(TabController controller)
     {
         tabController = controller;
     }
