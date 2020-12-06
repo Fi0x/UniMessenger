@@ -51,6 +51,7 @@ public class WireUtil implements IUtil
             Outputs.create("Response code is " + response.statusCode() + ". Deleting Wire access cookie...", this.getClass().getName()).debug().ERROR().print();
             WireStorage.cookie = null;
             WireStorage.clearFile();
+            System.out.println("Test");
         }
         return false;
     }
