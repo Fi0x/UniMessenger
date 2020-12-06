@@ -74,6 +74,8 @@ public class MessengerController
             ConversationController controller = loader.getController();
             controller.setTabController(tabController);
             controller.setMessengerController(this);
+
+            controller.load();
         } catch(IOException ignored)
         {
             Outputs.create("Chat could not be loaded", this.getClass().getName()).debug().WARNING().print();

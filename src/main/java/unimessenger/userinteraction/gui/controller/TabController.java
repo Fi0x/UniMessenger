@@ -23,7 +23,6 @@ import java.util.ResourceBundle;
 public class TabController implements Initializable
 {
     private SERVICE service = SERVICE.NONE;
-    private String currentChatID = null;
 
     @FXML
     private Tab tab;
@@ -114,14 +113,6 @@ public class TabController implements Initializable
     public SERVICE getService()
     {
         return service;
-    }
-    public String getCurrentChatID()
-    {
-        return currentChatID;
-    }
-    public void setCurrentChatID(String chatID)
-    {
-        currentChatID = chatID;
     }
     public void clearTab()
     {
