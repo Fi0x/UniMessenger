@@ -69,18 +69,14 @@ public class Main
 
     private static void startUI()
     {
-        boolean clib;
         boolean guib = Inputs.getBoolAnswerFrom("Would you like to use a GUI?");
-        if(guib) clib = Inputs.getBoolAnswerFrom("Would you like to start the CLI as well?");
-        else clib = true;
 
         if(guib)
         {
             Outputs.create("GUI starting...").verbose().INFO().print();
             gui.start();
             Outputs.create("GUI started").verbose().INFO().print();
-        }
-        if(clib)
+        } else
         {
             Outputs.create("Starting CLI thread").verbose().INFO().print();
             cli.start();

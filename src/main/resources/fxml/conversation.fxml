@@ -18,7 +18,7 @@
             <items>
                 <MenuItem mnemonicParsing="false" text="Voice Message"/>
                 <MenuItem mnemonicParsing="false" text="File"/>
-                <MenuItem fx:id="temporaryMessage" disable="true" mnemonicParsing="false" text="Temporary"/>
+                <MenuItem fx:id="temporaryMessage" disable="true" mnemonicParsing="false" onAction="#timed" text="Temporary Message"/>
                 <MenuItem fx:id="pingMessage" disable="true" mnemonicParsing="false" onAction="#ping" text="Ping"/>
             </items>
         </MenuButton>

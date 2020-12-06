@@ -22,6 +22,7 @@ public class ConversationController
 {
     private TabController tabController;
     private MessengerController messengerController;
+    private boolean timed = false;
 
     @FXML
     private Label lblConversationName;
@@ -47,7 +48,10 @@ public class ConversationController
             IMessages msgSender = access.getMessageInterface(tabController.getService());
             if(msgSender != null)
             {
-                if(msgSender.sendTextMessage(messengerController.getCurrentChatID(), txtMessage.getText()))
+                if(timed)
+                {
+                    msgSender.sendTimedText(messengerController.getCurrentChatID(), txtMessage.getText(), 300 * 1000);
+                } else if(msgSender.sendTextMessage(messengerController.getCurrentChatID(), txtMessage.getText()))
                 {
                     ArrayList<Message> sentMsg = access.getDataInterface(tabController.getService()).getLastXMessagesFromConversation(messengerController.getCurrentChatID(), 1);
                     if(!sentMsg.isEmpty()) addChatMessage(sentMsg.get(0));
@@ -57,6 +61,21 @@ public class ConversationController
 
         txtMessage.clear();
         btnSendMsg.setDisable(false);
+    }
+    @FXML
+    private void timed()
+    {
+        timed = !timed;
+
+        if(timed)
+        {
+            txtMessage.setPromptText("Send a timed message");
+            temporaryMessage.setText("Permanent Message");
+        } else
+        {
+            txtMessage.setPromptText("Write a message");
+            temporaryMessage.setText("Temporary Message");
+        }
     }
     @FXML
     private void ping()
