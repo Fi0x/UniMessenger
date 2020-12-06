@@ -27,6 +27,12 @@ public class MessageCreator
         return msg.createGenericMsg();
     }
 
+    public static Messages.GenericMessage createGenericTimedMessage(String text, long millis)
+    {
+        MessageEphemeral msg = new MessageEphemeral(text, millis);
+        return msg.createGenericMsg();
+    }
+
     public static Messages.GenericMessage createGenericPingMessage()
     {
         Ping msg = new Ping();

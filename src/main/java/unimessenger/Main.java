@@ -2,10 +2,10 @@ package unimessenger;
 
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.userinteraction.gui.MainWindow;
-import unimessenger.userinteraction.menu.MenuDiskCrypto;
 import unimessenger.userinteraction.tui.CLI;
 import unimessenger.userinteraction.tui.Inputs;
 import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.userinteraction.tui.menu.MenuDiskCrypto;
 import unimessenger.util.Stop;
 import unimessenger.util.Updater;
 

@@ -33,7 +33,7 @@ public class MenuChat
                 showMessages();
                 break;
             case 2:
-                if(sendMessage()) Outputs.create("Message successfully sent").verbose().INFO().print();
+                if(sendMessage(0)) Outputs.create("Message successfully sent").verbose().INFO().print();
                 else System.out.println("Couldn't send the message");
                 break;
             case 3:
@@ -100,7 +100,7 @@ public class MenuChat
             System.out.println(msg.getTime() + " -- " + msg.getSenderID() + ": " + msg.getText());
         }
     }
-    private static boolean sendMessage()
+    private static boolean sendMessage(long timed)
     {
         String text = Inputs.getTextAnswerFrom("Please enter the text you would like to send.");
 
@@ -113,12 +113,14 @@ public class MenuChat
         //TODO: Add timed messages
 
         IMessages msg = new APIAccess().getMessageInterface(CLI.currentService);
-        return msg.sendTextMessage(CLI.currentChatID, text);
+        if(timed == 0) return msg.sendTextMessage(CLI.currentChatID, text);
+        else return msg.sendTimedText(CLI.currentChatID, text, timed);
     }
     private static boolean sendSpecialMessage()
     {
         System.out.println("1) Send file");
-        System.out.println("2) Abort");
+        System.out.println("2) Send timed message");
+        System.out.println("3) Abort");
 
         int in = Inputs.getIntAnswerFrom("Select an option");
 
@@ -129,6 +131,10 @@ public class MenuChat
                 File file = new File(path);
                 return new APIAccess().getMessageInterface(CLI.currentService).sendFile(CLI.currentChatID, file);
             case 2:
+                long time = Inputs.getIntAnswerFrom("How many seconds should the message stay?");
+                sendMessage(time * 1000);
+                break;
+            case 3:
                 return true;
             default:
                 Outputs.create("Invalid option").always().WARNING().print();

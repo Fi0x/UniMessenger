@@ -1,4 +1,4 @@
-package unimessenger.userinteraction.menu;
+package unimessenger.userinteraction.tui.menu;
 
 import unimessenger.abstraction.storage.StorageCrypto;
 import unimessenger.userinteraction.tui.Inputs;

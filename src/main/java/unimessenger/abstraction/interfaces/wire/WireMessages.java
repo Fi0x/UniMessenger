@@ -29,6 +29,17 @@ public class WireMessages implements IMessages
         return sender.sendMessage(chatID, MessageCreator.createGenericTextMessage(text));
     }
     @Override
+    public boolean sendTimedText(String chatID, String text, long millis)
+    {
+        WireConversation conversation = WireStorage.getConversationByID(chatID);
+        if(conversation == null)
+        {
+            Outputs.create("ConversationID not found", this.getClass().getName()).debug().WARNING().print();
+            return false;
+        }
+        return sender.sendMessage(chatID, MessageCreator.createGenericTimedMessage(text, millis));
+    }
+    @Override
     public boolean sendFile(String chatID, File file)
     {
         WireConversation conversation = WireStorage.getConversationByID(chatID);
