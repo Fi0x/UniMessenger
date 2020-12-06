@@ -1,0 +1,16 @@
+#displayedMessage {
+    -fx-font-size: 18;
+}
+
+#messageText {
+    -fx-font-weight: bold;
+    -fx-label-padding: 20;
+}
+
+#messageTime {
+    -fx-label-padding: 20;
+}
+
+#messageSender {
+    -fx-label-padding: 20;
+}

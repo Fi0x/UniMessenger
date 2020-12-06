@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.*?>
@@ -25,7 +24,7 @@
         </Button>
     </HBox>
     <ScrollPane>
-        <AnchorPane fx:id="chatHistory"/>
+        <VBox fx:id="chatHistory"/>
     </ScrollPane>
     <HBox alignment="CENTER_LEFT">
         <MenuButton mnemonicParsing="false" text="Special Message">

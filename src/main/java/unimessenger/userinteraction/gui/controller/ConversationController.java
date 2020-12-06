@@ -5,8 +5,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import unimessenger.abstraction.APIAccess;
 import unimessenger.abstraction.interfaces.IData;
 import unimessenger.abstraction.interfaces.IMessages;
@@ -25,7 +25,7 @@ public class ConversationController
     @FXML
     private Label lblConversationName;
     @FXML
-    private AnchorPane chatHistory;
+    private VBox chatHistory;
     @FXML
     private TextField txtMessage;
     @FXML
@@ -88,6 +88,10 @@ public class ConversationController
             Label text = new Label(msgText);
             Label time = new Label(msgTime);
             Label sender = new Label(msgSender);
+
+            text.setId("messageText");
+            time.setId("messageTime");
+            sender.setId("messageSender");
 
             messageBox.getChildren().add(time);
             messageBox.getChildren().add(sender);
