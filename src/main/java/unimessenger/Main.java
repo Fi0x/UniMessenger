@@ -5,6 +5,7 @@ import unimessenger.userinteraction.gui.MainWindow;
 import unimessenger.userinteraction.tui.CLI;
 import unimessenger.userinteraction.tui.Inputs;
 import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.userinteraction.menu.MenuDiskCrypto;
 import unimessenger.util.Stop;
 import unimessenger.util.Updater;
 
@@ -33,21 +34,26 @@ public class Main
         WireStorage.init();
         Outputs.create("Storage initialized").verbose().INFO().print();
 
-        Outputs.create("Asking for password from user for FileVault").verbose().INFO().print();
-        CLI.preRun();
-        Outputs.create("Decrypting fileVault").verbose().INFO().print();
+        Outputs.create("Checking Disk encryption...").verbose().INFO().print();
+        MenuDiskCrypto.showMenu();
+        Outputs.create("Disk is decrypted").verbose().INFO().print();
 
         Outputs.create("Loading login files...").verbose().INFO().print();
         WireStorage.readDataFromFiles();
         Outputs.create("File-loading finished").verbose().INFO().print();
 
-        Outputs.create("Creating new thread for ending program...").verbose().INFO().print();
+        Outputs.create("Creating Threads for").verbose().INFO().print();
+        Outputs.create("Program end").verbose().INFO().print();
         stp = new Thread(new Stop());
-        Outputs.create("Program-ending thread created").verbose().INFO().print();
-
-        Outputs.create("Creating new thread for updater...").verbose().INFO().print();
+        Outputs.create("Updater").verbose().INFO().print();
         updt = new Thread(new Updater());
-        Outputs.create("Updater thread created").verbose().INFO().print();
+        Outputs.create("CLI").verbose().INFO().print();
+        cli = new Thread(new CLI());
+        Outputs.create("Threads created").verbose().INFO().print();
+
+        Outputs.create("Starting updater thread").verbose().INFO().print();
+        updt.start();
+        Outputs.create("Updater thread started").verbose().INFO().print();
 
         Outputs.create("Creating new Thread for CLI...").verbose().INFO().print();
         cli = new Thread(new CLI());
@@ -84,5 +90,10 @@ public class Main
             cli.start();
             Outputs.create("CLI thread started").verbose().INFO().print();
         }
+        Outputs.create("Starting CLI thread").verbose().INFO().print();
+        cli.start();
+        Outputs.create("CLI thread started").verbose().INFO().print();
+
+        Outputs.create("Uni-Messenger started").verbose().INFO().print();
     }
 }
