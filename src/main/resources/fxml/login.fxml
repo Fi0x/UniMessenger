@@ -3,32 +3,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.*?>
 <?import java.net.URL?>
 <VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="unimessenger.userinteraction.gui.controller.LoginController">
-    <TextField fx:id="txtMail" promptText="Username / E-Mail">
-      <font>
-         <Font size="18.0" />
-      </font></TextField>
-    <TextField fx:id="txtPW" promptText="Password">
-      <font>
-         <Font size="18.0" />
-      </font></TextField>
-   <CheckBox fx:id="cbPermanent" mnemonicParsing="false" text="Stay loggen in">
-      <font>
-         <Font size="18.0" />
-      </font>
-   </CheckBox>
-    <SplitPane />
+    <TextField fx:id="txtMail" promptText="Username / E-Mail"/>
+    <TextField fx:id="txtPW" promptText="Password"/>
+    <CheckBox fx:id="cbPermanent" mnemonicParsing="false" text="Stay loggen in"/>
+    <SplitPane/>
     <HBox alignment="CENTER">
-        <Button mnemonicParsing="false" onAction="#login" text="Login">
-         <font>
-            <Font size="18.0" />
-         </font></Button>
-        <Button mnemonicParsing="false" onAction="#cancel" text="Cancel">
-         <font>
-            <Font size="18.0" />
-         </font></Button>
+        <Button mnemonicParsing="false" onAction="#login" text="Login"/>
+        <Button mnemonicParsing="false" onAction="#cancel" text="Cancel"/>
     </HBox>
     <stylesheets>
         <URL value="@../css/login.css"/>

@@ -4,13 +4,13 @@
 
 #messageText {
     -fx-font-weight: bold;
-    -fx-label-padding: 20;
+    -fx-label-padding: 0 20 0 0;
 }
 
 #messageTime {
-    -fx-label-padding: 20;
+    -fx-label-padding: 0 20 0 0;
 }
 
 #messageSender {
-    -fx-label-padding: 20;
+    -fx-label-padding: 0 20 0 0;
 }

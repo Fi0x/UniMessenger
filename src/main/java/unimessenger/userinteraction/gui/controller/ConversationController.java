@@ -15,6 +15,7 @@ import unimessenger.abstraction.storage.Message;
 import unimessenger.abstraction.wire.crypto.MessageCreator;
 import unimessenger.util.enums.SERVICE;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ConversationController
@@ -42,8 +43,16 @@ public class ConversationController
 
         if(!txtMessage.getText().isEmpty())
         {
-            IMessages msgSender = new APIAccess().getMessageInterface(tabController.getService());
-            if(msgSender != null) msgSender.sendTextMessage(messengerController.getCurrentChatID(), txtMessage.getText());
+            APIAccess access = new APIAccess();
+            IMessages msgSender = access.getMessageInterface(tabController.getService());
+            if(msgSender != null)
+            {
+                if(msgSender.sendTextMessage(messengerController.getCurrentChatID(), txtMessage.getText()))
+                {
+                    ArrayList<Message> sentMsg = access.getDataInterface(tabController.getService()).getLastXMessagesFromConversation(messengerController.getCurrentChatID(), 1);
+                    if(!sentMsg.isEmpty()) addChatMessage(sentMsg.get(0));
+                }
+            }
         }
 
         txtMessage.clear();
@@ -79,28 +88,33 @@ public class ConversationController
 
         for(Message message : messages)
         {
-            HBox messageBox = new HBox();
-
-            String msgText = message.getText();
-            String msgTime = message.getTime().toString();
-            String msgSender = message.getSenderID();
-
-            Label text = new Label(msgText);
-            Label time = new Label(msgTime);
-            Label sender = new Label(msgSender);
-
-            text.setId("messageText");
-            time.setId("messageTime");
-            sender.setId("messageSender");
-
-            messageBox.getChildren().add(time);
-            messageBox.getChildren().add(sender);
-            messageBox.getChildren().add(text);
-
-            messageBox.setId("displayedMessage");
-
-            chatHistory.getChildren().add(messageBox);
+            addChatMessage(message);
         }
+    }
+
+    private void addChatMessage(Message message)
+    {
+        HBox messageBox = new HBox();
+
+        String msgText = message.getText();
+        String msgTime = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(message.getTime());
+        String msgSender = message.getSenderID();
+
+        Label text = new Label(msgText);
+        Label time = new Label(msgTime);
+        Label sender = new Label(msgSender);
+
+        text.setId("messageText");
+        time.setId("messageTime");
+        sender.setId("messageSender");
+
+        messageBox.getChildren().add(time);
+        messageBox.getChildren().add(sender);
+        messageBox.getChildren().add(text);
+
+        messageBox.setId("displayedMessage");
+
+        chatHistory.getChildren().add(messageBox);
     }
 
     public void setTabController(TabController controller)

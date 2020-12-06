@@ -61,6 +61,12 @@ public class Main
         updt.start();
         Outputs.create("Updater thread started").verbose().INFO().print();
 
+        startUI();
+        Outputs.create("Uni-Messenger started").verbose().INFO().print();
+    }
+
+    private static void startUI()
+    {
         boolean clib;
         boolean guib = Inputs.getBoolAnswerFrom("Would you like to use a GUI?");
         if(guib) clib = Inputs.getBoolAnswerFrom("Would you like to start the CLI as well?");
@@ -78,7 +84,5 @@ public class Main
             cli.start();
             Outputs.create("CLI thread started").verbose().INFO().print();
         }
-
-        Outputs.create("Uni-Messenger started").verbose().INFO().print();
     }
 }

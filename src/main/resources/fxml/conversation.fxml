@@ -3,25 +3,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.*?>
 <?import java.net.URL?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="unimessenger.userinteraction.gui.controller.ConversationController">
     <HBox alignment="CENTER_RIGHT">
-        <Label fx:id="lblConversationName" text="CONVERSATIONNAME">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </Label>
-        <Button mnemonicParsing="false" text="Call">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </Button>
-        <Button mnemonicParsing="false" text="Conversation Settings">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </Button>
+        <Label fx:id="lblConversationName" text="CONVERSATIONNAME"/>
+        <Button mnemonicParsing="false" text="Call"/>
+        <Button mnemonicParsing="false" text="Conversation Settings"/>
     </HBox>
     <ScrollPane>
         <VBox fx:id="chatHistory"/>
@@ -34,20 +21,9 @@
                 <MenuItem fx:id="temporaryMessage" disable="true" mnemonicParsing="false" text="Temporary"/>
                 <MenuItem fx:id="pingMessage" disable="true" mnemonicParsing="false" onAction="#ping" text="Ping"/>
             </items>
-            <font>
-                <Font size="18.0"/>
-            </font>
         </MenuButton>
-        <TextField fx:id="txtMessage" promptText="Write a message">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </TextField>
-        <Button fx:id="btnSendMsg" mnemonicParsing="false" onAction="#sendText" text="Send">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </Button>
+        <TextField fx:id="txtMessage" promptText="Write a message"/>
+        <Button fx:id="btnSendMsg" mnemonicParsing="false" onAction="#sendText" text="Send"/>
     </HBox>
     <stylesheets>
         <URL value="@../css/conversation.css"/>
