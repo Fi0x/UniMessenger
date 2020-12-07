@@ -119,7 +119,7 @@ public class WireUtil implements IUtil
             }
         }
 
-//        String pw = Inputs.getStringAnswerFrom("Please enter your password to register this client");
+//        String pw = Inputs.getStringAnswerFrom("Please enter your password to register this client");//TODO: Store password somewhere to work with gui
         String pw = "Passwort1!"; //TODO: Remove
         String id = registerClient(WireStorage.persistent, pw);
         if(id == null)
