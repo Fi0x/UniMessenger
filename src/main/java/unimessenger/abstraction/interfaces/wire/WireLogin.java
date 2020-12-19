@@ -21,12 +21,12 @@ public class WireLogin implements ILoginOut
     {
         if(WireStorage.cookie == null)
         {
-            Out.create("No cookie stored").v().print();
+            Out.newBuilder("No cookie stored").v().print();
             return false;
         }
         if(WireStorage.isBearerTokenStillValid())
         {
-            Out.create("Bearer token is valid").v().print();
+            Out.newBuilder("Bearer token is valid").v().print();
             return true;
         }
         Out.newBuilder("Bearer token not valid").origin(this.getClass().getName()).d().print();
@@ -77,7 +77,7 @@ public class WireLogin implements ILoginOut
             return false;
         } else if(response.statusCode() == 200)
         {
-            Out.create("Successfully logged out").v().print();
+            Out.newBuilder("Successfully logged out").v().print();
             WireStorage.clearUserData();
             return true;
         } else
@@ -110,8 +110,8 @@ public class WireLogin implements ILoginOut
             if(arr.length > 1) arr = arr[1].split(";");
             WireStorage.cookie = "zuid=" + arr[0];
 
-            Out.create("User: " + WireStorage.userID).v().print();
-            Out.create("Expires in: " + obj.get("expires_in") + " seconds").v().print();
+            Out.newBuilder("User: " + WireStorage.userID).v().print();
+            Out.newBuilder("Expires in: " + obj.get("expires_in") + " seconds").v().print();
         } catch(ParseException ignored)
         {
             return false;

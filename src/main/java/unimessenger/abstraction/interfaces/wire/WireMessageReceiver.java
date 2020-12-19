@@ -49,7 +49,7 @@ public class WireMessageReceiver
                         JSONObject load = (JSONObject) pl;
                         if(load.get("type").equals("conversation.otr-message-add"))
                         {
-                            if(!handleMessage(load)) Out.create("Error receiving text of a notification").v().WARNING().print();
+                            if(!handleMessage(load)) Out.newBuilder("Error receiving text of a notification").v().WARNING().print();
                         }
                     }
                 }
@@ -87,23 +87,23 @@ public class WireMessageReceiver
         }
 
         if(payload.containsKey("from")) senderUser = payload.get("from").toString();
-        else Out.create("Conversation notification has no 'from' key").v().WARNING().print();
+        else Out.newBuilder("Conversation notification has no 'from' key").v().WARNING().print();
 
         if(payload.containsKey("time"))
         {
             time = Timestamp.valueOf(payload.get("time").toString().replace("T", " ").replace("Z", ""));
             if(WireStorage.lastNotification != null && time.getTime() <= WireStorage.lastNotification.getTime())
             {
-                Out.create("Notification filtered because of timestamp").v().print();
+                Out.newBuilder("Notification filtered because of timestamp").v().print();
                 return false;
             } else WireStorage.lastNotification = time;
-        } else Out.create("Conversation notification has no 'time' key").v().WARNING().print();
+        } else Out.newBuilder("Conversation notification has no 'time' key").v().WARNING().print();
 
         JSONObject data = (JSONObject) payload.get("data");
 
         if(!data.get("recipient").toString().equals(WireStorage.clientID))
         {
-            Out.create("Message is not for this client").v().print();
+            Out.newBuilder("Message is not for this client").v().print();
             return false;
         }
 

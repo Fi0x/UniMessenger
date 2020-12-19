@@ -45,34 +45,34 @@ public class WireMessageSorter
                 conversation.addMessage(msg);
                 break;
             case PING:
-                Out.create("You have been pinged in: '" + conversation.getConversationName() + "'").a().ALERT().print();
+                Out.newBuilder("You have been pinged in: '" + conversation.getConversationName() + "'").a().ALERT().print();
                 break;
             case CALL:
                 //TODO: Find out the difference between start and end of a call
-                Out.create("Sommeone is calling you, please accept the call on a different client").a().ALERT().print();
+                Out.newBuilder("Sommeone is calling you, please accept the call on a different client").a().ALERT().print();
                 break;
             case CONFIRMATION:
-                Out.create("Your message has been received").v().print();
+                Out.newBuilder("Your message has been received").v().print();
                 break;
             case DELETED:
-                Out.create("Message deletion request received").v().print();
+                Out.newBuilder("Message deletion request received").v().print();
                 //TODO: Delete the deleted message on local storage
                 break;
             case EDITED:
-                Out.create("Message editing request received").v().print();
+                Out.newBuilder("Message editing request received").v().print();
                 //TODO: Update the edited message on storage
                 break;
             case TIMED:
-                Out.create("Timed message received").v().print();
+                Out.newBuilder("Timed message received").v().print();
                 msg = new Message(message.getEphemeral().getText().getContent(), time, senderUser, message.getEphemeral().getExpireAfterMillis());
                 conversation.addMessage(msg);
                 break;
             case LOCATION:
                 //TODO: Give more information about the location
-                Out.create("Location has been shared").a().print();
+                Out.newBuilder("Location has been shared").a().print();
                 break;
             case UNKNOWN:
-                Out.create("Unknown message type received").v().print();
+                Out.newBuilder("Unknown message type received").v().print();
                 return false;
             default:
                 Out.newBuilder("Error in detecting the received message type").origin("WireMessageSorter").d().ERROR().print();

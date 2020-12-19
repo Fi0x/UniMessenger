@@ -41,7 +41,7 @@ public class MenuConversationList
                 CLI.currentMenu = MENU.EXIT;
                 break;
             default:
-                Out.create("Invalid option").a().WARNING().print();
+                Out.newBuilder("Invalid option").a().WARNING().print();
                 break;
         }
     }
@@ -101,7 +101,7 @@ public class MenuConversationList
             selectedConversation = matches.get(input - 1);
         }
 
-        Out.create("Opening conversation '" + selectedConversation + "'...").v().print();
+        Out.newBuilder("Opening conversation '" + selectedConversation + "'...").v().print();
         CLI.currentChatID = ids.get(selectedConversation);
         return true;
     }

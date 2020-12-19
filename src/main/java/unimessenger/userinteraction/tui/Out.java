@@ -36,13 +36,6 @@ public class Out
         return this;
     }
 
-    public static Out create(String message)
-    {
-        Out o = new Out();
-        o.text = message;
-        return o;
-    }
-
     public Out a()
     {
         always = true;

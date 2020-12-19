@@ -105,9 +105,9 @@ public class MessageCreator
         if(response == null) Out.newBuilder("No HTTP response received").origin("MessagesCreator").d().print();
         else if(response.statusCode() == 200 || response.statusCode() == 201)
         {
-            Out.create("Successfully uploaded asset").v().print();
+            Out.newBuilder("Successfully uploaded asset").v().print();
             return keyFromResponse(response);
-        } else Out.create("Response code is " + response.statusCode()).v().WARNING().print();
+        } else Out.newBuilder("Response code is " + response.statusCode()).v().WARNING().print();
 
         return null;
     }

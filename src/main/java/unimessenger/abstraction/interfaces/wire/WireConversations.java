@@ -56,7 +56,7 @@ public class WireConversations implements IConversations
                         if(!exists) WireStorage.conversations.add(newConversation);
                     }
                 }
-                Out.create("Successfully reloaded all conversations").v().print();
+                Out.newBuilder("Successfully reloaded all conversations").v().print();
                 return true;
             } catch(ParseException ignored)
             {
@@ -159,7 +159,7 @@ public class WireConversations implements IConversations
                 JSONObject user = (JSONObject) arr.get(0);
                 return user.get("name").toString();
             } else Out.newBuilder("No user returned").origin("WireConversations").d().WARNING().print();
-        } else Out.create("Response code of getting user was " + response.statusCode()).v().WARNING().print();
+        } else Out.newBuilder("Response code of getting user was " + response.statusCode()).v().WARNING().print();
 
         return userID;
     }

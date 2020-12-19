@@ -45,7 +45,7 @@ public class Inputs
         while(true)
         {
             System.out.print("Input(Yes/No): ");
-            Out.create("Waiting for user-input...").v().print();
+            Out.newBuilder("Waiting for user-input...").v().print();
 
             String answer = sc.next();
 

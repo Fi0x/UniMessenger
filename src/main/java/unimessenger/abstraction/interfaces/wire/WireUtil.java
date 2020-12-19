@@ -41,7 +41,7 @@ public class WireUtil implements IUtil
                 obj = (JSONObject) new JSONParser().parse(response.body());
                 WireStorage.setBearerToken(obj.get("access_token").toString(), Integer.parseInt(obj.get("expires_in").toString()));
                 WireStorage.userID = obj.get("user").toString();
-                Out.create("Successfully refreshed token").v().print();
+                Out.newBuilder("Successfully refreshed token").v().print();
                 return true;
             } catch(ParseException ignored)
             {
@@ -169,7 +169,7 @@ public class WireUtil implements IUtil
             {
                 if(obj.get("cookie").toString().equals(WireStorage.cookie))
                 {
-                    Out.create("Client ID found").v().print();
+                    Out.newBuilder("Client ID found").v().print();
                     return true;
                 }
             } else Out.newBuilder("Client response contained no cookie").origin("WireUtil").d().print();
@@ -220,7 +220,7 @@ public class WireUtil implements IUtil
         {
             JSONObject resObj = (JSONObject) new JSONParser().parse(response.body());
             WireStorage.clientID = resObj.get("id").toString();
-            Out.create("Client ID stored").v().print();
+            Out.newBuilder("Client ID stored").v().print();
             return WireStorage.clientID;
         } else Out.newBuilder("Response code is " + response.statusCode()).origin("WireUtil").d().WARNING().print();
         return null;

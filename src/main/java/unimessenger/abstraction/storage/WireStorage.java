@@ -47,7 +47,7 @@ public class WireStorage
         else storageDirectory = storageDirectory.replace("\\", "/") + "/DataStorage";
         storageFile = storageDirectory + "/access.json";
 
-        if(new File(storageDirectory).mkdirs()) Out.create("Storage folder successfully created").v().print();
+        if(new File(storageDirectory).mkdirs()) Out.newBuilder("Storage folder successfully created").v().print();
         else Out.newBuilder("Storage folder not created").origin("WireStorage").d().WARNING().print();
 
         convH = ConversationHandler.getInstance();
@@ -72,7 +72,7 @@ public class WireStorage
             try
             {
                 storageCrypto.encrypt(obj.toJSONString());
-                Out.create("Successfully wrote to Wire file").v().print();
+                Out.newBuilder("Successfully wrote to Wire file").v().print();
             } catch(Exception ignored)
             {
                 Out.newBuilder("Could not write to Wire file").origin("WireStorage").d().WARNING().print();
@@ -85,7 +85,7 @@ public class WireStorage
             convH.newConversation(c);
         }
         ConversationHandler.save();
-        Out.create("Conversations stored on disk").v().print();
+        Out.newBuilder("Conversations stored on disk").v().print();
     }
 
     public static void saveDataInFile()
@@ -106,9 +106,9 @@ public class WireStorage
 
     public static boolean isBearerTokenStillValid()
     {
-        if(bearerToken == null) Out.create("Bearer token is null").v().print();
-        else if(bearerExpiringTime == null) Out.create("Bearer token has no expiring time").v().print();
-        else if(bearerExpiringTime.getTime() <= System.currentTimeMillis()) Out.create("Bearer token expired").v().print();
+        if(bearerToken == null) Out.newBuilder("Bearer token is null").v().print();
+        else if(bearerExpiringTime == null) Out.newBuilder("Bearer token has no expiring time").v().print();
+        else if(bearerExpiringTime.getTime() <= System.currentTimeMillis()) Out.newBuilder("Bearer token expired").v().print();
         else return true;
         return false;
     }
@@ -154,8 +154,8 @@ public class WireStorage
             FileWriter fw = new FileWriter(storageFile);
             fw.write("{}");
             fw.close();
-            Out.create("Successfully cleared Wire file").v().print();
-            if(new File(storageFile).delete()) Out.create("Successfully deleted Wire file").v().print();
+            Out.newBuilder("Successfully cleared Wire file").v().print();
+            if(new File(storageFile).delete()) Out.newBuilder("Successfully deleted Wire file").v().print();
         } catch(IOException ignored)
         {
             Out.newBuilder("Could not clear Wire file").origin("Wire Storage").d().WARNING().print();

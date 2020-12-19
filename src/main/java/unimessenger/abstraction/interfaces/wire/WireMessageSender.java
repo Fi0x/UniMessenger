@@ -36,7 +36,7 @@ public class WireMessageSender
         if(response == null) Out.newBuilder("No response for sent message received").origin(this.getClass().getName()).d().WARNING().print();
         else if(response.statusCode() == 201)
         {
-            Out.create("Message sent correctly").v().print();
+            Out.newBuilder("Message sent correctly").v().print();
 
             return true;
         } else Out.newBuilder("Response code was " + response.statusCode()).origin(this.getClass().getName()).d().WARNING().print();
