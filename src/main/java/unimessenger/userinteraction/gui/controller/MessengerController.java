@@ -45,7 +45,7 @@ public class MessengerController
             controller.loadChats(tabController.getService());
         } catch(IOException ignored)
         {
-            Out.create("Error loading chat list").debug().WARNING().print();
+            Out.create("Error loading chat list").d().WARNING().print();
             return;
         }
 
@@ -78,7 +78,7 @@ public class MessengerController
             controller.load();
         } catch(IOException ignored)
         {
-            Out.create("Chat could not be loaded", this.getClass().getName()).debug().WARNING().print();
+            Out.newBuilder("Chat could not be loaded").origin(this.getClass().getName()).d().WARNING().print();
             return;
         }
 

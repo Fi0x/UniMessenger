@@ -29,7 +29,7 @@ public class WireConversations implements IConversations
 
         if(response == null)
         {
-            Out.create("Could not get a HTTP response", this.getClass().getName()).debug().WARNING().print();
+            Out.newBuilder("Could not get a HTTP response").origin(this.getClass().getName()).d().WARNING().print();
             return false;
         } else if(response.statusCode() == 200)
         {
@@ -56,16 +56,16 @@ public class WireConversations implements IConversations
                         if(!exists) WireStorage.conversations.add(newConversation);
                     }
                 }
-                Out.create("Successfully reloaded all conversations").verbose().print();
+                Out.create("Successfully reloaded all conversations").v().print();
                 return true;
             } catch(ParseException ignored)
             {
             }
-            Out.create("Failed to reload all conversations", this.getClass().getName()).debug().WARNING().print();
+            Out.newBuilder("Failed to reload all conversations").origin(this.getClass().getName()).d().WARNING().print();
             return false;
         } else
         {
-            Out.create("Response code is " + response.statusCode(), this.getClass().getName()).debug().WARNING().print();
+            Out.newBuilder("Response code is " + response.statusCode()).origin(this.getClass().getName()).d().WARNING().print();
             return false;
         }
     }
@@ -144,7 +144,7 @@ public class WireConversations implements IConversations
                 Headers.ACCEPT, Headers.JSON};
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
 
-        if(response == null) Out.create("Could not get a username", "WireConversations").verbose().WARNING().print();
+        if(response == null) Out.newBuilder("Could not get a username").origin("WireConversations").v().WARNING().print();
         else if(response.statusCode() == 200)
         {
             JSONArray arr = null;
@@ -158,8 +158,8 @@ public class WireConversations implements IConversations
             {
                 JSONObject user = (JSONObject) arr.get(0);
                 return user.get("name").toString();
-            } else Out.create("No user returned", "WireConversations").debug().WARNING().print();
-        } else Out.create("Response code of getting user was " + response.statusCode()).verbose().WARNING().print();
+            } else Out.newBuilder("No user returned").origin("WireConversations").d().WARNING().print();
+        } else Out.create("Response code of getting user was " + response.statusCode()).v().WARNING().print();
 
         return userID;
     }

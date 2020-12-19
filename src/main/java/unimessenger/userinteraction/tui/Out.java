@@ -30,6 +30,11 @@ public class Out
         o.color = WHITE;
         return o;
     }
+    public Out origin(String className)
+    {
+        origin = className;
+        return this;
+    }
 
     public static Out create(String message)
     {
@@ -37,29 +42,23 @@ public class Out
         o.text = message;
         return o;
     }
-    public static Out create(String message, String className)
-    {
-        Out o = create(message);
-        o.origin = className;
-        return o;
-    }
 
-    public Out always()
+    public Out a()
     {
         always = true;
         return this;
     }
-    public Out debug()
+    public Out d()
     {
         debug = true;
         return this;
     }
-    public Out verbose()
+    public Out v()
     {
         verbose = true;
         return this;
     }
-    public Out vVerbose()
+    public Out vv()
     {
         vVerbose = true;
         return this;

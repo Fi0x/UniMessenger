@@ -40,7 +40,7 @@ public class MainWindow extends Application
             root = mainLoader.load();
         } catch(Exception ignored)
         {
-            Out.create("Could not load GUI. Shutting down").always().WARNING().print();
+            Out.create("Could not load GUI. Shutting down").a().WARNING().print();
             Main.stp.start();
             return;
         }
@@ -54,7 +54,7 @@ public class MainWindow extends Application
     @Override
     public void stop()
     {
-        Out.create("GUI closed. Shutting down").always().WARNING().print();
+        Out.create("GUI closed. Shutting down").a().WARNING().print();
         Main.stp.start();
     }
 
@@ -68,7 +68,7 @@ public class MainWindow extends Application
             messengerTab = tabLoader.load();
         } catch(IOException ignored)
         {
-            Out.create("Error loading Tab").debug().WARNING().print();
+            Out.create("Error loading Tab").d().WARNING().print();
             return;
         }
         messengerTab.setText("New Messenger");

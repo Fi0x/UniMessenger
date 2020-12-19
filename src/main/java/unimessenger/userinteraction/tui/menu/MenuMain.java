@@ -29,7 +29,7 @@ public class MenuMain
                 CLI.currentMenu = MENU.EXIT;
                 break;
             default:
-                Out.create("Invalid option").always().WARNING().print();
+                Out.create("Invalid option").a().WARNING().print();
                 break;
         }
     }

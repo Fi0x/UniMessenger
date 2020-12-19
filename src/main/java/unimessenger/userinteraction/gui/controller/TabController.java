@@ -53,20 +53,20 @@ public class TabController implements Initializable
         IUtil util = access.getUtilInterface(service);
         if(login == null && (WireStorage.getBearerToken() == null || util == null))
         {
-            Out.create("Could not load login interfaces").debug().print();
+            Out.create("Could not load login interfaces").d().print();
         } else if(login != null && login.checkIfLoggedIn())
         {
-            Out.create("Still logged in").verbose().print();
+            Out.create("Still logged in").v().print();
         } else if(WireStorage.getBearerToken() != null && util != null && util.refreshSession())
         {
-            Out.create("Refreshed session").verbose().print();
+            Out.create("Refreshed session").v().print();
         } else
         {
             loadLogin();
             return;
         }
 
-        if(!access.getUtilInterface(service).loadProfile()) Out.create("Could not load profile", this.getClass().getName()).verbose().debug().ERROR().print();
+        if(!access.getUtilInterface(service).loadProfile()) Out.newBuilder("Could not load profile").origin(this.getClass().getName()).v().d().ERROR().print();
         loadMessenger();
         Updater.addService(service);
     }
@@ -95,7 +95,7 @@ public class TabController implements Initializable
             loader.<LoginController>getController().setTabController(this);
         } catch(IOException ignored)
         {
-            Out.create("Error loading login menu").debug().WARNING().print();
+            Out.create("Error loading login menu").d().WARNING().print();
             return;
         }
         anchor.getChildren().add(login);
@@ -114,7 +114,7 @@ public class TabController implements Initializable
             controller.loadChats();
         } catch(IOException ignored)
         {
-            Out.create("Error loading messenger", this.getClass().getName()).debug().WARNING().print();
+            Out.newBuilder("Error loading messenger").origin(this.getClass().getName()).d().WARNING().print();
             return;
         }
 

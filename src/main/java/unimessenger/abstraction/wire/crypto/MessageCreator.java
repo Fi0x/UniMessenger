@@ -69,7 +69,7 @@ public class MessageCreator
             return asset.createGenericMsg();
         } catch(Exception ignored)
         {
-            Out.create("Could not create FileAsset", "MessageCreator").verbose().WARNING().print();
+            Out.newBuilder("Could not create FileAsset").origin("MessageCreator").v().WARNING().print();
         }
         return null;
     }
@@ -102,12 +102,12 @@ public class MessageCreator
         String body = os.toString();
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.POST, body, headers);
 
-        if(response == null) Out.create("No HTTP response received", "MessagesCreator").debug().print();
+        if(response == null) Out.newBuilder("No HTTP response received").origin("MessagesCreator").d().print();
         else if(response.statusCode() == 200 || response.statusCode() == 201)
         {
-            Out.create("Successfully uploaded asset").verbose().print();
+            Out.create("Successfully uploaded asset").v().print();
             return keyFromResponse(response);
-        } else Out.create("Response code is " + response.statusCode()).verbose().WARNING().print();
+        } else Out.create("Response code is " + response.statusCode()).v().WARNING().print();
 
         return null;
     }

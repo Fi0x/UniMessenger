@@ -36,7 +36,7 @@ public class MenuLogin
                 CLI.currentMenu = MENU.EXIT;
                 break;
             default:
-                Out.create("Invalid option").always().WARNING().print();
+                Out.create("Invalid option").a().WARNING().print();
                 break;
         }
     }
@@ -52,7 +52,7 @@ public class MenuLogin
         else if(login.login()) loggedIn = true;
         if(loggedIn)
         {
-            if(!access.getUtilInterface(CLI.currentService).loadProfile()) Out.create("Could not load profile", "MenuLogin").verbose().debug().ERROR().print();
+            if(!access.getUtilInterface(CLI.currentService).loadProfile()) Out.newBuilder("Could not load profile").origin("MenuLogin").v().d().ERROR().print();
             return true;
         } else
         {

@@ -51,8 +51,8 @@ public class CLI implements Runnable
                     MenuChat.showMenu();
                     break;
                 default:
-                    Out.create("Unknown menu state", "CLI").debug().ERROR().print();
-                    Out.create("Switching to main menu", "CLI").debug().verbose().WARNING().print();
+                    Out.newBuilder("Unknown menu state").origin("CLI").d().ERROR().print();
+                    Out.newBuilder("Switching to main menu").origin("CLI").d().v().WARNING().print();
                     currentMenu = MENU.MAIN;
                     break;
             }

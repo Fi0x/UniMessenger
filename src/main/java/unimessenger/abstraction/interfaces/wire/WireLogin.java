@@ -21,15 +21,15 @@ public class WireLogin implements ILoginOut
     {
         if(WireStorage.cookie == null)
         {
-            Out.create("No cookie stored").verbose().print();
+            Out.create("No cookie stored").v().print();
             return false;
         }
         if(WireStorage.isBearerTokenStillValid())
         {
-            Out.create("Bearer token is valid").verbose().print();
+            Out.create("Bearer token is valid").v().print();
             return true;
         }
-        Out.create("Bearer token not valid", this.getClass().getName()).debug().print();
+        Out.newBuilder("Bearer token not valid").origin(this.getClass().getName()).d().print();
         return false;
     }
 
@@ -73,16 +73,16 @@ public class WireLogin implements ILoginOut
 
         if(response == null)
         {
-            Out.create("Could not get a HTTP response", this.getClass().getName()).debug().WARNING().print();
+            Out.newBuilder("Could not get a HTTP response").origin(this.getClass().getName()).d().WARNING().print();
             return false;
         } else if(response.statusCode() == 200)
         {
-            Out.create("Successfully logged out").verbose().print();
+            Out.create("Successfully logged out").v().print();
             WireStorage.clearUserData();
             return true;
         } else
         {
-            Out.create("Response code is " + response.statusCode(), this.getClass().getName()).debug().WARNING().print();
+            Out.newBuilder("Response code is " + response.statusCode()).origin(this.getClass().getName()).d().WARNING().print();
             return false;
         }
     }
@@ -110,8 +110,8 @@ public class WireLogin implements ILoginOut
             if(arr.length > 1) arr = arr[1].split(";");
             WireStorage.cookie = "zuid=" + arr[0];
 
-            Out.create("User: " + WireStorage.userID).verbose().print();
-            Out.create("Expires in: " + obj.get("expires_in") + " seconds").verbose().print();
+            Out.create("User: " + WireStorage.userID).v().print();
+            Out.create("Expires in: " + obj.get("expires_in") + " seconds").v().print();
         } catch(ParseException ignored)
         {
             return false;

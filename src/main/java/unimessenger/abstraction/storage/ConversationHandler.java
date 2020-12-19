@@ -66,7 +66,7 @@ public class ConversationHandler implements Serializable
 
         } catch(Exception ignored)
         {
-            Out.create("Error when saving Conversations to file", "ConversationHandler").debug().WARNING().print();
+            Out.newBuilder("Error when saving Conversations to file").origin("ConversationHandler").d().WARNING().print();
         }
     }
 }

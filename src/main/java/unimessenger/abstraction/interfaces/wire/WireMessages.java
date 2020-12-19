@@ -22,7 +22,7 @@ public class WireMessages implements IMessages
         WireConversation conversation = WireStorage.getConversationByID(chatID);
         if(conversation == null)
         {
-            Out.create("ConversationID not found", this.getClass().getName()).debug().WARNING().print();
+            Out.newBuilder("ConversationID not found").origin(this.getClass().getName()).d().WARNING().print();
             return false;
         }
         conversation.addMessage(new Message(text, new Timestamp(System.currentTimeMillis() - (1000 * 60 * 60)), WireStorage.selfProfile.userName));
@@ -34,7 +34,7 @@ public class WireMessages implements IMessages
         WireConversation conversation = WireStorage.getConversationByID(chatID);
         if(conversation == null)
         {
-            Out.create("ConversationID not found", this.getClass().getName()).debug().WARNING().print();
+            Out.newBuilder("ConversationID not found").origin(this.getClass().getName()).d().WARNING().print();
             return false;
         }
         conversation.addMessage(new Message(text, new Timestamp(System.currentTimeMillis() - (1000 * 60 * 60)), WireStorage.selfProfile.userName, millis));
@@ -47,7 +47,7 @@ public class WireMessages implements IMessages
         if(conversation != null) conversation.addMessage(new Message("FILE", new Timestamp(System.currentTimeMillis()), WireStorage.selfProfile.userName));
         else
         {
-            Out.create("ConversationID not found", this.getClass().getName()).debug().WARNING().print();
+            Out.newBuilder("ConversationID not found").origin(this.getClass().getName()).d().WARNING().print();
             return false;
         }
         UUID id = UUID.randomUUID();

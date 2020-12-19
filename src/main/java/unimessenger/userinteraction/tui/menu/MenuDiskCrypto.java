@@ -26,7 +26,7 @@ public class MenuDiskCrypto
                 break;
             case 3:
                 if(!deleteFiles()) System.out.println("Files not deleted");
-                else Out.create("Local user-information deleted").always().ALERT().print();
+                else Out.create("Local user-information deleted").a().ALERT().print();
                 showMenu();
                 break;
 
@@ -34,7 +34,7 @@ public class MenuDiskCrypto
                 StorageCrypto.setPassphrase("");
                 break;
             default:
-                Out.create("Invalid option").always().WARNING().print();
+                Out.create("Invalid option").a().WARNING().print();
                 showMenu();
                 break;
         }
@@ -51,7 +51,7 @@ public class MenuDiskCrypto
             new StorageCrypto();
         } catch(UnrecoverableKeyException e)
         {
-            Out.create("Wrong Password, please try again").always().WARNING().print();
+            Out.create("Wrong Password, please try again").a().WARNING().print();
             return false;
         }
         return true;

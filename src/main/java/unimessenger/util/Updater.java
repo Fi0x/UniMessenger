@@ -28,7 +28,7 @@ public class Updater implements Runnable
                     if(seconds % 10 == 0) access.getConversationInterface(service).requestAllConversations();//TODO: Refresh only changed conversations if possible
                     if(seconds % 2 == 0 && !access.getMessageInterface(service).receiveNewMessages())//TODO: Might need to change to /await
                     {
-                        Out.create("Error receiving new messages", this.getClass().getName()).verbose().WARNING().print();
+                        Out.newBuilder("Error receiving new messages").origin(this.getClass().getName()).v().WARNING().print();
                     }
                 } else removeService(service);
             }
@@ -60,7 +60,7 @@ public class Updater implements Runnable
                 return login.login();
             case NONE:
             default:
-                Out.create("Unknown service: " + service, this.getClass().getName()).debug().ERROR().print();
+                Out.newBuilder("Unknown service: " + service).origin(this.getClass().getName()).d().ERROR().print();
                 break;
         }
         return true;

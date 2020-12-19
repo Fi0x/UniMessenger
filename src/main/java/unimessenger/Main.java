@@ -28,42 +28,42 @@ public class Main
         if(arguments.contains("-vv")) Out.vv = true;
         if(arguments.contains("-vvv")) Out.vvv = true;
 
-        Out.create("Uni-Messenger starting...").verbose().print();
-        Out.create("Initializing storage...").verbose().print();
+        Out.create("Uni-Messenger starting...").v().print();
+        Out.create("Initializing storage...").v().print();
         WireStorage.init();
-        Out.create("Storage initialized").verbose().print();
+        Out.create("Storage initialized").v().print();
 
-        Out.create("Checking Disk encryption...").verbose().print();
+        Out.create("Checking Disk encryption...").v().print();
         MenuDiskCrypto.showMenu();
-        Out.create("Disk is decrypted").verbose().print();
+        Out.create("Disk is decrypted").v().print();
 
-        Out.create("Loading login files...").verbose().print();
+        Out.create("Loading login files...").v().print();
         WireStorage.readDataFromFiles();
-        Out.create("File-loading finished").verbose().print();
+        Out.create("File-loading finished").v().print();
 
-        Out.create("Creating Threads for").verbose().print();
-        Out.create("Program end").verbose().print();
+        Out.create("Creating Threads for").v().print();
+        Out.create("Program end").v().print();
         stp = new Thread(new Stop());
-        Out.create("Updater").verbose().print();
+        Out.create("Updater").v().print();
         updt = new Thread(new Updater());
-        Out.create("CLI").verbose().print();
+        Out.create("CLI").v().print();
         cli = new Thread(new CLI());
-        Out.create("Threads created").verbose().print();
+        Out.create("Threads created").v().print();
 
-        Out.create("Starting updater thread").verbose().print();
+        Out.create("Starting updater thread").v().print();
         updt.start();
-        Out.create("Updater thread started").verbose().print();
+        Out.create("Updater thread started").v().print();
 
-        Out.create("Creating new Thread for CLI...").verbose().print();
+        Out.create("Creating new Thread for CLI...").v().print();
         cli = new Thread(new CLI());
-        Out.create("CLI thread created").verbose().print();
+        Out.create("CLI thread created").v().print();
 
-        Out.create("Creating new Thread for GUI...").verbose().print();
+        Out.create("Creating new Thread for GUI...").v().print();
         gui = new Thread(() -> MainWindow.launch(MainWindow.class, args));
-        Out.create("GUI thread created").verbose().print();
+        Out.create("GUI thread created").v().print();
 
         startUI();
-        Out.create("Uni-Messenger started").verbose().print();
+        Out.create("Uni-Messenger started").v().print();
     }
 
     private static void startUI()
@@ -72,16 +72,16 @@ public class Main
 
         if(guib)
         {
-            Out.create("GUI starting...").verbose().print();
+            Out.create("GUI starting...").v().print();
             gui.start();
-            Out.create("GUI started").verbose().print();
+            Out.create("GUI started").v().print();
         } else
         {
-            Out.create("Starting CLI thread").verbose().print();
+            Out.create("Starting CLI thread").v().print();
             cli.start();
-            Out.create("CLI thread started").verbose().print();
+            Out.create("CLI thread started").v().print();
         }
 
-        Out.create("Uni-Messenger started").verbose().print();
+        Out.create("Uni-Messenger started").v().print();
     }
 }
