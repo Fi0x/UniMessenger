@@ -2,7 +2,7 @@ package unimessenger.userinteraction.tui.menu;
 
 import unimessenger.abstraction.storage.StorageCrypto;
 import unimessenger.userinteraction.tui.Inputs;
-import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.userinteraction.tui.Out;
 
 import java.security.UnrecoverableKeyException;
 
@@ -26,7 +26,7 @@ public class MenuDiskCrypto
                 break;
             case 3:
                 if(!deleteFiles()) System.out.println("Files not deleted");
-                else Outputs.create("Local user-information deleted").always().ALERT().print();
+                else Out.create("Local user-information deleted").always().ALERT().print();
                 showMenu();
                 break;
 
@@ -34,7 +34,7 @@ public class MenuDiskCrypto
                 StorageCrypto.setPassphrase("");
                 break;
             default:
-                Outputs.create("Invalid option").always().WARNING().print();
+                Out.create("Invalid option").always().WARNING().print();
                 showMenu();
                 break;
         }
@@ -51,7 +51,7 @@ public class MenuDiskCrypto
             new StorageCrypto();
         } catch(UnrecoverableKeyException e)
         {
-            Outputs.create("Wrong Password, please try again").always().WARNING().print();
+            Out.create("Wrong Password, please try again").always().WARNING().print();
             return false;
         }
         return true;

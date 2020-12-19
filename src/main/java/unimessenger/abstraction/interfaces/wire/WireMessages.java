@@ -5,7 +5,7 @@ import unimessenger.abstraction.storage.Message;
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.abstraction.wire.crypto.MessageCreator;
 import unimessenger.abstraction.wire.structures.WireConversation;
-import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.userinteraction.tui.Out;
 
 import java.io.File;
 import java.sql.Timestamp;
@@ -22,7 +22,7 @@ public class WireMessages implements IMessages
         WireConversation conversation = WireStorage.getConversationByID(chatID);
         if(conversation == null)
         {
-            Outputs.create("ConversationID not found", this.getClass().getName()).debug().WARNING().print();
+            Out.create("ConversationID not found", this.getClass().getName()).debug().WARNING().print();
             return false;
         }
         conversation.addMessage(new Message(text, new Timestamp(System.currentTimeMillis() - (1000 * 60 * 60)), WireStorage.selfProfile.userName));
@@ -34,7 +34,7 @@ public class WireMessages implements IMessages
         WireConversation conversation = WireStorage.getConversationByID(chatID);
         if(conversation == null)
         {
-            Outputs.create("ConversationID not found", this.getClass().getName()).debug().WARNING().print();
+            Out.create("ConversationID not found", this.getClass().getName()).debug().WARNING().print();
             return false;
         }
         conversation.addMessage(new Message(text, new Timestamp(System.currentTimeMillis() - (1000 * 60 * 60)), WireStorage.selfProfile.userName, millis));
@@ -47,7 +47,7 @@ public class WireMessages implements IMessages
         if(conversation != null) conversation.addMessage(new Message("FILE", new Timestamp(System.currentTimeMillis()), WireStorage.selfProfile.userName));
         else
         {
-            Outputs.create("ConversationID not found", this.getClass().getName()).debug().WARNING().print();
+            Out.create("ConversationID not found", this.getClass().getName()).debug().WARNING().print();
             return false;
         }
         UUID id = UUID.randomUUID();

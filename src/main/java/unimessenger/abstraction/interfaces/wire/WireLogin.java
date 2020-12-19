@@ -9,7 +9,7 @@ import unimessenger.abstraction.interfaces.ILoginOut;
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.communication.HTTP;
 import unimessenger.userinteraction.tui.Inputs;
-import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.enums.REQUEST;
 
 import java.net.http.HttpResponse;
@@ -21,15 +21,15 @@ public class WireLogin implements ILoginOut
     {
         if(WireStorage.cookie == null)
         {
-            Outputs.create("No cookie stored").verbose().INFO().print();
+            Out.create("No cookie stored").verbose().print();
             return false;
         }
         if(WireStorage.isBearerTokenStillValid())
         {
-            Outputs.create("Bearer token is valid").verbose().INFO().print();
+            Out.create("Bearer token is valid").verbose().print();
             return true;
         }
-        Outputs.create("Bearer token not valid", this.getClass().getName()).debug().INFO().print();
+        Out.create("Bearer token not valid", this.getClass().getName()).debug().print();
         return false;
     }
 
@@ -73,16 +73,16 @@ public class WireLogin implements ILoginOut
 
         if(response == null)
         {
-            Outputs.create("Could not get a HTTP response", this.getClass().getName()).debug().WARNING().print();
+            Out.create("Could not get a HTTP response", this.getClass().getName()).debug().WARNING().print();
             return false;
         } else if(response.statusCode() == 200)
         {
-            Outputs.create("Successfully logged out").verbose().INFO().print();
+            Out.create("Successfully logged out").verbose().print();
             WireStorage.clearUserData();
             return true;
         } else
         {
-            Outputs.create("Response code is " + response.statusCode(), this.getClass().getName()).debug().WARNING().print();
+            Out.create("Response code is " + response.statusCode(), this.getClass().getName()).debug().WARNING().print();
             return false;
         }
     }
@@ -110,8 +110,8 @@ public class WireLogin implements ILoginOut
             if(arr.length > 1) arr = arr[1].split(";");
             WireStorage.cookie = "zuid=" + arr[0];
 
-            Outputs.create("User: " + WireStorage.userID).verbose().INFO().print();
-            Outputs.create("Expires in: " + obj.get("expires_in") + " seconds").verbose().INFO().print();
+            Out.create("User: " + WireStorage.userID).verbose().print();
+            Out.create("Expires in: " + obj.get("expires_in") + " seconds").verbose().print();
         } catch(ParseException ignored)
         {
             return false;

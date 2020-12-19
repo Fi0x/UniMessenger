@@ -1,7 +1,7 @@
 package unimessenger.abstraction.storage;
 
 import unimessenger.abstraction.wire.structures.WireConversation;
-import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.userinteraction.tui.Out;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class ConversationHandler implements Serializable
                 cH = (ConversationHandler) ois.readObject();
             } catch(IOException | ClassNotFoundException ex)
             {
-                Outputs.create("ConnectionHandler not on disc or not loaded, Generating new one");
+                Out.create("ConnectionHandler not on disc or not loaded, Generating new one");
                 cH = new ConversationHandler();
                 save();
             }
@@ -66,7 +66,7 @@ public class ConversationHandler implements Serializable
 
         } catch(Exception ignored)
         {
-            Outputs.create("Error when saving Conversations to file", "ConversationHandler").debug().WARNING().print();
+            Out.create("Error when saving Conversations to file", "ConversationHandler").debug().WARNING().print();
         }
     }
 }

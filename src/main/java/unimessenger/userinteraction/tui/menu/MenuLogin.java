@@ -5,7 +5,7 @@ import unimessenger.abstraction.interfaces.ILoginOut;
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.userinteraction.tui.CLI;
 import unimessenger.userinteraction.tui.Inputs;
-import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.Updater;
 import unimessenger.util.enums.MENU;
 import unimessenger.util.enums.SERVICE;
@@ -36,7 +36,7 @@ public class MenuLogin
                 CLI.currentMenu = MENU.EXIT;
                 break;
             default:
-                Outputs.create("Invalid option").always().WARNING().print();
+                Out.create("Invalid option").always().WARNING().print();
                 break;
         }
     }
@@ -52,7 +52,7 @@ public class MenuLogin
         else if(login.login()) loggedIn = true;
         if(loggedIn)
         {
-            if(!access.getUtilInterface(CLI.currentService).loadProfile()) Outputs.create("Could not load profile", "MenuLogin").verbose().debug().ERROR().print();
+            if(!access.getUtilInterface(CLI.currentService).loadProfile()) Out.create("Could not load profile", "MenuLogin").verbose().debug().ERROR().print();
             return true;
         } else
         {

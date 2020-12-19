@@ -4,7 +4,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import unimessenger.abstraction.wire.structures.WireConversation;
 import unimessenger.abstraction.wire.structures.WireProfile;
-import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.userinteraction.tui.Out;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -47,8 +47,8 @@ public class WireStorage
         else storageDirectory = storageDirectory.replace("\\", "/") + "/DataStorage";
         storageFile = storageDirectory + "/access.json";
 
-        if(new File(storageDirectory).mkdirs()) Outputs.create("Storage folder successfully created").verbose().INFO().print();
-        else Outputs.create("Storage folder not created", "WireStorage").debug().WARNING().print();
+        if(new File(storageDirectory).mkdirs()) Out.create("Storage folder successfully created").verbose().print();
+        else Out.create("Storage folder not created", "WireStorage").debug().WARNING().print();
 
         convH = ConversationHandler.getInstance();
 
@@ -72,10 +72,10 @@ public class WireStorage
             try
             {
                 storageCrypto.encrypt(obj.toJSONString());
-                Outputs.create("Successfully wrote to Wire file").verbose().INFO().print();
+                Out.create("Successfully wrote to Wire file").verbose().print();
             } catch(Exception ignored)
             {
-                Outputs.create("Could not write to Wire file", "WireStorage").debug().WARNING().print();
+                Out.create("Could not write to Wire file", "WireStorage").debug().WARNING().print();
             }
         }
 
@@ -85,7 +85,7 @@ public class WireStorage
             convH.newConversation(c);
         }
         ConversationHandler.save();
-        Outputs.create("Conversations stored on disk").verbose().INFO().print();
+        Out.create("Conversations stored on disk").verbose().print();
     }
 
     public static void saveDataInFile()
@@ -106,9 +106,9 @@ public class WireStorage
 
     public static boolean isBearerTokenStillValid()
     {
-        if(bearerToken == null) Outputs.create("Bearer token is null").verbose().INFO().print();
-        else if(bearerExpiringTime == null) Outputs.create("Bearer token has no expiring time").verbose().INFO().print();
-        else if(bearerExpiringTime.getTime() <= System.currentTimeMillis()) Outputs.create("Bearer token expired").verbose().INFO().print();
+        if(bearerToken == null) Out.create("Bearer token is null").verbose().print();
+        else if(bearerExpiringTime == null) Out.create("Bearer token has no expiring time").verbose().print();
+        else if(bearerExpiringTime.getTime() <= System.currentTimeMillis()) Out.create("Bearer token expired").verbose().print();
         else return true;
         return false;
     }
@@ -143,7 +143,7 @@ public class WireStorage
 
         } catch(Exception ignored)
         {
-            Outputs.create("Failed to load Wire file", "WireStorage").debug().WARNING().print();
+            Out.create("Failed to load Wire file", "WireStorage").debug().WARNING().print();
         }
     }
 
@@ -154,11 +154,11 @@ public class WireStorage
             FileWriter fw = new FileWriter(storageFile);
             fw.write("{}");
             fw.close();
-            Outputs.create("Successfully cleared Wire file").verbose().INFO().print();
-            if(new File(storageFile).delete()) Outputs.create("Successfully deleted Wire file").verbose().INFO().print();
+            Out.create("Successfully cleared Wire file").verbose().print();
+            if(new File(storageFile).delete()) Out.create("Successfully deleted Wire file").verbose().print();
         } catch(IOException ignored)
         {
-            Outputs.create("Could not clear Wire file", "Wire Storage").debug().WARNING().print();
+            Out.create("Could not clear Wire file", "Wire Storage").debug().WARNING().print();
         }
     }
 

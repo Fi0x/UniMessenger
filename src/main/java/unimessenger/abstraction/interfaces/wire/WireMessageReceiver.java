@@ -12,7 +12,7 @@ import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.abstraction.wire.crypto.WireCryptoHandler;
 import unimessenger.abstraction.wire.structures.WireConversation;
 import unimessenger.communication.HTTP;
-import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.enums.REQUEST;
 
 import java.net.http.HttpResponse;
@@ -33,7 +33,7 @@ public class WireMessageReceiver
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
 
         if(response == null)
-            Outputs.create("No response received", this.getClass().getName()).debug().WARNING().print();
+            Out.create("No response received", this.getClass().getName()).debug().WARNING().print();
         else if(response.statusCode() == 200 || response.statusCode() == 404)
         {
             try
@@ -49,7 +49,7 @@ public class WireMessageReceiver
                         JSONObject load = (JSONObject) pl;
                         if(load.get("type").equals("conversation.otr-message-add"))
                         {
-                            if(!handleMessage(load)) Outputs.create("Error receiving text of a notification").verbose().WARNING().print();
+                            if(!handleMessage(load)) Out.create("Error receiving text of a notification").verbose().WARNING().print();
                         }
                     }
                 }
@@ -59,10 +59,10 @@ public class WireMessageReceiver
                 } else WireStorage.saveDataInFile();
             } catch(ParseException ignored)
             {
-                Outputs.create("Something went wrong when parsing the HTTP response", this.getClass().getName()).debug().WARNING();
+                Out.create("Something went wrong when parsing the HTTP response", this.getClass().getName()).debug().WARNING();
             }
             return true;
-        } else Outputs.create("Response code was " + response.statusCode(), this.getClass().getName()).debug().WARNING().print();
+        } else Out.create("Response code was " + response.statusCode(), this.getClass().getName()).debug().WARNING().print();
         return false;
     }
 
@@ -76,34 +76,34 @@ public class WireMessageReceiver
         if(payload.containsKey("conversation")) conversationID = payload.get("conversation").toString();
         else
         {
-            Outputs.create("Conversation notification has no 'conversation' key", this.getClass().getName()).debug().WARNING().print();
+            Out.create("Conversation notification has no 'conversation' key", this.getClass().getName()).debug().WARNING().print();
             return false;
         }
 
         if(!payload.containsKey("data"))
         {
-            Outputs.create("Conversation notification has no 'data' key", this.getClass().getName()).debug().WARNING().print();
+            Out.create("Conversation notification has no 'data' key", this.getClass().getName()).debug().WARNING().print();
             return false;
         }
 
         if(payload.containsKey("from")) senderUser = payload.get("from").toString();
-        else Outputs.create("Conversation notification has no 'from' key").verbose().WARNING().print();
+        else Out.create("Conversation notification has no 'from' key").verbose().WARNING().print();
 
         if(payload.containsKey("time"))
         {
             time = Timestamp.valueOf(payload.get("time").toString().replace("T", " ").replace("Z", ""));
             if(WireStorage.lastNotification != null && time.getTime() <= WireStorage.lastNotification.getTime())
             {
-                Outputs.create("Notification filtered because of timestamp").verbose().INFO().print();
+                Out.create("Notification filtered because of timestamp").verbose().print();
                 return false;
             } else WireStorage.lastNotification = time;
-        } else Outputs.create("Conversation notification has no 'time' key").verbose().WARNING().print();
+        } else Out.create("Conversation notification has no 'time' key").verbose().WARNING().print();
 
         JSONObject data = (JSONObject) payload.get("data");
 
         if(!data.get("recipient").toString().equals(WireStorage.clientID))
         {
-            Outputs.create("Message is not for this client").verbose().INFO().print();
+            Out.create("Message is not for this client").verbose().print();
             return false;
         }
 
@@ -113,14 +113,14 @@ public class WireMessageReceiver
             message = Messages.GenericMessage.parseFrom(decrypted);
         } catch(InvalidProtocolBufferException e)
         {
-            Outputs.create("Unable to parse to a generic message", this.getClass().getName()).debug().WARNING().print();
+            Out.create("Unable to parse to a generic message", this.getClass().getName()).debug().WARNING().print();
             return false;
         }
 
         WireConversation conversation = WireStorage.getConversationByID(conversationID);
         if(conversation == null)
         {
-            Outputs.create("ConversationID not found", this.getClass().getName()).debug().WARNING().print();
+            Out.create("ConversationID not found", this.getClass().getName()).debug().WARNING().print();
             return false;
         }
 

@@ -4,7 +4,7 @@ import unimessenger.abstraction.APIAccess;
 import unimessenger.abstraction.interfaces.IData;
 import unimessenger.userinteraction.tui.CLI;
 import unimessenger.userinteraction.tui.Inputs;
-import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.Updater;
 import unimessenger.util.enums.MENU;
 import unimessenger.util.enums.SERVICE;
@@ -41,7 +41,7 @@ public class MenuConversationList
                 CLI.currentMenu = MENU.EXIT;
                 break;
             default:
-                Outputs.create("Invalid option").always().WARNING().print();
+                Out.create("Invalid option").always().WARNING().print();
                 break;
         }
     }
@@ -101,7 +101,7 @@ public class MenuConversationList
             selectedConversation = matches.get(input - 1);
         }
 
-        Outputs.create("Opening conversation '" + selectedConversation + "'...").verbose().INFO().print();
+        Out.create("Opening conversation '" + selectedConversation + "'...").verbose().print();
         CLI.currentChatID = ids.get(selectedConversation);
         return true;
     }

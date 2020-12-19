@@ -3,34 +3,34 @@ package unimessenger.util;
 import unimessenger.Main;
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.abstraction.wire.crypto.CryptoFactory;
-import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.userinteraction.tui.Out;
 
 public class Stop implements Runnable
 {
     @Override
     public void run()
     {
-        Outputs.create("Stopping update thread...").verbose().INFO().print();
+        Out.create("Stopping update thread...").verbose().print();
         Main.updt.interrupt();
-        Outputs.create("Update thread stopped").verbose().INFO().print();
+        Out.create("Update thread stopped").verbose().print();
 
-        Outputs.create("Stopping CLI thread...").verbose().INFO().print();
+        Out.create("Stopping CLI thread...").verbose().print();
         Main.cli.interrupt();
-        Outputs.create("CLI thread stopped").verbose().INFO().print();
+        Out.create("CLI thread stopped").verbose().print();
 
-        Outputs.create("Stopping GUI thread...").verbose().INFO().print();
+        Out.create("Stopping GUI thread...").verbose().print();
         Main.gui.stop();
-        Outputs.create("GUI thread stopped").verbose().INFO().print();
+        Out.create("GUI thread stopped").verbose().print();
 
-        Outputs.create("Writing data to file...").verbose().INFO().print();
+        Out.create("Writing data to file...").verbose().print();
         WireStorage.saveDataInFile();
-        Outputs.create("Storage written to file").verbose().INFO().print();
+        Out.create("Storage written to file").verbose().print();
 
-        Outputs.create("Cleaning the Box").verbose().INFO().print();
+        Out.create("Cleaning the Box").verbose().print();
         CryptoFactory.closeBox();
-        Outputs.create("Box Clean").verbose().INFO().print();
+        Out.create("Box Clean").verbose().print();
 
-        Outputs.create("Exiting program...").verbose().INFO().print();
+        Out.create("Exiting program...").verbose().print();
         System.exit(0);
     }
 }

@@ -21,7 +21,7 @@ public class Inputs
             ret = Integer.parseInt(in);
         } catch(Exception ignored)
         {
-            Outputs.create("Input was not an integer", "Inputs").debug().ERROR().print();
+            Out.create("Input was not an integer", "Inputs").debug().ERROR().print();
         }
         return ret;
     }
@@ -45,14 +45,14 @@ public class Inputs
         while(true)
         {
             System.out.print("Input(Yes/No): ");
-            Outputs.create("Waiting for user-input...").verbose().INFO().print();
+            Out.create("Waiting for user-input...").verbose().print();
 
             String answer = sc.next();
 
             if(answer.equalsIgnoreCase("yes") || answer.equalsIgnoreCase("y")) return true;
             if(answer.equalsIgnoreCase("no") || answer.equalsIgnoreCase("n")) return false;
 
-            Outputs.create("Invalid user-input", "Inputs").debug().verbose().WARNING().print();
+            Out.create("Invalid user-input", "Inputs").debug().verbose().WARNING().print();
             System.out.println("Invalid input. Options are 'yes' or 'no'");
         }
     }
@@ -71,7 +71,7 @@ public class Inputs
                 line = rd.readLine();
             } catch(Exception ignored)
             {
-                Outputs.create("Problem with reading a line", "Inputs").debug().ERROR().print();
+                Out.create("Problem with reading a line", "Inputs").debug().ERROR().print();
             }
             if(line.equals("")) break;
             if(firstLine) firstLine = false;

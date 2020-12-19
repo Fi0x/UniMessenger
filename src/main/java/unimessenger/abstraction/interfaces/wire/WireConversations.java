@@ -11,7 +11,7 @@ import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.abstraction.wire.structures.WireConversation;
 import unimessenger.abstraction.wire.structures.WirePerson;
 import unimessenger.communication.HTTP;
-import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.enums.CONVERSATIONTYPE;
 import unimessenger.util.enums.REQUEST;
 
@@ -29,7 +29,7 @@ public class WireConversations implements IConversations
 
         if(response == null)
         {
-            Outputs.create("Could not get a HTTP response", this.getClass().getName()).debug().WARNING().print();
+            Out.create("Could not get a HTTP response", this.getClass().getName()).debug().WARNING().print();
             return false;
         } else if(response.statusCode() == 200)
         {
@@ -56,16 +56,16 @@ public class WireConversations implements IConversations
                         if(!exists) WireStorage.conversations.add(newConversation);
                     }
                 }
-                Outputs.create("Successfully reloaded all conversations").verbose().INFO().print();
+                Out.create("Successfully reloaded all conversations").verbose().print();
                 return true;
             } catch(ParseException ignored)
             {
             }
-            Outputs.create("Failed to reload all conversations", this.getClass().getName()).debug().WARNING().print();
+            Out.create("Failed to reload all conversations", this.getClass().getName()).debug().WARNING().print();
             return false;
         } else
         {
-            Outputs.create("Response code is " + response.statusCode(), this.getClass().getName()).debug().WARNING().print();
+            Out.create("Response code is " + response.statusCode(), this.getClass().getName()).debug().WARNING().print();
             return false;
         }
     }
@@ -144,7 +144,7 @@ public class WireConversations implements IConversations
                 Headers.ACCEPT, Headers.JSON};
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
 
-        if(response == null) Outputs.create("Could not get a username", "WireConversations").verbose().WARNING().print();
+        if(response == null) Out.create("Could not get a username", "WireConversations").verbose().WARNING().print();
         else if(response.statusCode() == 200)
         {
             JSONArray arr = null;
@@ -158,8 +158,8 @@ public class WireConversations implements IConversations
             {
                 JSONObject user = (JSONObject) arr.get(0);
                 return user.get("name").toString();
-            } else Outputs.create("No user returned", "WireConversations").debug().WARNING().print();
-        } else Outputs.create("Response code of getting user was " + response.statusCode()).verbose().WARNING().print();
+            } else Out.create("No user returned", "WireConversations").debug().WARNING().print();
+        } else Out.create("Response code of getting user was " + response.statusCode()).verbose().WARNING().print();
 
         return userID;
     }

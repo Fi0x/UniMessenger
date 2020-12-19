@@ -8,7 +8,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 import unimessenger.Main;
-import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.userinteraction.tui.Out;
 
 import java.io.IOException;
 
@@ -40,7 +40,7 @@ public class MainWindow extends Application
             root = mainLoader.load();
         } catch(Exception ignored)
         {
-            Outputs.create("Could not load GUI. Shutting down").always().WARNING().print();
+            Out.create("Could not load GUI. Shutting down").always().WARNING().print();
             Main.stp.start();
             return;
         }
@@ -54,7 +54,7 @@ public class MainWindow extends Application
     @Override
     public void stop()
     {
-        Outputs.create("GUI closed. Shutting down").always().WARNING().print();
+        Out.create("GUI closed. Shutting down").always().WARNING().print();
         Main.stp.start();
     }
 
@@ -68,7 +68,7 @@ public class MainWindow extends Application
             messengerTab = tabLoader.load();
         } catch(IOException ignored)
         {
-            Outputs.create("Error loading Tab").debug().WARNING().print();
+            Out.create("Error loading Tab").debug().WARNING().print();
             return;
         }
         messengerTab.setText("New Messenger");

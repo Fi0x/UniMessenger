@@ -11,7 +11,7 @@ import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.abstraction.wire.crypto.Prekey;
 import unimessenger.abstraction.wire.crypto.WireCryptoHandler;
 import unimessenger.communication.HTTP;
-import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.enums.REQUEST;
 
 import java.lang.constant.Constable;
@@ -33,13 +33,13 @@ public class WireMessageSender
         String body = buildBody(chatID, msg);
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.POST, body, headers);
 
-        if(response == null) Outputs.create("No response for sent message received", this.getClass().getName()).debug().WARNING().print();
+        if(response == null) Out.create("No response for sent message received", this.getClass().getName()).debug().WARNING().print();
         else if(response.statusCode() == 201)
         {
-            Outputs.create("Message sent correctly").verbose().INFO().print();
+            Out.create("Message sent correctly").verbose().print();
 
             return true;
-        } else Outputs.create("Response code was " + response.statusCode(), this.getClass().getName()).debug().WARNING().print();
+        } else Out.create("Response code was " + response.statusCode(), this.getClass().getName()).debug().WARNING().print();
         return false;
     }
 
@@ -85,7 +85,7 @@ public class WireMessageSender
                 Headers.ACCEPT, Headers.JSON};
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
 
-        if(response == null) Outputs.create("No client response", "WireMessages").debug().WARNING().print();
+        if(response == null) Out.create("No client response", "WireMessages").debug().WARNING().print();
         else if(response.statusCode() == 200)
         {
             try
@@ -102,7 +102,7 @@ public class WireMessageSender
             } catch(ParseException ignored)
             {
             }
-        } else Outputs.create("Response code is " + response.statusCode(), "WireMessages").debug().WARNING().print();
+        } else Out.create("Response code is " + response.statusCode(), "WireMessages").debug().WARNING().print();
 
         return null;
     }
@@ -114,7 +114,7 @@ public class WireMessageSender
                 Headers.ACCEPT, Headers.JSON};
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
 
-        if(response == null) Outputs.create("Could not get a prekey for a client", "WireMessages").debug().WARNING().print();
+        if(response == null) Out.create("Could not get a prekey for a client", "WireMessages").debug().WARNING().print();
         else if(response.statusCode() == 200)
         {
             try
@@ -126,9 +126,9 @@ public class WireMessageSender
                 return new Prekey(prekeyID, prekeyKey);
             } catch(ParseException ignored)
             {
-                Outputs.create("Could not get a prekey", "WireMessages").debug().WARNING().print();
+                Out.create("Could not get a prekey", "WireMessages").debug().WARNING().print();
             }
-        } else Outputs.create("Response code was " + response.statusCode(), "WireMessages").debug().WARNING().print();
+        } else Out.create("Response code was " + response.statusCode(), "WireMessages").debug().WARNING().print();
         return null;
     }
 }

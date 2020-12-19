@@ -15,7 +15,7 @@ import unimessenger.abstraction.interfaces.ILoginOut;
 import unimessenger.abstraction.interfaces.IUtil;
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.userinteraction.gui.MainWindow;
-import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.Updater;
 import unimessenger.util.enums.SERVICE;
 
@@ -53,20 +53,20 @@ public class TabController implements Initializable
         IUtil util = access.getUtilInterface(service);
         if(login == null && (WireStorage.getBearerToken() == null || util == null))
         {
-            Outputs.create("Could not load login interfaces").debug().INFO().print();
+            Out.create("Could not load login interfaces").debug().print();
         } else if(login != null && login.checkIfLoggedIn())
         {
-            Outputs.create("Still logged in").verbose().INFO().print();
+            Out.create("Still logged in").verbose().print();
         } else if(WireStorage.getBearerToken() != null && util != null && util.refreshSession())
         {
-            Outputs.create("Refreshed session").verbose().INFO().print();
+            Out.create("Refreshed session").verbose().print();
         } else
         {
             loadLogin();
             return;
         }
 
-        if(!access.getUtilInterface(service).loadProfile()) Outputs.create("Could not load profile", this.getClass().getName()).verbose().debug().ERROR().print();
+        if(!access.getUtilInterface(service).loadProfile()) Out.create("Could not load profile", this.getClass().getName()).verbose().debug().ERROR().print();
         loadMessenger();
         Updater.addService(service);
     }
@@ -95,7 +95,7 @@ public class TabController implements Initializable
             loader.<LoginController>getController().setTabController(this);
         } catch(IOException ignored)
         {
-            Outputs.create("Error loading login menu").debug().WARNING().print();
+            Out.create("Error loading login menu").debug().WARNING().print();
             return;
         }
         anchor.getChildren().add(login);
@@ -114,7 +114,7 @@ public class TabController implements Initializable
             controller.loadChats();
         } catch(IOException ignored)
         {
-            Outputs.create("Error loading messenger", this.getClass().getName()).debug().WARNING().print();
+            Out.create("Error loading messenger", this.getClass().getName()).debug().WARNING().print();
             return;
         }
 
