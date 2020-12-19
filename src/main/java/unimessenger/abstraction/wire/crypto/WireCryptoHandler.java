@@ -3,7 +3,7 @@ package unimessenger.abstraction.wire.crypto;
 import com.wire.bots.cryptobox.CryptoBox;
 import com.wire.bots.cryptobox.CryptoException;
 import com.wire.bots.cryptobox.PreKey;
-import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.userinteraction.tui.Out;
 
 import java.util.Base64;
 import java.util.UUID;
@@ -25,7 +25,7 @@ public class WireCryptoHandler
 
         } catch (CryptoException ignored)
         {
-            Outputs.create("Crypto Exception while generating PreKeys", "WireCryptoHandler").debug().ERROR().print();
+            Out.newBuilder("Crypto Exception while generating PreKeys").origin("WireCryptoHandler").d().ERROR().print();
             cleanUp();
         }
         return Keys;
@@ -38,7 +38,7 @@ public class WireCryptoHandler
             return new Prekey(CryptoFactory.getCryptoInstance().newLastPreKey());
         } catch(Exception ignored)
         {
-            Outputs.create("Exception while generating LastKey", "WireCryptoHandler").debug().ERROR().print();
+            Out.newBuilder("Exception while generating LastKey").origin("WireCryptoHandler").d().ERROR().print();
         }
         return null;
     }
@@ -55,7 +55,7 @@ public class WireCryptoHandler
             cypher = box.encryptFromPreKeys(id, key, content);
         } catch(CryptoException ignored)
         {
-            Outputs.create("Encrypting message failed", "WireCryptoHandler").debug().ERROR().print();
+            Out.newBuilder("Encrypting message failed").origin("WireCryptoHandler").d().ERROR().print();
         }
         return Base64.getEncoder().encodeToString(cypher);
     }
@@ -72,7 +72,7 @@ public class WireCryptoHandler
             dec = box.decrypt(sID, Base64.getDecoder().decode(text));
         } catch(CryptoException ignored)
         {
-            Outputs.create("Decrypt CryptoException", "WireCryptoHandler").always().ERROR();
+            Out.newBuilder("Decrypt CryptoException").origin("WireCryptoHandler").a().ERROR();
             dec = new byte[1];
         }
 

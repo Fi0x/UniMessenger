@@ -3,7 +3,7 @@ package unimessenger.abstraction.interfaces.wire;
 import com.waz.model.Messages;
 import unimessenger.abstraction.storage.Message;
 import unimessenger.abstraction.wire.structures.WireConversation;
-import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.enums.MESSAGETYPE;
 
 import java.sql.Timestamp;
@@ -45,37 +45,37 @@ public class WireMessageSorter
                 conversation.addMessage(msg);
                 break;
             case PING:
-                Outputs.create("You have been pinged in: '" + conversation.getConversationName() + "'").always().ALERT().print();
+                Out.newBuilder("You have been pinged in: '" + conversation.getConversationName() + "'").a().ALERT().print();
                 break;
             case CALL:
                 //TODO: Find out the difference between start and end of a call
-                Outputs.create("Sommeone is calling you, please accept the call on a different client").always().ALERT().print();
+                Out.newBuilder("Sommeone is calling you, please accept the call on a different client").a().ALERT().print();
                 break;
             case CONFIRMATION:
-                Outputs.create("Your message has been received").verbose().INFO().print();
+                Out.newBuilder("Your message has been received").v().print();
                 break;
             case DELETED:
-                Outputs.create("Message deletion request received").verbose().INFO().print();
+                Out.newBuilder("Message deletion request received").v().print();
                 //TODO: Delete the deleted message on local storage
                 break;
             case EDITED:
-                Outputs.create("Message editing request received").verbose().INFO().print();
+                Out.newBuilder("Message editing request received").v().print();
                 //TODO: Update the edited message on storage
                 break;
             case TIMED:
-                Outputs.create("Timed message received").verbose().INFO().print();
+                Out.newBuilder("Timed message received").v().print();
                 msg = new Message(message.getEphemeral().getText().getContent(), time, senderUser, message.getEphemeral().getExpireAfterMillis());
                 conversation.addMessage(msg);
                 break;
             case LOCATION:
                 //TODO: Give more information about the location
-                Outputs.create("Location has been shared").always().INFO().print();
+                Out.newBuilder("Location has been shared").a().print();
                 break;
             case UNKNOWN:
-                Outputs.create("Unknown message type received").verbose().INFO().print();
+                Out.newBuilder("Unknown message type received").v().print();
                 return false;
             default:
-                Outputs.create("Error in detecting the received message type", "WireMessageSorter").debug().ERROR().print();
+                Out.newBuilder("Error in detecting the received message type").origin("WireMessageSorter").d().ERROR().print();
                 return false;
         }
         return true;

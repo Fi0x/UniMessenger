@@ -8,7 +8,7 @@ import unimessenger.abstraction.Headers;
 import unimessenger.abstraction.URL;
 import unimessenger.abstraction.wire.messages.*;
 import unimessenger.communication.HTTP;
-import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.enums.REQUEST;
 
 import java.io.ByteArrayOutputStream;
@@ -69,7 +69,7 @@ public class MessageCreator
             return asset.createGenericMsg();
         } catch(Exception ignored)
         {
-            Outputs.create("Could not create FileAsset", "MessageCreator").verbose().WARNING().print();
+            Out.newBuilder("Could not create FileAsset").origin("MessageCreator").v().WARNING().print();
         }
         return null;
     }
@@ -102,12 +102,12 @@ public class MessageCreator
         String body = os.toString();
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.POST, body, headers);
 
-        if(response == null) Outputs.create("No HTTP response received", "MessagesCreator").debug().INFO().print();
+        if(response == null) Out.newBuilder("No HTTP response received").origin("MessagesCreator").d().print();
         else if(response.statusCode() == 200 || response.statusCode() == 201)
         {
-            Outputs.create("Successfully uploaded asset").verbose().INFO().print();
+            Out.newBuilder("Successfully uploaded asset").v().print();
             return keyFromResponse(response);
-        } else Outputs.create("Response code is " + response.statusCode()).verbose().WARNING().print();
+        } else Out.newBuilder("Response code is " + response.statusCode()).v().WARNING().print();
 
         return null;
     }

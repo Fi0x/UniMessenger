@@ -8,7 +8,7 @@ import unimessenger.abstraction.storage.Message;
 import unimessenger.abstraction.wire.crypto.MessageCreator;
 import unimessenger.userinteraction.tui.CLI;
 import unimessenger.userinteraction.tui.Inputs;
-import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.enums.MENU;
 import unimessenger.util.enums.SERVICE;
 
@@ -33,11 +33,11 @@ public class MenuChat
                 showMessages();
                 break;
             case 2:
-                if(sendMessage(0)) Outputs.create("Message successfully sent").verbose().INFO().print();
+                if(sendMessage(0)) Out.newBuilder("Message successfully sent").v().print();
                 else System.out.println("Couldn't send the message");
                 break;
             case 3:
-                if(sendSpecialMessage()) Outputs.create("Special message successfully sent").verbose().INFO().print();
+                if(sendSpecialMessage()) Out.newBuilder("Special message successfully sent").v().print();
                 else System.out.println("Couldn't send the message");
                 break;
             case 4:
@@ -56,7 +56,7 @@ public class MenuChat
                 if(CLI.currentService == SERVICE.WIRE) new WireMessageSender().sendMessage(CLI.currentChatID, MessageCreator.createGenericPingMessage());
                 break;
             default:
-                Outputs.create("Invalid option").always().WARNING().print();
+                Out.newBuilder("Invalid option").a().WARNING().print();
                 break;
         }
     }
@@ -83,14 +83,14 @@ public class MenuChat
                 int msgAmount = Inputs.getIntAnswerFrom("How many messages would you like to see?");
                 if(msgAmount == -1)
                 {
-                    Outputs.create("Invalid option").always().WARNING().print();
+                    Out.newBuilder("Invalid option").a().WARNING().print();
                     return;
                 } else messages = data.getLastXMessagesFromConversation(CLI.currentChatID, msgAmount);
                 break;
             case 4:
                 return;
             default:
-                Outputs.create("Invalid option").always().WARNING().print();
+                Out.newBuilder("Invalid option").a().WARNING().print();
                 return;
         }
         if(messages == null || messages.isEmpty()) return;
@@ -137,7 +137,7 @@ public class MenuChat
             case 3:
                 return true;
             default:
-                Outputs.create("Invalid option").always().WARNING().print();
+                Out.newBuilder("Invalid option").a().WARNING().print();
                 break;
         }
 

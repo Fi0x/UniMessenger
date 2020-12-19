@@ -3,7 +3,7 @@ package unimessenger.util;
 import unimessenger.abstraction.APIAccess;
 import unimessenger.abstraction.interfaces.ILoginOut;
 import unimessenger.abstraction.storage.WireStorage;
-import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.enums.SERVICE;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class Updater implements Runnable
                     if(seconds % 10 == 0) access.getConversationInterface(service).requestAllConversations();//TODO: Refresh only changed conversations if possible
                     if(seconds % 2 == 0 && !access.getMessageInterface(service).receiveNewMessages())//TODO: Might need to change to /await
                     {
-                        Outputs.create("Error receiving new messages", this.getClass().getName()).verbose().WARNING().print();
+                        Out.newBuilder("Error receiving new messages").origin(this.getClass().getName()).d().WARNING().print();
                     }
                 } else removeService(service);
             }
@@ -60,7 +60,7 @@ public class Updater implements Runnable
                 return login.login();
             case NONE:
             default:
-                Outputs.create("Unknown service: " + service, this.getClass().getName()).debug().ERROR().print();
+                Out.newBuilder("Unknown service: " + service).origin(this.getClass().getName()).d().ERROR().print();
                 break;
         }
         return true;
