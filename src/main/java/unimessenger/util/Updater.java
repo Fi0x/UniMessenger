@@ -28,7 +28,7 @@ public class Updater implements Runnable
                     if(seconds % 10 == 0) access.getConversationInterface(service).requestAllConversations();//TODO: Refresh only changed conversations if possible
                     if(seconds % 2 == 0 && !access.getMessageInterface(service).receiveNewMessages())//TODO: Might need to change to /await
                     {
-                        Out.newBuilder("Error receiving new messages").origin(this.getClass().getName()).v().WARNING().print();
+                        Out.newBuilder("Error receiving new messages").origin(this.getClass().getName()).d().WARNING().print();
                     }
                 } else removeService(service);
             }

@@ -21,15 +21,15 @@ public class WireLogin implements ILoginOut
     {
         if(WireStorage.cookie == null)
         {
-            Out.newBuilder("No cookie stored").v().print();
+            Out.newBuilder("No cookie stored; User is not logged in").d().print();
             return false;
         }
         if(WireStorage.isBearerTokenStillValid())
         {
-            Out.newBuilder("Bearer token is valid").v().print();
+            Out.newBuilder("Bearer token is valid").print();
             return true;
         }
-        Out.newBuilder("Bearer token not valid").origin(this.getClass().getName()).d().print();
+        Out.newBuilder("Bearer token not valid; User is not logged in").origin(this.getClass().getName()).d().print();
         return false;
     }
 
@@ -73,16 +73,16 @@ public class WireLogin implements ILoginOut
 
         if(response == null)
         {
-            Out.newBuilder("Could not get a HTTP response").origin(this.getClass().getName()).d().WARNING().print();
+            Out.newBuilder("Could not get a HTTP response to logout").origin(this.getClass().getName()).d().WARNING().print();
             return false;
         } else if(response.statusCode() == 200)
         {
-            Out.newBuilder("Successfully logged out").v().print();
+            Out.newBuilder("Successfully logged out of Wire").v().print();
             WireStorage.clearUserData();
             return true;
         } else
         {
-            Out.newBuilder("Response code is " + response.statusCode()).origin(this.getClass().getName()).d().WARNING().print();
+            Out.newBuilder("Response code from logout is " + response.statusCode()).origin(this.getClass().getName()).d().WARNING().print();
             return false;
         }
     }
@@ -110,8 +110,8 @@ public class WireLogin implements ILoginOut
             if(arr.length > 1) arr = arr[1].split(";");
             WireStorage.cookie = "zuid=" + arr[0];
 
-            Out.newBuilder("User: " + WireStorage.userID).v().print();
-            Out.newBuilder("Expires in: " + obj.get("expires_in") + " seconds").v().print();
+            Out.newBuilder("User: " + WireStorage.userID).vv().print();
+            Out.newBuilder("Expires in: " + obj.get("expires_in") + " seconds").vv().print();
         } catch(ParseException ignored)
         {
             return false;

@@ -56,7 +56,7 @@ public class WireConversations implements IConversations
                         if(!exists) WireStorage.conversations.add(newConversation);
                     }
                 }
-                Out.newBuilder("Successfully reloaded all conversations").v().print();
+                Out.newBuilder("Successfully reloaded all conversations").print();
                 return true;
             } catch(ParseException ignored)
             {
@@ -65,7 +65,7 @@ public class WireConversations implements IConversations
             return false;
         } else
         {
-            Out.newBuilder("Response code is " + response.statusCode()).origin(this.getClass().getName()).d().WARNING().print();
+            Out.newBuilder("Response code from reloading conversations is " + response.statusCode()).origin(this.getClass().getName()).d().WARNING().print();
             return false;
         }
     }
@@ -144,7 +144,7 @@ public class WireConversations implements IConversations
                 Headers.ACCEPT, Headers.JSON};
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
 
-        if(response == null) Out.newBuilder("Could not get a username").origin("WireConversations").v().WARNING().print();
+        if(response == null) Out.newBuilder("Could not get a username for userID '" + userID + "'").origin("WireConversations").d().WARNING().print();
         else if(response.statusCode() == 200)
         {
             JSONArray arr = null;
@@ -154,12 +154,12 @@ public class WireConversations implements IConversations
             } catch(ParseException ignored)
             {
             }
-            if(arr.size() > 0)
+            if(arr != null && arr.size() > 0)
             {
                 JSONObject user = (JSONObject) arr.get(0);
                 return user.get("name").toString();
             } else Out.newBuilder("No user returned").origin("WireConversations").d().WARNING().print();
-        } else Out.newBuilder("Response code of getting user was " + response.statusCode()).v().WARNING().print();
+        } else Out.newBuilder("Response code of getting a username was " + response.statusCode()).d().WARNING().print();
 
         return userID;
     }

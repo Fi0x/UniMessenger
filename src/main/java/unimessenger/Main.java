@@ -28,7 +28,7 @@ public class Main
         if(arguments.contains("-vv")) Out.vv = true;
         if(arguments.contains("-vvv")) Out.vvv = true;
 
-        Out.newBuilder("Uni-Messenger starting...").v().print();
+        Out.newBuilder("Uni-Messenger starting...").vv().print();
         Out.newBuilder("Initializing storage...").v().print();
         WireStorage.init();
         Out.newBuilder("Storage initialized").v().print();

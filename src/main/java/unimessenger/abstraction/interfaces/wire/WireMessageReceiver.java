@@ -49,7 +49,7 @@ public class WireMessageReceiver
                         JSONObject load = (JSONObject) pl;
                         if(load.get("type").equals("conversation.otr-message-add"))
                         {
-                            if(!handleMessage(load)) Out.newBuilder("Error receiving text of a notification").v().WARNING().print();
+                            if(!handleMessage(load)) Out.newBuilder("Error receiving text of a notification").d().WARNING().print();
                         }
                     }
                 }
@@ -59,10 +59,10 @@ public class WireMessageReceiver
                 } else WireStorage.saveDataInFile();
             } catch(ParseException ignored)
             {
-                Out.newBuilder("Something went wrong when parsing the HTTP response").origin(this.getClass().getName()).d().WARNING();
+                Out.newBuilder("Something went wrong when parsing the HTTP response of new messages").origin(this.getClass().getName()).d().WARNING();
             }
             return true;
-        } else Out.newBuilder("Response code was " + response.statusCode()).origin(this.getClass().getName()).d().WARNING().print();
+        } else Out.newBuilder("Response code from message receiving was " + response.statusCode()).origin(this.getClass().getName()).d().WARNING().print();
         return false;
     }
 

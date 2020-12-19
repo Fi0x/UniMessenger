@@ -106,9 +106,9 @@ public class WireStorage
 
     public static boolean isBearerTokenStillValid()
     {
-        if(bearerToken == null) Out.newBuilder("Bearer token is null").v().print();
-        else if(bearerExpiringTime == null) Out.newBuilder("Bearer token has no expiring time").v().print();
-        else if(bearerExpiringTime.getTime() <= System.currentTimeMillis()) Out.newBuilder("Bearer token expired").v().print();
+        if(bearerToken == null) Out.newBuilder("Bearer token is null").d().WARNING().print();
+        else if(bearerExpiringTime == null) Out.newBuilder("Bearer token has no expiring time").d().WARNING().print();
+        else if(bearerExpiringTime.getTime() <= System.currentTimeMillis()) Out.newBuilder("Bearer token expired").print();
         else return true;
         return false;
     }

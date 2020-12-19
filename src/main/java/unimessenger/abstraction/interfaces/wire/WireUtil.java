@@ -41,15 +41,15 @@ public class WireUtil implements IUtil
                 obj = (JSONObject) new JSONParser().parse(response.body());
                 WireStorage.setBearerToken(obj.get("access_token").toString(), Integer.parseInt(obj.get("expires_in").toString()));
                 WireStorage.userID = obj.get("user").toString();
-                Out.newBuilder("Successfully refreshed token").v().print();
+                Out.newBuilder("Successfully refreshed token").vv().print();
                 return true;
             } catch(ParseException ignored)
             {
-                Out.newBuilder("Refreshing token failed").origin(this.getClass().getName()).d().WARNING().print();
+                Out.newBuilder("Refreshing token failed; User is not logged in any more").origin(this.getClass().getName()).d().WARNING().print();
             }
         } else
         {
-            Out.newBuilder("Response code is " + response.statusCode() + ". Deleting Wire access cookie...").origin(this.getClass().getName()).d().ERROR().print();
+            Out.newBuilder("Response code is " + response.statusCode() + ". Deleting Wire access cookie...").origin(this.getClass().getName()).a().ERROR().print();
             WireStorage.cookie = null;
             WireStorage.clearFile();
             System.out.println("Test");
