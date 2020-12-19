@@ -8,7 +8,7 @@ import javafx.scene.layout.HBox;
 import unimessenger.abstraction.APIAccess;
 import unimessenger.abstraction.interfaces.ILoginOut;
 import unimessenger.abstraction.storage.WireStorage;
-import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.Updater;
 
 import java.io.IOException;
@@ -34,7 +34,7 @@ public class LoginController
         ILoginOut login = new APIAccess().getLoginInterface(tabController.getService());
         if(login == null)
         {
-            Outputs.create("Unable to obtain login interface", this.getClass().getName()).debug().WARNING().print();
+            Out.newBuilder("Unable to obtain login interface").origin(this.getClass().getName()).d().WARNING().print();
             return;
         }
 
@@ -56,7 +56,7 @@ public class LoginController
                 tabController.addToTab(box);
             } catch(IOException ignored)
             {
-                Outputs.create("Error loading messenger", this.getClass().getName()).debug().WARNING().print();
+                Out.newBuilder("Error loading messenger").origin(this.getClass().getName()).d().WARNING().print();
             }
         }
     }

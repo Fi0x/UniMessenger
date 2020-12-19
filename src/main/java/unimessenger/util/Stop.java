@@ -3,34 +3,34 @@ package unimessenger.util;
 import unimessenger.Main;
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.abstraction.wire.crypto.CryptoFactory;
-import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.userinteraction.tui.Out;
 
 public class Stop implements Runnable
 {
     @Override
     public void run()
     {
-        Outputs.create("Stopping update thread...").verbose().INFO().print();
+        Out.newBuilder("Stopping update thread...").v().print();
         Main.updt.interrupt();
-        Outputs.create("Update thread stopped").verbose().INFO().print();
+        Out.newBuilder("Update thread stopped").v().print();
 
-        Outputs.create("Stopping CLI thread...").verbose().INFO().print();
+        Out.newBuilder("Stopping CLI thread...").v().print();
         Main.cli.interrupt();
-        Outputs.create("CLI thread stopped").verbose().INFO().print();
+        Out.newBuilder("CLI thread stopped").v().print();
 
-        Outputs.create("Stopping GUI thread...").verbose().INFO().print();
+        Out.newBuilder("Stopping GUI thread...").v().print();
         Main.gui.stop();
-        Outputs.create("GUI thread stopped").verbose().INFO().print();
+        Out.newBuilder("GUI thread stopped").v().print();
 
-        Outputs.create("Writing data to file...").verbose().INFO().print();
+        Out.newBuilder("Writing data to file...").v().print();
         WireStorage.saveDataInFile();
-        Outputs.create("Storage written to file").verbose().INFO().print();
+        Out.newBuilder("Storage written to file").v().print();
 
-        Outputs.create("Cleaning the Box").verbose().INFO().print();
+        Out.newBuilder("Cleaning the Box").v().print();
         CryptoFactory.closeBox();
-        Outputs.create("Box Clean").verbose().INFO().print();
+        Out.newBuilder("Box Clean").v().print();
 
-        Outputs.create("Exiting program...").verbose().INFO().print();
+        Out.newBuilder("Exiting program...").v().print();
         System.exit(0);
     }
 }

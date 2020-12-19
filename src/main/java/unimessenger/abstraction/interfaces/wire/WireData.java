@@ -5,7 +5,7 @@ import unimessenger.abstraction.storage.Message;
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.abstraction.wire.structures.WireConversation;
 import unimessenger.abstraction.wire.structures.WirePerson;
-import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.userinteraction.tui.Out;
 
 import java.util.ArrayList;
 
@@ -21,7 +21,7 @@ public class WireData implements IData
             ids.add(con.id);
         }
 
-        Outputs.create("Returning" + ids.size() + " conversation IDs").verbose().INFO().print();
+        Out.newBuilder("Returning" + ids.size() + " conversation IDs").vv().print();
         return ids;
     }
 

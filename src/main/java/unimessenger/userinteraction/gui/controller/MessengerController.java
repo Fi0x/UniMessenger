@@ -6,7 +6,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import unimessenger.abstraction.APIAccess;
-import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.Updater;
 
 import java.io.IOException;
@@ -45,7 +45,7 @@ public class MessengerController
             controller.loadChats(tabController.getService());
         } catch(IOException ignored)
         {
-            Outputs.create("Error loading chat list").debug().WARNING().print();
+            Out.newBuilder("Error loading chat list").d().WARNING().print();
             return;
         }
 
@@ -78,7 +78,7 @@ public class MessengerController
             controller.load();
         } catch(IOException ignored)
         {
-            Outputs.create("Chat could not be loaded", this.getClass().getName()).debug().WARNING().print();
+            Out.newBuilder("Chat could not be loaded").origin(this.getClass().getName()).d().WARNING().print();
             return;
         }
 

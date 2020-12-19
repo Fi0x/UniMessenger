@@ -2,7 +2,7 @@ package unimessenger.abstraction;
 
 import unimessenger.abstraction.interfaces.*;
 import unimessenger.abstraction.interfaces.wire.*;
-import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.enums.SERVICE;
 
 public class APIAccess
@@ -17,7 +17,7 @@ public class APIAccess
     {
         if(service == null)
         {
-            Outputs.create("No service for interface provided", this.getClass().getName()).debug().WARNING().print();
+            Out.newBuilder("No service for interface provided").origin(this.getClass().getName()).d().WARNING().print();
             return null;
         }
         switch(service)
@@ -25,7 +25,7 @@ public class APIAccess
             case WIRE:
                 return WIRE_CON;
             case TELEGRAM:
-                Outputs.create("Conversation interface not implemented yet", this.getClass().getName()).always().ERROR().print();
+                Out.newBuilder("Conversation interface not implemented yet").origin(this.getClass().getName()).a().ERROR().print();
                 return null;
             case NONE:
             default:
@@ -36,7 +36,7 @@ public class APIAccess
     {
         if(service == null)
         {
-            Outputs.create("No service for interface provided", this.getClass().getName()).debug().WARNING().print();
+            Out.newBuilder("No service for interface provided").origin(this.getClass().getName()).d().WARNING().print();
             return null;
         }
         switch(service)
@@ -44,7 +44,7 @@ public class APIAccess
             case WIRE:
                 return WIRE_LOGIN;
             case TELEGRAM:
-                Outputs.create("Login interface not implemented yet", this.getClass().getName()).always().ERROR().print();
+                Out.newBuilder("Login interface not implemented yet").origin(this.getClass().getName()).a().ERROR().print();
                 return null;
             case NONE:
             default:
@@ -55,7 +55,7 @@ public class APIAccess
     {
         if(service == null)
         {
-            Outputs.create("No service for interface provided", this.getClass().getName()).debug().WARNING().print();
+            Out.newBuilder("No service for interface provided").origin(this.getClass().getName()).d().WARNING().print();
             return null;
         }
         switch(service)
@@ -63,7 +63,7 @@ public class APIAccess
             case WIRE:
                 return WIRE_MESSAGES;
             case TELEGRAM:
-                Outputs.create("Messages interface not implemented yet", this.getClass().getName()).always().ERROR().print();
+                Out.newBuilder("Messages interface not implemented yet").origin(this.getClass().getName()).a().ERROR().print();
                 return null;
             case NONE:
             default:
@@ -74,7 +74,7 @@ public class APIAccess
     {
         if(service == null)
         {
-            Outputs.create("No service for interface provided", this.getClass().getName()).debug().WARNING().print();
+            Out.newBuilder("No service for interface provided").origin(this.getClass().getName()).d().WARNING().print();
             return null;
         }
         switch(service)
@@ -82,7 +82,7 @@ public class APIAccess
             case WIRE:
                 return WIRE_UTIL;
             case TELEGRAM:
-                Outputs.create("Util interface not implemented yet", this.getClass().getName()).always().ERROR().print();
+                Out.newBuilder("Util interface not implemented yet").origin(this.getClass().getName()).a().ERROR().print();
                 return null;
             case NONE:
             default:
@@ -93,7 +93,7 @@ public class APIAccess
     {
         if(service == null)
         {
-            Outputs.create("No service for interface provided", this.getClass().getName()).debug().WARNING().print();
+            Out.newBuilder("No service for interface provided").origin(this.getClass().getName()).d().WARNING().print();
             return null;
         }
         switch(service)
@@ -101,7 +101,7 @@ public class APIAccess
             case WIRE:
                 return WIRE_DATA;
             case TELEGRAM:
-                Outputs.create("Data interface not implemented yet", this.getClass().getName()).always().ERROR().print();
+                Out.newBuilder("Data interface not implemented yet").origin(this.getClass().getName()).a().ERROR().print();
                 return null;
             case NONE:
             default:

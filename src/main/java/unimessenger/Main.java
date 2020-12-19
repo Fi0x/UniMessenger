@@ -3,7 +3,8 @@ package unimessenger;
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.userinteraction.gui.MainWindow;
 import unimessenger.userinteraction.tui.CLI;
-import unimessenger.userinteraction.tui.Outputs;
+import unimessenger.userinteraction.tui.Inputs;
+import unimessenger.userinteraction.tui.Out;
 import unimessenger.userinteraction.tui.menu.MenuDiskCrypto;
 import unimessenger.util.Stop;
 import unimessenger.util.Updater;
@@ -13,9 +14,6 @@ import java.util.Arrays;
 
 public class Main
 {
-    public static boolean debug = false;
-    public static boolean verbose = false;
-
     public static Thread cli;
     public static Thread gui;
     public static Thread updt;
@@ -25,62 +23,65 @@ public class Main
     {
         ArrayList<String> arguments = new ArrayList<>(Arrays.asList(args));
 
-        if(arguments.contains("-d")) debug = true;
-        if(arguments.contains("-v")) verbose = true;
+        if(arguments.contains("-d")) Out.d = true;
+        if(arguments.contains("-v")) Out.v = true;
+        if(arguments.contains("-vv")) Out.vv = true;
+        if(arguments.contains("-vvv")) Out.vvv = true;
 
-        Outputs.create("Uni-Messenger starting...").verbose().INFO().print();
-        Outputs.create("Initializing storage...").verbose().INFO().print();
+        Out.newBuilder("Uni-Messenger starting...").vv().print();
+        Out.newBuilder("Initializing storage...").v().print();
         WireStorage.init();
-        Outputs.create("Storage initialized").verbose().INFO().print();
+        Out.newBuilder("Storage initialized").v().print();
 
-        Outputs.create("Checking Disk encryption...").verbose().INFO().print();
+        Out.newBuilder("Checking Disk encryption...").v().print();
         MenuDiskCrypto.showMenu();
-        Outputs.create("Disk is decrypted").verbose().INFO().print();
+        Out.newBuilder("Disk is decrypted").v().print();
 
-        Outputs.create("Loading login files...").verbose().INFO().print();
+        Out.newBuilder("Loading login files...").v().print();
         WireStorage.readDataFromFiles();
-        Outputs.create("File-loading finished").verbose().INFO().print();
+        Out.newBuilder("File-loading finished").v().print();
 
-        Outputs.create("Creating Threads for").verbose().INFO().print();
-        Outputs.create("Program end").verbose().INFO().print();
+        Out.newBuilder("Creating Threads for").v().print();
+        Out.newBuilder("Program end").v().print();
         stp = new Thread(new Stop());
-        Outputs.create("Updater").verbose().INFO().print();
+        Out.newBuilder("Updater").v().print();
         updt = new Thread(new Updater());
-        Outputs.create("CLI").verbose().INFO().print();
+        Out.newBuilder("CLI").v().print();
         cli = new Thread(new CLI());
-        Outputs.create("Threads created").verbose().INFO().print();
+        Out.newBuilder("Threads created").v().print();
 
-        Outputs.create("Starting updater thread").verbose().INFO().print();
+        Out.newBuilder("Starting updater thread").v().print();
         updt.start();
-        Outputs.create("Updater thread started").verbose().INFO().print();
+        Out.newBuilder("Updater thread started").v().print();
 
-        Outputs.create("Creating new Thread for CLI...").verbose().INFO().print();
+        Out.newBuilder("Creating new Thread for CLI...").v().print();
         cli = new Thread(new CLI());
-        Outputs.create("CLI thread created").verbose().INFO().print();
+        Out.newBuilder("CLI thread created").v().print();
 
-        Outputs.create("Creating new Thread for GUI...").verbose().INFO().print();
+        Out.newBuilder("Creating new Thread for GUI...").v().print();
         gui = new Thread(() -> MainWindow.launch(MainWindow.class, args));
-        Outputs.create("GUI thread created").verbose().INFO().print();
+        Out.newBuilder("GUI thread created").v().print();
 
         startUI();
-        Outputs.create("Uni-Messenger started").verbose().INFO().print();
+        Out.newBuilder("Uni-Messenger started").v().print();
     }
 
     private static void startUI()
     {
-//        boolean guib = Inputs.getBoolAnswerFrom("Would you like to use a GUI?");
-//
-//        if(guib)
-//        {
-//            Outputs.create("GUI starting...").verbose().INFO().print();
-//            gui.start();
-//            Outputs.create("GUI started").verbose().INFO().print();
-//        } else
-//        {
-        Outputs.create("Starting CLI thread").verbose().INFO().print();
-        cli.start();
-        Outputs.create("CLI thread started").verbose().INFO().print();
-//        }
-//
+        boolean guib = Inputs.getBoolAnswerFrom("Would you like to use a GUI?");
+
+        if(guib)
+        {
+            Out.newBuilder("GUI starting...").v().print();
+            gui.start();
+            Out.newBuilder("GUI started").v().print();
+        } else
+        {
+            Out.newBuilder("Starting CLI thread").v().print();
+            cli.start();
+            Out.newBuilder("CLI thread started").v().print();
+        }
+
+        Out.newBuilder("Uni-Messenger started").v().print();
     }
 }
