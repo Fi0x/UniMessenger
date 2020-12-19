@@ -3,9 +3,7 @@ package unimessenger.userinteraction.tui.menu;
 import unimessenger.abstraction.APIAccess;
 import unimessenger.abstraction.interfaces.IData;
 import unimessenger.abstraction.interfaces.IMessages;
-import unimessenger.abstraction.interfaces.wire.WireMessageSender;
 import unimessenger.abstraction.storage.Message;
-import unimessenger.abstraction.wire.crypto.MessageCreator;
 import unimessenger.userinteraction.tui.CLI;
 import unimessenger.userinteraction.tui.Inputs;
 import unimessenger.userinteraction.tui.Out;
@@ -53,7 +51,7 @@ public class MenuChat
                 CLI.currentMenu = MENU.EXIT;
                 break;
             case 7:
-                if(CLI.currentService == SERVICE.WIRE) new WireMessageSender().sendMessage(CLI.currentChatID, MessageCreator.createGenericPingMessage());
+                new APIAccess().getMessageInterface(CLI.currentService).sendPing(CLI.currentChatID);
                 break;
             default:
                 Out.newBuilder("Invalid option").a().WARNING().print();

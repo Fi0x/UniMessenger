@@ -10,9 +10,7 @@ import javafx.scene.layout.VBox;
 import unimessenger.abstraction.APIAccess;
 import unimessenger.abstraction.interfaces.IData;
 import unimessenger.abstraction.interfaces.IMessages;
-import unimessenger.abstraction.interfaces.wire.WireMessageSender;
 import unimessenger.abstraction.storage.Message;
-import unimessenger.abstraction.wire.crypto.MessageCreator;
 import unimessenger.util.enums.SERVICE;
 
 import java.text.SimpleDateFormat;
@@ -87,7 +85,7 @@ public class ConversationController
     @FXML
     private void ping()
     {
-        new WireMessageSender().sendMessage(messengerController.getCurrentChatID(), MessageCreator.createGenericPingMessage());
+        new APIAccess().getMessageInterface(tabController.getService()).sendPing(messengerController.getCurrentChatID());
     }
 
     public void load()

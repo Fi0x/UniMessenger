@@ -55,6 +55,17 @@ public class WireMessages implements IMessages
         boolean assetSent = sender.sendMessage(chatID, MessageCreator.createGenericFileMessage(file, id));
         return previewSent && assetSent;
     }
+    @Override
+    public boolean sendPing(String chatID)
+    {
+        WireConversation conversation = WireStorage.getConversationByID(chatID);
+        if(conversation == null)
+        {
+            Out.newBuilder("ConversationID not found").origin(this.getClass().getName()).d().WARNING().print();
+            return false;
+        }
+        return sender.sendMessage(chatID, MessageCreator.createGenericPingMessage());
+    }
 
     @Override
     public boolean receiveNewMessages()
