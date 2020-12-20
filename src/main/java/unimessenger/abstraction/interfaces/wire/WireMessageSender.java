@@ -20,8 +20,26 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class WireMessageSender
+public class WireMessageSender implements Runnable
 {
+    private String chatID;
+    private Messages.GenericMessage msg;
+
+    public WireMessageSender()
+    {
+    }
+    public WireMessageSender(String chatID, Messages.GenericMessage message)
+    {
+        this.chatID = chatID;
+        msg = message;
+    }
+
+    @Override
+    public void run()
+    {
+        sendMessage(chatID, msg);
+    }
+
     public boolean sendMessage(String chatID, Messages.GenericMessage msg)
     {
         if(msg == null) return false;

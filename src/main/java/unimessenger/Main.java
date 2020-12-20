@@ -18,6 +18,7 @@ public class Main
     public static Thread gui;
     public static Thread updt;
     public static Thread stp;
+    public static ArrayList<Thread> threads = new ArrayList<>();
 
     public static void main(String[] args)
     {

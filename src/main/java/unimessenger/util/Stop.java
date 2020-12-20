@@ -22,6 +22,13 @@ public class Stop implements Runnable
         Main.gui.stop();
         Out.newBuilder("GUI thread stopped").v().print();
 
+        Out.newBuilder("Stopping all other threads...").v().print();
+        for(Thread t : Main.threads)
+        {
+            t.stop();
+        }
+        Out.newBuilder("All threads stopped").v().print();
+
         Out.newBuilder("Writing data to file...").v().print();
         WireStorage.saveDataInFile();
         Out.newBuilder("Storage written to file").v().print();

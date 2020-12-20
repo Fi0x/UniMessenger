@@ -1,5 +1,6 @@
 package unimessenger.abstraction.interfaces.wire;
 
+import unimessenger.Main;
 import unimessenger.abstraction.interfaces.IMessages;
 import unimessenger.abstraction.storage.Message;
 import unimessenger.abstraction.storage.WireStorage;
@@ -56,15 +57,17 @@ public class WireMessages implements IMessages
         return previewSent && assetSent;
     }
     @Override
-    public boolean sendPing(String chatID)
+    public void sendPing(String chatID)
     {
         WireConversation conversation = WireStorage.getConversationByID(chatID);
         if(conversation == null)
         {
             Out.newBuilder("ConversationID not found").origin(this.getClass().getName()).d().WARNING().print();
-            return false;
+            return;
         }
-        return sender.sendMessage(chatID, MessageCreator.createGenericPingMessage());
+        Thread t = new Thread(new WireMessageSender(chatID, MessageCreator.createGenericPingMessage()));
+        t.start();
+        Main.threads.add(t);
     }
 
     @Override
