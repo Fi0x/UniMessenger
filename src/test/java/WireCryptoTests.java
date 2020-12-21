@@ -1,17 +1,11 @@
 import com.waz.model.Messages;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import unimessenger.abstraction.wire.crypto.CryptoFactory;
 import unimessenger.abstraction.wire.crypto.MessageCreator;
 import unimessenger.abstraction.wire.crypto.Prekey;
 
 public class WireCryptoTests
 {
-    @Test
-    void cryptoFactory()
-    {
-        Assertions.assertEquals(CryptoFactory.getCryptoInstance(), CryptoFactory.getCryptoInstance());
-    }
 
     @Test
     void createMessages()
