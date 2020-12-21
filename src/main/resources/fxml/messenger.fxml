@@ -3,8 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
-<HBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="unimessenger.userinteraction.gui.controller.MessengerController">
-    <VBox maxWidth="500.0" minWidth="300.0">
+<HBox alignment="CENTER" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="unimessenger.userinteraction.gui.controller.MessengerController">
+    <VBox fx:id="messengerOverview" maxWidth="500.0" minWidth="300.0">
         <HBox alignment="CENTER_RIGHT">
             <Label alignment="TOP_LEFT" contentDisplay="CENTER" text="Conversations"/>
             <MenuButton mnemonicParsing="false" text="General Settings">
@@ -16,7 +16,7 @@
             </MenuButton>
         </HBox>
         <TextField promptText="Search for Conversation"/>
-        <TabPane side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
+        <TabPane fx:id="messengerCategories" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
             <Tab text="Contacts">
                 <AnchorPane>
                     <ScrollPane>

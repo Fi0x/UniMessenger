@@ -1,0 +1,15 @@
+#loginButton {
+    -fx-background-color: #a7ff90;
+}
+
+#cancelButton {
+    -fx-background-color: #9d6060;
+}
+
+#loginButton:hover {
+    -fx-background-color: #5fff37;
+}
+
+#cancelButton:hover {
+    -fx-background-color: #ff3f3f;
+}

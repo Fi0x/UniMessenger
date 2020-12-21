@@ -31,16 +31,21 @@ public class TabController implements Initializable
     private Tab tab;
     @FXML
     private AnchorPane anchor;
+    @FXML
+    private HBox messengerList;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+        MainWindow mw = MainWindow.getInstance();
+        messengerList.setPrefWidth(mw.getWindowWidth());
+        messengerList.setPrefHeight(mw.getWindowHeight());
+        mw.resize();
     }
 
     @FXML
     private void wire()
     {
-        MainWindow.getInstance().resize();
         tab.setText("Wire");
         tab.setClosable(true);
         service = SERVICE.WIRE;
@@ -73,7 +78,6 @@ public class TabController implements Initializable
     @FXML
     private void telegram()
     {
-        MainWindow.getInstance().resize();
         tab.setText("Telegram");
         tab.setClosable(true);
         service = SERVICE.TELEGRAM;
