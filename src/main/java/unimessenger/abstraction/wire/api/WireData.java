@@ -3,8 +3,8 @@ package unimessenger.abstraction.wire.api;
 import unimessenger.abstraction.interfaces.storage.IData;
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.abstraction.wire.storage.Message;
+import unimessenger.abstraction.wire.storage.User;
 import unimessenger.abstraction.wire.structures.WireConversation;
-import unimessenger.abstraction.wire.structures.WirePerson;
 import unimessenger.userinteraction.tui.Out;
 
 import java.util.ArrayList;
@@ -50,9 +50,9 @@ public class WireData implements IData
         ArrayList<String> members = new ArrayList<>();
         if(conversation != null)
         {
-            for(WirePerson mem : conversation.members)
+            for(User mem : conversation.members)
             {
-                members.add(mem.id);
+                members.add(mem.getUserID());
             }
         }
 

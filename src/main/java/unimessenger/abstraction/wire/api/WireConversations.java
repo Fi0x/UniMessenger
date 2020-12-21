@@ -8,8 +8,8 @@ import unimessenger.abstraction.Headers;
 import unimessenger.abstraction.URL;
 import unimessenger.abstraction.interfaces.api.IConversations;
 import unimessenger.abstraction.storage.WireStorage;
+import unimessenger.abstraction.wire.storage.User;
 import unimessenger.abstraction.wire.structures.WireConversation;
-import unimessenger.abstraction.wire.structures.WirePerson;
 import unimessenger.communication.HTTP;
 import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.enums.CONVERSATIONTYPE;
@@ -85,7 +85,7 @@ public class WireConversations implements IConversations
         con.setConversationType(Integer.parseInt(conObj.get("type").toString()));
 
         JSONObject members = (JSONObject) new JSONParser().parse(conObj.get("members").toString());
-        con.members.add(getSelf((JSONObject) new JSONParser().parse(members.get("self").toString())));
+        con.members.add(getPerson((JSONObject) new JSONParser().parse(members.get("self").toString())));
         JSONArray memArr = (JSONArray) members.get("others");
         for(Object o : memArr)
         {
@@ -96,7 +96,7 @@ public class WireConversations implements IConversations
         {
             if(con.members.size() > 1 && con.members.get(1) != null)
             {
-                String partnerID = con.members.get(1).id;
+                String partnerID = con.members.get(1).getUserID();
                 String conName = getNameFromUserID(partnerID);
                 if(conName != null) con.setConversationName(conName);
             }
@@ -110,34 +110,16 @@ public class WireConversations implements IConversations
 
         return con;
     }
-    private static WirePerson getSelf(JSONObject self)
+    private static User getPerson(JSONObject personObj)
     {
-        WirePerson person = getPerson(self);
+        User person = new User();
 
-        if(self.get("hidden_ref") != null) person.hidden_ref = self.get("hidden_ref").toString();
-        if(self.get("service") != null) person.service = self.get("service").toString();
-        if(self.get("otr_muted_ref") != null) person.otr_muted_ref = self.get("otr_muted_ref").toString();
-        person.status_time = self.get("status_time").toString();
-        person.hidden = Boolean.getBoolean(self.get("hidden").toString());
-        person.status_ref = self.get("status_ref").toString();
-        person.otr_archived = Boolean.getBoolean(self.get("otr_archived").toString());
-        if(self.get("otr_muted_status") != null) person.otr_muted_status = self.get("otr_muted_status").toString();
-        person.otr_muted = Boolean.getBoolean(self.get("otr_muted").toString());
-        if(self.get("otr_archived_ref") != null) person.otr_archived_ref = self.get("otr_archived_ref").toString();
+        person.setUserID(personObj.get("id").toString());
+        person.setUserName(getUsernameFromID(person.getUserID()));
 
         return person;
     }
-    private static WirePerson getPerson(JSONObject personObj)
-    {
-        WirePerson person = new WirePerson();
-
-        person.status = Integer.parseInt(personObj.get("status").toString());
-        person.conversation_role = personObj.get("conversation_role").toString();
-        person.id = personObj.get("id").toString();
-
-        return person;
-    }
-    public static String getNameFromUserID(String userID)
+    private static String getUsernameFromID(String userID)
     {
         String url = URL.WIRE + URL.WIRE_USERS + URL.wireBearerToken() + "&ids=" + userID;
         String[] headers = new String[]{
@@ -162,5 +144,11 @@ public class WireConversations implements IConversations
         } else Out.newBuilder("Response code of getting a username was " + response.statusCode()).d().WARNING().print();
 
         return userID;
+    }
+
+    @Deprecated
+    public static String getNameFromUserID(String userID)
+    {
+        return getUsernameFromID(userID);
     }
 }

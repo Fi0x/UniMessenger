@@ -1,17 +1,19 @@
 package unimessenger.abstraction.wire.structures;
 
 import unimessenger.abstraction.wire.storage.Message;
+import unimessenger.abstraction.wire.storage.User;
 import unimessenger.util.enums.CONVERSATIONTYPE;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
+@Deprecated
 public class WireConversation implements Serializable
 {
     public ArrayList<String> access;
     public String creatorID;
     public String accessRole;
-    public ArrayList<WirePerson> members;
+    public ArrayList<User> members;
     private String conversationName;
     public String team;
     public String id;

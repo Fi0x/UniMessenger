@@ -2,33 +2,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import unimessenger.abstraction.wire.storage.Message;
 import unimessenger.abstraction.wire.structures.WireConversation;
-import unimessenger.abstraction.wire.structures.WirePerson;
 import unimessenger.util.enums.CONVERSATIONTYPE;
 
 import java.sql.Timestamp;
 
 public class WireStructureTests
 {
-    @Test
-    void person()
-    {
-        WirePerson p = new WirePerson();
-
-        Assertions.assertNull(p.hidden_ref);
-        Assertions.assertEquals(-1, p.status);
-        Assertions.assertNull(p.service);
-        Assertions.assertNull(p.otr_muted_ref);
-        Assertions.assertNull(p.conversation_role);
-        Assertions.assertNull(p.status_time);
-        Assertions.assertFalse(p.hidden);
-        Assertions.assertNull(p.status_ref);
-        Assertions.assertNull(p.id);
-        Assertions.assertFalse(p.otr_archived);
-        Assertions.assertNull(p.otr_muted_status);
-        Assertions.assertFalse(p.otr_muted);
-        Assertions.assertNull(p.otr_archived_ref);
-    }
-
     @Test
     void conversation()
     {
