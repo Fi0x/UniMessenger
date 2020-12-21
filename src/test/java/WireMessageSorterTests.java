@@ -2,7 +2,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import unimessenger.abstraction.wire.api.WireMessageSorter;
 import unimessenger.abstraction.wire.messages.MessageCreator;
-import unimessenger.abstraction.wire.structures.WireConversation;
+import unimessenger.abstraction.wire.storage.Conversation;
 
 import java.sql.Timestamp;
 
@@ -61,7 +61,7 @@ public class WireMessageSorterTests
     @Test
     void testText()
     {
-        WireConversation con = new WireConversation();
+        Conversation con = new Conversation();
         Timestamp time = new Timestamp(System.currentTimeMillis());
         boolean res = WireMessageSorter.handleReceivedMessage(MessageCreator.createGenericTextMessage("Text"), con, time, "Sender");
 
@@ -75,7 +75,7 @@ public class WireMessageSorterTests
     @Test
     void testPing()
     {
-        WireConversation con = new WireConversation();
+        Conversation con = new Conversation();
         Timestamp time = new Timestamp(System.currentTimeMillis());
         boolean res = WireMessageSorter.handleReceivedMessage(MessageCreator.createGenericPingMessage(), con, time, "Sender");
 
@@ -106,7 +106,7 @@ public class WireMessageSorterTests
     @Test
     void testTimed()
     {
-        WireConversation con = new WireConversation();
+        Conversation con = new Conversation();
         Timestamp time = new Timestamp(System.currentTimeMillis());
         boolean res = WireMessageSorter.handleReceivedMessage(MessageCreator.createGenericTimedMessage("Text", 60), con, time, "Sender");
 

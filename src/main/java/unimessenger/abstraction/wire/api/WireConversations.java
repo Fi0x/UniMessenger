@@ -8,8 +8,8 @@ import unimessenger.abstraction.Headers;
 import unimessenger.abstraction.URL;
 import unimessenger.abstraction.interfaces.api.IConversations;
 import unimessenger.abstraction.storage.WireStorage;
+import unimessenger.abstraction.wire.storage.Conversation;
 import unimessenger.abstraction.wire.storage.User;
-import unimessenger.abstraction.wire.structures.WireConversation;
 import unimessenger.communication.HTTP;
 import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.enums.CONVERSATIONTYPE;
@@ -41,11 +41,11 @@ public class WireConversations implements IConversations
                 JSONArray conArr = (JSONArray) obj.get("conversations");
                 for(Object o : conArr)
                 {
-                    WireConversation newConversation = getConversation((JSONObject) new JSONParser().parse(o.toString()));
+                    Conversation newConversation = getConversation((JSONObject) new JSONParser().parse(o.toString()));
                     if(newConversation.getConversationName() != null)
                     {
                         boolean exists = false;
-                        for(WireConversation con : WireStorage.conversations)
+                        for(Conversation con : WireStorage.conversations)
                         {
                             if(con.id.equals(newConversation.id))
                             {
@@ -70,9 +70,9 @@ public class WireConversations implements IConversations
         }
     }
 
-    private static WireConversation getConversation(JSONObject conObj) throws ParseException
+    private static Conversation getConversation(JSONObject conObj) throws ParseException
     {
-        WireConversation con = new WireConversation();
+        Conversation con = new Conversation();
 
         JSONArray access = (JSONArray) conObj.get("access");
         for(Object a : access)
@@ -80,9 +80,8 @@ public class WireConversations implements IConversations
             con.access.add(a.toString());
         }
 
-        con.creatorID = conObj.get("creator").toString();
-        con.accessRole = conObj.get("access_role").toString();
-        con.setConversationType(Integer.parseInt(conObj.get("type").toString()));
+        int conType = Integer.parseInt(conObj.get("type").toString());
+        con.setConversationType(parseIntToType(conType));
 
         JSONObject members = (JSONObject) new JSONParser().parse(conObj.get("members").toString());
         con.members.add(getPerson((JSONObject) new JSONParser().parse(members.get("self").toString())));
@@ -101,14 +100,23 @@ public class WireConversations implements IConversations
                 if(conName != null) con.setConversationName(conName);
             }
         } else if(conObj.get("name") != null) con.setConversationName(conObj.get("name").toString());
-        if(conObj.get("team") != null) con.team = conObj.get("team").toString();
         con.id = conObj.get("id").toString();
-        if(conObj.get("receipt_mode") != null) con.receipt_mode = conObj.get("receipt_mode").toString();
-        con.last_event_time = conObj.get("last_event_time").toString();
-        if(conObj.get("message_timer") != null) con.message_timer = conObj.get("message_timer").toString();
-        con.last_event = conObj.get("last_event").toString();
 
         return con;
+    }
+    private static CONVERSATIONTYPE parseIntToType(int i)
+    {
+        switch(i)
+        {
+            case 0:
+                return CONVERSATIONTYPE.GROUP;
+            case 1:
+                return CONVERSATIONTYPE.OTHER;
+            case 2:
+                return CONVERSATIONTYPE.NORMAL;
+            default:
+                return CONVERSATIONTYPE.UNKNOWN;
+        }
     }
     private static User getPerson(JSONObject personObj)
     {

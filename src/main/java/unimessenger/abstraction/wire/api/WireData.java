@@ -1,10 +1,10 @@
 package unimessenger.abstraction.wire.api;
 
 import unimessenger.abstraction.interfaces.storage.IData;
+import unimessenger.abstraction.interfaces.storage.IMessage;
+import unimessenger.abstraction.interfaces.storage.IUser;
 import unimessenger.abstraction.storage.WireStorage;
-import unimessenger.abstraction.wire.storage.Message;
-import unimessenger.abstraction.wire.storage.User;
-import unimessenger.abstraction.wire.structures.WireConversation;
+import unimessenger.abstraction.wire.storage.Conversation;
 import unimessenger.userinteraction.tui.Out;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public class WireData implements IData
     {
         ArrayList<String> ids = new ArrayList<>();
 
-        for(WireConversation con : WireStorage.conversations)
+        for(Conversation con : WireStorage.conversations)
         {
             ids.add(con.id);
         }
@@ -28,7 +28,7 @@ public class WireData implements IData
     @Override
     public String getConversationNameFromID(String id)
     {
-        for(WireConversation con : WireStorage.conversations)
+        for(Conversation con : WireStorage.conversations)
         {
             if(con.id.equals(id))
             {
@@ -41,8 +41,8 @@ public class WireData implements IData
     @Override
     public ArrayList<String> getConversationMembersFromID(String id)
     {
-        WireConversation conversation = null;
-        for(WireConversation con : WireStorage.conversations)
+        Conversation conversation = null;
+        for(Conversation con : WireStorage.conversations)
         {
             if(con.id.equals(id)) conversation = con;
         }
@@ -50,7 +50,7 @@ public class WireData implements IData
         ArrayList<String> members = new ArrayList<>();
         if(conversation != null)
         {
-            for(User mem : conversation.members)
+            for(IUser mem : conversation.members)
             {
                 members.add(mem.getUserID());
             }
@@ -59,25 +59,25 @@ public class WireData implements IData
         return members;
     }
     @Override
-    public ArrayList<Message> getNewMessagesFromConversation(String conversationID)
+    public ArrayList<IMessage> getNewMessagesFromConversation(String conversationID)
     {
-        WireConversation con = WireStorage.getConversationByID(conversationID);
+        Conversation con = WireStorage.getConversationByID(conversationID);
         if(con == null) return null;
         return con.getNewMessages();
     }
     @Override
-    public ArrayList<Message> getAllMessagesFromConversation(String conversationID)
+    public ArrayList<IMessage> getAllMessagesFromConversation(String conversationID)
     {
-        WireConversation con = WireStorage.getConversationByID(conversationID);
+        Conversation con = WireStorage.getConversationByID(conversationID);
         if(con == null || con.getMessages().isEmpty()) return null;
         return con.getMessages();
     }
     @Override
-    public ArrayList<Message> getLastXMessagesFromConversation(String conversationID, int messages)
+    public ArrayList<IMessage> getLastXMessagesFromConversation(String conversationID, int messages)
     {
-        WireConversation con = WireStorage.getConversationByID(conversationID);
+        Conversation con = WireStorage.getConversationByID(conversationID);
         if(con == null || con.getMessages().isEmpty()) return null;
-        ArrayList<Message> msgs = con.getMessages();
+        ArrayList<IMessage> msgs = con.getMessages();
         while(msgs.size() > messages)
         {
             msgs.remove(0);

@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import unimessenger.abstraction.wire.storage.Conversation;
 import unimessenger.abstraction.wire.storage.Message;
-import unimessenger.abstraction.wire.structures.WireConversation;
 import unimessenger.util.enums.CONVERSATIONTYPE;
 
 import java.sql.Timestamp;
@@ -9,50 +9,28 @@ import java.sql.Timestamp;
 public class WireStructureTests
 {
     @Test
-    void conversation()
-    {
-        WireConversation con = new WireConversation();
-
-        Assertions.assertTrue(con.access.isEmpty());
-        Assertions.assertNull(con.creatorID);
-        Assertions.assertNull(con.accessRole);
-        Assertions.assertTrue(con.members.isEmpty());
-        Assertions.assertNull(con.team);
-        Assertions.assertNull(con.id);
-        Assertions.assertEquals(CONVERSATIONTYPE.UNKNOWN, con.conversationType);
-        Assertions.assertNull(con.receipt_mode);
-        Assertions.assertNull(con.last_event_time);
-        Assertions.assertNull(con.message_timer);
-        Assertions.assertNull(con.last_event);
-
-        Assertions.assertNull(con.getConversationName());
-        con.setConversationName("Conversation");
-        Assertions.assertEquals("Conversation", con.getConversationName());
-    }
-
-    @Test
     void conversationType()
     {
-        WireConversation con = new WireConversation();
+        Conversation con = new Conversation();
         Assertions.assertEquals(CONVERSATIONTYPE.UNKNOWN, con.conversationType);
 
-        con.setConversationType(0);
+        con.setConversationType(CONVERSATIONTYPE.GROUP);
         Assertions.assertEquals(CONVERSATIONTYPE.GROUP, con.conversationType);
 
-        con.setConversationType(1);
+        con.setConversationType(CONVERSATIONTYPE.OTHER);
         Assertions.assertEquals(CONVERSATIONTYPE.OTHER, con.conversationType);
 
-        con.setConversationType(2);
+        con.setConversationType(CONVERSATIONTYPE.NORMAL);
         Assertions.assertEquals(CONVERSATIONTYPE.NORMAL, con.conversationType);
 
-        con.setConversationType(3);
+        con.setConversationType(CONVERSATIONTYPE.UNKNOWN);
         Assertions.assertEquals(CONVERSATIONTYPE.UNKNOWN, con.conversationType);
     }
 
     @Test
     void conversationMessage()
     {
-        WireConversation con = new WireConversation();
+        Conversation con = new Conversation();
         Message msg = new Message("Text", new Timestamp(0), "Sender");
         con.addMessage(msg);
 

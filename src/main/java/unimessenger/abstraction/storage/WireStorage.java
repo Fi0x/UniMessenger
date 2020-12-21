@@ -2,8 +2,8 @@ package unimessenger.abstraction.storage;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import unimessenger.abstraction.wire.storage.Conversation;
 import unimessenger.abstraction.wire.storage.Profile;
-import unimessenger.abstraction.wire.structures.WireConversation;
 import unimessenger.userinteraction.tui.Out;
 
 import java.io.File;
@@ -22,7 +22,7 @@ public class WireStorage
     private static Timestamp bearerExpiringTime;
     public static Timestamp lastNotification;
     private static Profile selfProfile;
-    public static ArrayList<WireConversation> conversations;
+    public static ArrayList<Conversation> conversations;
 
     private static StorageCrypto storageCrypto;
 
@@ -80,7 +80,7 @@ public class WireStorage
         }
 
         convH.clearConvs();
-        for(WireConversation c : conversations)
+        for(Conversation c : conversations)
         {
             convH.newConversation(c);
         }
@@ -162,9 +162,9 @@ public class WireStorage
         }
     }
 
-    public static WireConversation getConversationByID(String conversationID)
+    public static Conversation getConversationByID(String conversationID)
     {
-        for(WireConversation c : conversations)
+        for(Conversation c : conversations)
         {
             if(c.id.equals(conversationID)) return c;
         }

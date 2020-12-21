@@ -10,7 +10,7 @@ import unimessenger.abstraction.Headers;
 import unimessenger.abstraction.URL;
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.abstraction.wire.crypto.WireCryptoHandler;
-import unimessenger.abstraction.wire.structures.WireConversation;
+import unimessenger.abstraction.wire.storage.Conversation;
 import unimessenger.communication.HTTP;
 import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.enums.REQUEST;
@@ -117,7 +117,7 @@ public class WireMessageReceiver
             return false;
         }
 
-        WireConversation conversation = WireStorage.getConversationByID(conversationID);
+        Conversation conversation = WireStorage.getConversationByID(conversationID);
         if(conversation == null)
         {
             Out.newBuilder("ConversationID not found").origin(this.getClass().getName()).d().WARNING().print();

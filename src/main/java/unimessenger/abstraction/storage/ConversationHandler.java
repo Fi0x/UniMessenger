@@ -1,6 +1,6 @@
 package unimessenger.abstraction.storage;
 
-import unimessenger.abstraction.wire.structures.WireConversation;
+import unimessenger.abstraction.wire.storage.Conversation;
 import unimessenger.userinteraction.tui.Out;
 
 import java.io.*;
@@ -10,7 +10,7 @@ public class ConversationHandler implements Serializable
 {
     private static ConversationHandler cH;
     private static final String FILEPATH = WireStorage.storageDirectory + "/Chats";
-    private ArrayList<WireConversation> conversations;
+    private ArrayList<Conversation> conversations;
 
     private ConversationHandler()
     {
@@ -23,12 +23,12 @@ public class ConversationHandler implements Serializable
 
     }
 
-    public ArrayList<WireConversation> getConversations()
+    public ArrayList<Conversation> getConversations()
     {
         return conversations;
     }
 
-    public void newConversation(WireConversation c)
+    public void newConversation(Conversation c)
     {
         conversations.add(c);
     }

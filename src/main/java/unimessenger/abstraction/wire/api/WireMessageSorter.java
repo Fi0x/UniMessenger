@@ -1,8 +1,8 @@
 package unimessenger.abstraction.wire.api;
 
 import com.waz.model.Messages;
+import unimessenger.abstraction.wire.storage.Conversation;
 import unimessenger.abstraction.wire.storage.Message;
-import unimessenger.abstraction.wire.structures.WireConversation;
 import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.enums.MESSAGETYPE;
 
@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 
 public class WireMessageSorter
 {
-    public static boolean handleReceivedMessage(Messages.GenericMessage message, WireConversation conversation, Timestamp time, String senderUser)
+    public static boolean handleReceivedMessage(Messages.GenericMessage message, Conversation conversation, Timestamp time, String senderUser)
     {
         Message msg;
         switch(getMessageType(message))//TODO: Make more differences between types

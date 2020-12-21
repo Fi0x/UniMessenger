@@ -3,8 +3,8 @@ package unimessenger.abstraction.wire.api;
 import unimessenger.abstraction.interfaces.api.IMessages;
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.abstraction.wire.messages.MessageCreator;
+import unimessenger.abstraction.wire.storage.Conversation;
 import unimessenger.abstraction.wire.storage.Message;
-import unimessenger.abstraction.wire.structures.WireConversation;
 import unimessenger.userinteraction.tui.Out;
 
 import java.io.File;
@@ -19,7 +19,7 @@ public class WireMessages implements IMessages
     @Override
     public boolean sendTextMessage(String chatID, String text)
     {
-        WireConversation conversation = WireStorage.getConversationByID(chatID);
+        Conversation conversation = WireStorage.getConversationByID(chatID);
         if(conversation == null)
         {
             Out.newBuilder("ConversationID not found").origin(this.getClass().getName()).d().WARNING().print();
@@ -31,7 +31,7 @@ public class WireMessages implements IMessages
     @Override
     public boolean sendTimedText(String chatID, String text, long millis)
     {
-        WireConversation conversation = WireStorage.getConversationByID(chatID);
+        Conversation conversation = WireStorage.getConversationByID(chatID);
         if(conversation == null)
         {
             Out.newBuilder("ConversationID not found").origin(this.getClass().getName()).d().WARNING().print();
@@ -43,7 +43,7 @@ public class WireMessages implements IMessages
     @Override
     public boolean sendFile(String chatID, File file)
     {
-        WireConversation conversation = WireStorage.getConversationByID(chatID);
+        Conversation conversation = WireStorage.getConversationByID(chatID);
         if(conversation != null) conversation.addMessage(new Message("FILE", new Timestamp(System.currentTimeMillis()), WireStorage.getProfile().getUsername()));
         else
         {
