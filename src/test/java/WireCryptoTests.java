@@ -6,7 +6,6 @@ import unimessenger.abstraction.wire.messages.MessageCreator;
 
 public class WireCryptoTests
 {
-
     @Test
     void createMessages()
     {

@@ -2,8 +2,8 @@ package unimessenger.abstraction.storage;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import unimessenger.abstraction.wire.storage.Profile;
 import unimessenger.abstraction.wire.structures.WireConversation;
-import unimessenger.abstraction.wire.structures.WireProfile;
 import unimessenger.userinteraction.tui.Out;
 
 import java.io.File;
@@ -21,7 +21,7 @@ public class WireStorage
     public static String cookie;
     private static Timestamp bearerExpiringTime;
     public static Timestamp lastNotification;
-    public static WireProfile selfProfile;
+    private static Profile selfProfile;
     public static ArrayList<WireConversation> conversations;
 
     private static StorageCrypto storageCrypto;
@@ -39,7 +39,7 @@ public class WireStorage
         cookie = null;
         bearerExpiringTime = null;
         lastNotification = null;
-        selfProfile = new WireProfile();
+        selfProfile = new Profile();
         conversations = new ArrayList<>();
 
         storageDirectory = System.getProperty("user.dir");
@@ -169,5 +169,14 @@ public class WireStorage
             if(c.id.equals(conversationID)) return c;
         }
         return null;
+    }
+
+    public static void setSelfProfile(Profile profile)
+    {
+        selfProfile = profile;
+    }
+    public static Profile getProfile()
+    {
+        return selfProfile;
     }
 }

@@ -25,7 +25,7 @@ public class WireMessages implements IMessages
             Out.newBuilder("ConversationID not found").origin(this.getClass().getName()).d().WARNING().print();
             return false;
         }
-        conversation.addMessage(new Message(text, new Timestamp(System.currentTimeMillis() - (1000 * 60 * 60)), WireStorage.selfProfile.userName));
+        conversation.addMessage(new Message(text, new Timestamp(System.currentTimeMillis() - (1000 * 60 * 60)), WireStorage.getProfile().getUsername()));
         return sender.sendMessage(chatID, MessageCreator.createGenericTextMessage(text));
     }
     @Override
@@ -37,14 +37,14 @@ public class WireMessages implements IMessages
             Out.newBuilder("ConversationID not found").origin(this.getClass().getName()).d().WARNING().print();
             return false;
         }
-        conversation.addMessage(new Message(text, new Timestamp(System.currentTimeMillis() - (1000 * 60 * 60)), WireStorage.selfProfile.userName, millis));
+        conversation.addMessage(new Message(text, new Timestamp(System.currentTimeMillis() - (1000 * 60 * 60)), WireStorage.getProfile().getUsername(), millis));
         return sender.sendMessage(chatID, MessageCreator.createGenericTimedMessage(text, millis));
     }
     @Override
     public boolean sendFile(String chatID, File file)
     {
         WireConversation conversation = WireStorage.getConversationByID(chatID);
-        if(conversation != null) conversation.addMessage(new Message("FILE", new Timestamp(System.currentTimeMillis()), WireStorage.selfProfile.userName));
+        if(conversation != null) conversation.addMessage(new Message("FILE", new Timestamp(System.currentTimeMillis()), WireStorage.getProfile().getUsername()));
         else
         {
             Out.newBuilder("ConversationID not found").origin(this.getClass().getName()).d().WARNING().print();

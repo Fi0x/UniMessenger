@@ -24,15 +24,13 @@ public class MessageTests
     @Test
     void expires()
     {
-        Assertions.assertEquals(-1, m1.expires);
-        Assertions.assertEquals(current.getTime() + 60 + (1000 * 60 * 60), m2.expires);
         Assertions.assertTrue(m1.isValid());
         Assertions.assertTrue(m2.isValid());
     }
     @Test
     void sender()
     {
-        Assertions.assertEquals("Sender1", m1.getSenderID());
-        Assertions.assertEquals("Sender2", m2.getSenderID());
+        Assertions.assertEquals("Sender1", m1.getSender());
+        Assertions.assertEquals("Sender2", m2.getSender());
     }
 }

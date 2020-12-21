@@ -73,16 +73,10 @@ public class WireUtil implements IUtil
             {
                 JSONObject obj = (JSONObject) new JSONParser().parse(response.body());
 
-                if(obj.containsKey("email")) WireStorage.selfProfile.email = obj.get("email").toString();
-                if(obj.containsKey("phone")) WireStorage.selfProfile.phone = obj.get("phone").toString();
-                if(obj.containsKey("handle")) WireStorage.selfProfile.handle = obj.get("handle").toString();
-                WireStorage.selfProfile.locale = obj.get("locale").toString();
-                if(obj.containsKey("managed_by")) WireStorage.selfProfile.managed_by = obj.get("managed_by").toString();
-                if(obj.containsKey("accent_id")) WireStorage.selfProfile.accent_id = Integer.parseInt(obj.get("accent_id").toString());
-                WireStorage.selfProfile.userName = obj.get("name").toString();
-                WireStorage.selfProfile.id = obj.get("id").toString();
-                if(obj.containsKey("deleted")) WireStorage.selfProfile.deleted = Boolean.getBoolean(obj.get("deleted").toString());
-                WireStorage.selfProfile.userAssets = getUserAssets((JSONArray) obj.get("assets"));
+                if(obj.containsKey("email")) WireStorage.getProfile().setMail(obj.get("email").toString());
+                if(obj.containsKey("phone")) WireStorage.getProfile().setPhone(obj.get("phone").toString());
+                WireStorage.getProfile().setUsername(obj.get("name").toString());
+                WireStorage.getProfile().setUserID(obj.get("id").toString());
 
                 WireStorage.clientID = getClientID();
                 WireStorage.saveDataInFile();

@@ -3,30 +3,12 @@ import org.junit.jupiter.api.Test;
 import unimessenger.abstraction.wire.storage.Message;
 import unimessenger.abstraction.wire.structures.WireConversation;
 import unimessenger.abstraction.wire.structures.WirePerson;
-import unimessenger.abstraction.wire.structures.WireProfile;
 import unimessenger.util.enums.CONVERSATIONTYPE;
 
 import java.sql.Timestamp;
 
 public class WireStructureTests
 {
-    @Test
-    void profile()
-    {
-        WireProfile p = new WireProfile();
-
-        Assertions.assertNull(p.email);
-        Assertions.assertNull(p.phone);
-        Assertions.assertNull(p.handle);
-        Assertions.assertNull(p.locale);
-        Assertions.assertNull(p.managed_by);
-        Assertions.assertEquals(-1, p.accent_id);
-        Assertions.assertNull(p.userName);
-        Assertions.assertNull(p.id);
-        Assertions.assertFalse(p.deleted);
-        Assertions.assertTrue(p.userAssets.isEmpty());
-    }
-
     @Test
     void person()
     {

@@ -68,7 +68,7 @@ public class WireMessageSorterTests
         Assertions.assertTrue(res);
         Assertions.assertFalse(con.getMessages().isEmpty());
         Assertions.assertEquals("Text", con.getMessages().get(0).getText());
-        Assertions.assertEquals("Sender", con.getMessages().get(0).getSenderID());
+        Assertions.assertEquals("Sender", con.getMessages().get(0).getSender());
         Assertions.assertEquals(time, con.getMessages().get(0).getTime());
     }
 
@@ -113,7 +113,7 @@ public class WireMessageSorterTests
         Assertions.assertTrue(res);
         Assertions.assertFalse(con.getMessages().isEmpty());
         Assertions.assertEquals("Text", con.getMessages().get(0).getText());
-        Assertions.assertEquals("Sender", con.getMessages().get(0).getSenderID());
+        Assertions.assertEquals("Sender", con.getMessages().get(0).getSender());
         Assertions.assertEquals(time, con.getMessages().get(0).getTime());
         Assertions.assertTrue(con.getMessages().get(0).isValid());
     }
