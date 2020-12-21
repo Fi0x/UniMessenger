@@ -1,10 +1,8 @@
 package unimessenger.userinteraction.gui.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import unimessenger.abstraction.APIAccess;
@@ -13,12 +11,15 @@ import unimessenger.abstraction.interfaces.IMessages;
 import unimessenger.abstraction.interfaces.wire.WireMessageSender;
 import unimessenger.abstraction.storage.Message;
 import unimessenger.abstraction.wire.crypto.MessageCreator;
+import unimessenger.userinteraction.gui.MainWindow;
 import unimessenger.util.enums.SERVICE;
 
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
-public class ConversationController
+public class ConversationController implements Initializable
 {
     private TabController tabController;
     private MessengerController messengerController;
@@ -26,6 +27,8 @@ public class ConversationController
 
     @FXML
     private Label lblConversationName;
+    @FXML
+    private ScrollPane messageHistory;
     @FXML
     private VBox chatHistory;
     @FXML
@@ -36,6 +39,13 @@ public class ConversationController
     private MenuItem temporaryMessage;
     @FXML
     private MenuItem pingMessage;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle)
+    {
+        messageHistory.setMaxHeight(200);
+        MainWindow.getInstance().resize();
+    }
 
     @FXML
     private void sendText()

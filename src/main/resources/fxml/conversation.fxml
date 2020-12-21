@@ -4,13 +4,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import java.net.URL?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="unimessenger.userinteraction.gui.controller.ConversationController">
+<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="unimessenger.userinteraction.gui.controller.ConversationController">
     <HBox alignment="CENTER_RIGHT">
         <Label fx:id="lblConversationName" text="CONVERSATIONNAME"/>
         <Button mnemonicParsing="false" text="Call"/>
         <Button mnemonicParsing="false" text="Conversation Settings"/>
     </HBox>
-    <ScrollPane>
+    <ScrollPane fx:id="messageHistory" id="messageHistory">
         <VBox fx:id="chatHistory"/>
     </ScrollPane>
     <HBox alignment="CENTER_LEFT">

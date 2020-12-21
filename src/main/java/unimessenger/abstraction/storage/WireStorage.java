@@ -96,7 +96,7 @@ public class WireStorage
     public static void setBearerToken(String token, int ttl)
     {
         bearerToken = token;
-        bearerExpiringTime = new Timestamp(System.currentTimeMillis() + (ttl * 900));
+        bearerExpiringTime = new Timestamp(System.currentTimeMillis() + (ttl * 900L));
     }
 
     public static String getBearerToken()

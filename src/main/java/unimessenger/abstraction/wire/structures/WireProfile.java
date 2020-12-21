@@ -17,14 +17,7 @@ public class WireProfile
 
     public WireProfile()
     {
-        email = null;
-        phone = null;
-        handle = null;
-        locale = null;
-        managed_by = null;
         accent_id = -1;
-        userName = null;
-        id = null;
         deleted = false;
         userAssets = new ArrayList<>();
     }
