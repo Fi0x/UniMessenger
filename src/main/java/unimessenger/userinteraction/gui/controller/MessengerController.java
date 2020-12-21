@@ -2,24 +2,41 @@ package unimessenger.userinteraction.gui.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import unimessenger.abstraction.APIAccess;
+import unimessenger.userinteraction.gui.MainWindow;
 import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.Updater;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class MessengerController
+public class MessengerController implements Initializable
 {
     private TabController tabController;
     private String currentChatID;
 
     @FXML
+    private VBox messengerOverview;
+    @FXML
+    private TabPane messengerCategories;
+    @FXML
     private AnchorPane conversationListAnchor;
     @FXML
     private AnchorPane conversationAnchor;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle)
+    {
+        MainWindow mw = MainWindow.getInstance();
+        messengerOverview.setPrefHeight(mw.getWindowHeight());
+        mw.resize();
+    }
 
     @FXML
     private void logout()

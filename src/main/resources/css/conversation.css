@@ -10,3 +10,13 @@
 #messageSender {
     -fx-label-padding: 0 20 0 0;
 }
+
+#messageHistory {
+    -fx-min-height: 200;
+    -fx-min-width: 400;
+}
+
+#displayedMessage {
+    -fx-background-color: #818181;
+    -fx-border-color: #ffffff;
+}

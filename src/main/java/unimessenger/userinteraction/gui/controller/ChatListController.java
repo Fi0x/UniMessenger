@@ -7,6 +7,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import unimessenger.abstraction.APIAccess;
 import unimessenger.abstraction.interfaces.IData;
+import unimessenger.userinteraction.gui.MainWindow;
 import unimessenger.util.enums.SERVICE;
 
 import java.net.URL;
@@ -24,6 +25,7 @@ public class ChatListController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+        MainWindow.getInstance().resize();
     }
     public void loadChats(SERVICE service)
     {

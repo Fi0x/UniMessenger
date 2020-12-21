@@ -20,18 +20,9 @@ public class WirePerson implements Serializable
 
     public WirePerson()
     {
-        hidden_ref = null;
         status = -1;
-        service = null;
-        otr_muted_ref = null;
-        conversation_role = null;
-        status_time = null;
         hidden = false;
-        status_ref = null;
-        id = null;
         otr_archived = false;
-        otr_muted_status = null;
         otr_muted = false;
-        otr_archived_ref = null;
     }
 }
