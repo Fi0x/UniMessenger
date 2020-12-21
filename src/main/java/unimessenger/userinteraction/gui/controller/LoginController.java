@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import unimessenger.abstraction.APIAccess;
-import unimessenger.abstraction.interfaces.ILoginOut;
+import unimessenger.abstraction.interfaces.api.ILoginOut;
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.userinteraction.gui.MainWindow;
 import unimessenger.userinteraction.tui.Out;

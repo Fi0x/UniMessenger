@@ -1,4 +1,4 @@
-package unimessenger.abstraction.interfaces.wire;
+package unimessenger.abstraction.wire.api;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.waz.model.Messages;

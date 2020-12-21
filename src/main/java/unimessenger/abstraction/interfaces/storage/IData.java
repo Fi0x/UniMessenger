@@ -1,6 +1,6 @@
-package unimessenger.abstraction.interfaces;
+package unimessenger.abstraction.interfaces.storage;
 
-import unimessenger.abstraction.storage.Message;
+import unimessenger.abstraction.wire.storage.Message;
 
 import java.util.ArrayList;
 

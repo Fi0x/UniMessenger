@@ -1,4 +1,4 @@
-package unimessenger.abstraction.interfaces.wire;
+package unimessenger.abstraction.wire.api;
 
 import com.waz.model.Messages;
 import org.json.simple.JSONArray;

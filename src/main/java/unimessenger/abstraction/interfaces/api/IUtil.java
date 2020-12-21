@@ -1,4 +1,4 @@
-package unimessenger.abstraction.interfaces;
+package unimessenger.abstraction.interfaces.api;
 
 public interface IUtil
 {

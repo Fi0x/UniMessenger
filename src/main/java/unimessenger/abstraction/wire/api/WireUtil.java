@@ -1,4 +1,4 @@
-package unimessenger.abstraction.interfaces.wire;
+package unimessenger.abstraction.wire.api;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -6,7 +6,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import unimessenger.abstraction.Headers;
 import unimessenger.abstraction.URL;
-import unimessenger.abstraction.interfaces.IUtil;
+import unimessenger.abstraction.interfaces.api.IUtil;
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.abstraction.wire.crypto.Prekey;
 import unimessenger.abstraction.wire.crypto.WireCryptoHandler;

@@ -1,9 +1,9 @@
-package unimessenger.abstraction.interfaces.wire;
+package unimessenger.abstraction.wire.api;
 
-import unimessenger.abstraction.interfaces.IMessages;
-import unimessenger.abstraction.storage.Message;
+import unimessenger.abstraction.interfaces.api.IMessages;
 import unimessenger.abstraction.storage.WireStorage;
-import unimessenger.abstraction.wire.crypto.MessageCreator;
+import unimessenger.abstraction.wire.messages.MessageCreator;
+import unimessenger.abstraction.wire.storage.Message;
 import unimessenger.abstraction.wire.structures.WireConversation;
 import unimessenger.userinteraction.tui.Out;
 

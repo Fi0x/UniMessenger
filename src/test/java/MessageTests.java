@@ -1,6 +1,6 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import unimessenger.abstraction.storage.Message;
+import unimessenger.abstraction.wire.storage.Message;
 
 import java.sql.Timestamp;
 

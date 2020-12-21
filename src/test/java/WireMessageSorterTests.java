@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import unimessenger.abstraction.interfaces.wire.WireMessageSorter;
-import unimessenger.abstraction.wire.crypto.MessageCreator;
+import unimessenger.abstraction.wire.api.WireMessageSorter;
+import unimessenger.abstraction.wire.messages.MessageCreator;
 import unimessenger.abstraction.wire.structures.WireConversation;
 
 import java.sql.Timestamp;

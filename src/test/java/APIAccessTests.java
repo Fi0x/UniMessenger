@@ -1,8 +1,12 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import unimessenger.abstraction.APIAccess;
-import unimessenger.abstraction.interfaces.*;
-import unimessenger.abstraction.interfaces.wire.*;
+import unimessenger.abstraction.interfaces.api.IConversations;
+import unimessenger.abstraction.interfaces.api.ILoginOut;
+import unimessenger.abstraction.interfaces.api.IMessages;
+import unimessenger.abstraction.interfaces.api.IUtil;
+import unimessenger.abstraction.interfaces.storage.IData;
+import unimessenger.abstraction.wire.api.*;
 import unimessenger.util.enums.SERVICE;
 
 public class APIAccessTests

@@ -1,4 +1,4 @@
-package unimessenger.abstraction.interfaces;
+package unimessenger.abstraction.interfaces.api;
 
 import java.io.File;
 

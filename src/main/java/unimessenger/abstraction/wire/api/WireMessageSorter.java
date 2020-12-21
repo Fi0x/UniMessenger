@@ -1,7 +1,7 @@
-package unimessenger.abstraction.interfaces.wire;
+package unimessenger.abstraction.wire.api;
 
 import com.waz.model.Messages;
-import unimessenger.abstraction.storage.Message;
+import unimessenger.abstraction.wire.storage.Message;
 import unimessenger.abstraction.wire.structures.WireConversation;
 import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.enums.MESSAGETYPE;

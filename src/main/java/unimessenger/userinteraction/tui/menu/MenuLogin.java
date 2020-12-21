@@ -1,7 +1,7 @@
 package unimessenger.userinteraction.tui.menu;
 
 import unimessenger.abstraction.APIAccess;
-import unimessenger.abstraction.interfaces.ILoginOut;
+import unimessenger.abstraction.interfaces.api.ILoginOut;
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.userinteraction.tui.CLI;
 import unimessenger.userinteraction.tui.Inputs;

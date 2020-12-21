@@ -1,6 +1,6 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import unimessenger.abstraction.storage.Message;
+import unimessenger.abstraction.wire.storage.Message;
 import unimessenger.abstraction.wire.structures.WireConversation;
 import unimessenger.abstraction.wire.structures.WirePerson;
 import unimessenger.abstraction.wire.structures.WireProfile;

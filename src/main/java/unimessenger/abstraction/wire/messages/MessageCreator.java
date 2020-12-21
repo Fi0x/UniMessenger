@@ -1,4 +1,4 @@
-package unimessenger.abstraction.wire.crypto;
+package unimessenger.abstraction.wire.messages;
 
 import com.waz.model.Messages;
 import org.json.simple.JSONObject;
@@ -6,7 +6,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import unimessenger.abstraction.Headers;
 import unimessenger.abstraction.URL;
-import unimessenger.abstraction.wire.messages.*;
 import unimessenger.communication.HTTP;
 import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.enums.REQUEST;

@@ -1,8 +1,8 @@
 import com.waz.model.Messages;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import unimessenger.abstraction.wire.crypto.MessageCreator;
 import unimessenger.abstraction.wire.crypto.Prekey;
+import unimessenger.abstraction.wire.messages.MessageCreator;
 
 public class WireCryptoTests
 {
