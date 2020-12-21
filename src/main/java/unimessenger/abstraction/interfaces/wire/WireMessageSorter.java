@@ -81,7 +81,7 @@ public class WireMessageSorter
         return true;
     }
 
-    public static MESSAGETYPE getMessageType(Messages.GenericMessage message)
+    private static MESSAGETYPE getMessageType(Messages.GenericMessage message)
     {
         if(message.hasKnock()) return MESSAGETYPE.PING;
         else if(message.hasText())
