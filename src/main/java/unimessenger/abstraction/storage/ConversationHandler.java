@@ -47,7 +47,7 @@ public class ConversationHandler implements Serializable
                 cH = (ConversationHandler) ois.readObject();
             } catch(IOException | ClassNotFoundException ex)
             {
-                Out.newBuilder("ConnectionHandler not on disc or not loaded, Generating new one");
+                Out.newBuilder("ConnectionHandler not on disc or not loaded, Generating new one").v();
                 cH = new ConversationHandler();
                 save();
             }
