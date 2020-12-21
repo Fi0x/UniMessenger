@@ -2,6 +2,24 @@
     -fx-font-size: 18;
     -fx-background-color: #ffffff;
     -fx-border-width: 0;
+    -fx-focus-color: transparent;
+}
+
+.menu-button {
+    -fx-background-color: #ffffff;
+}
+
+.menu-button:hover {
+    -fx-background-color: #b0b0b0;
+}
+
+.menu-button .menu-item {
+    -fx-background-color: #b1b1b1;
+}
+
+.menu-button .menu-item:hover {
+    -fx-background-color: #323232;
+    -fx-text-fill: #ffffff;
 }
 
 .label {
@@ -10,4 +28,21 @@
 
 .button:hover {
     -fx-background-color: #bbff6f;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #4c4c4c;
+}
+
+.tab-pane .tab {
+    -fx-background-color: #ffffff;
+    -fx-effect: null;
+}
+
+.tab-pane .tab:hover {
+    -fx-background-color: #c4c4c4;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: #858585;
 }

@@ -15,3 +15,8 @@
     -fx-min-height: 200;
     -fx-min-width: 400;
 }
+
+#displayedMessage {
+    -fx-background-color: #818181;
+    -fx-border-color: #ffffff;
+}

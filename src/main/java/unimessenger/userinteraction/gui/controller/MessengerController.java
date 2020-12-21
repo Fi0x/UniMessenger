@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import unimessenger.abstraction.APIAccess;
@@ -21,6 +22,10 @@ public class MessengerController implements Initializable
     private String currentChatID;
 
     @FXML
+    private VBox messengerOverview;
+    @FXML
+    private TabPane messengerCategories;
+    @FXML
     private AnchorPane conversationListAnchor;
     @FXML
     private AnchorPane conversationAnchor;
@@ -28,7 +33,9 @@ public class MessengerController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        MainWindow.getInstance().resize();
+        MainWindow mw = MainWindow.getInstance();
+        messengerOverview.setPrefHeight(mw.getWindowHeight());
+        mw.resize();
     }
 
     @FXML

@@ -2,10 +2,7 @@ package unimessenger.userinteraction.gui.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import unimessenger.abstraction.APIAccess;
@@ -31,6 +28,8 @@ public class ConversationController implements Initializable
     @FXML
     private Label lblConversationName;
     @FXML
+    private ScrollPane messageHistory;
+    @FXML
     private VBox chatHistory;
     @FXML
     private TextField txtMessage;
@@ -44,6 +43,7 @@ public class ConversationController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+        messageHistory.setMaxHeight(200);
         MainWindow.getInstance().resize();
     }
 
