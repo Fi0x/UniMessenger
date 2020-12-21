@@ -1,11 +1,17 @@
 #wireButton {
     -fx-background-color: #2b2b2b;
     -fx-text-fill: #ffffff;
-    -fx-border-width: 5;
+}
+
+#wireButton:hover {
+    -fx-background-color: #6e6e6e;
 }
 
 #telegramButton {
     -fx-background-color: #3681a3;
-    -fx-text-fill: #ffffff;
-    -fx-border-width: 5;
+    -fx-text-fill: #000000;
+}
+
+#telegramButton:hover {
+    -fx-background-color: #509abf;
 }

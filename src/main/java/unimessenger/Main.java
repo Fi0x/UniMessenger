@@ -3,7 +3,6 @@ package unimessenger;
 import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.userinteraction.gui.MainWindow;
 import unimessenger.userinteraction.tui.CLI;
-import unimessenger.userinteraction.tui.Inputs;
 import unimessenger.userinteraction.tui.Out;
 import unimessenger.userinteraction.tui.menu.MenuDiskCrypto;
 import unimessenger.util.Stop;
@@ -68,7 +67,8 @@ public class Main
 
     private static void startUI()
     {
-        boolean guib = Inputs.getBoolAnswerFrom("Would you like to use a GUI?");
+//        boolean guib = Inputs.getBoolAnswerFrom("Would you like to use a GUI?");
+        boolean guib = true;//TODO: Use user-input instead
 
         if(guib)
         {

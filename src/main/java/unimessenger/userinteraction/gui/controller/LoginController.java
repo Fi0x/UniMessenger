@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import unimessenger.abstraction.APIAccess;
 import unimessenger.abstraction.interfaces.ILoginOut;
 import unimessenger.abstraction.storage.WireStorage;
@@ -22,6 +23,8 @@ public class LoginController implements Initializable
     private TabController tabController;
 
     @FXML
+    private VBox loginContainer;
+    @FXML
     private TextField txtMail;
     @FXML
     private TextField txtPW;
@@ -31,6 +34,11 @@ public class LoginController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+        MainWindow mw = MainWindow.getInstance();
+        loginContainer.setPrefWidth(mw.getWindowWidth());
+        loginContainer.setPrefHeight(mw.getWindowHeight());
+        txtMail.setPrefWidth(mw.getWindowWidth() / 2);
+        txtPW.setPrefWidth(mw.getWindowWidth() / 2);
         MainWindow.getInstance().resize();
     }
 

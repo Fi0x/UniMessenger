@@ -1,5 +1,7 @@
 .root {
     -fx-font-size: 18;
+    -fx-background-color: #ffffff;
+    -fx-border-width: 0;
 }
 
 .label {
@@ -7,5 +9,5 @@
 }
 
 .button:hover {
-    -fx-border-color: #943838;
+    -fx-background-color: #bbff6f;
 }
