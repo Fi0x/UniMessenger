@@ -5,11 +5,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import java.net.URL?>
-<Tab xmlns:fx="http://javafx.com/fxml/1" id="tab" fx:id="tab" text="New Messenger" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="unimessenger.userinteraction.gui.controller.TabController">
+<Tab id="tab" fx:id="tab" text="New Messenger" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="unimessenger.userinteraction.gui.controller.TabController">
     <AnchorPane id="anchor" fx:id="anchor">
-        <HBox id="messengerList" alignment="CENTER">
-            <Button mnemonicParsing="false" onAction="#wire" text="Wire"/>
-            <Button mnemonicParsing="false" onAction="#telegram" text="Telegram"/>
+        <HBox id="messengerList" fx:id="messengerList" alignment="CENTER">
+            <Button id="wireButton" mnemonicParsing="false" onAction="#wire" text="Wire"/>
+            <Button id="telegramButton" mnemonicParsing="false" onAction="#telegram" text="Telegram"/>
         </HBox>
         <stylesheets>
             <URL value="@../css/tab.css"/>

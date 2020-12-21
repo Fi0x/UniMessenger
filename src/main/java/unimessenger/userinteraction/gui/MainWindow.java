@@ -32,6 +32,8 @@ public class MainWindow extends Application
     public void start(Stage primaryStage)
     {
         stage = primaryStage;
+        stage.setWidth(960);
+        stage.setHeight(540);
         mainLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
 
         Parent root;
@@ -50,6 +52,8 @@ public class MainWindow extends Application
         primaryStage.setTitle("UniMessenger");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+
+        resize();
     }
     @Override
     public void stop()
@@ -80,8 +84,6 @@ public class MainWindow extends Application
 
     public void resize()
     {
-        stage.setWidth(1600);
-        stage.setHeight(900);
         //TODO: Adjust size of all elements to current size
     }
     public double getWindowWidth()
@@ -90,6 +92,6 @@ public class MainWindow extends Application
     }
     public double getWindowHeight()
     {
-        return stage.getHeight();
+        return stage.getHeight() - 20;
     }
 }

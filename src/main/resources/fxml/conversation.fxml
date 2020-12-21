@@ -10,7 +10,7 @@
         <Button mnemonicParsing="false" text="Call"/>
         <Button mnemonicParsing="false" text="Conversation Settings"/>
     </HBox>
-    <ScrollPane>
+    <ScrollPane id="messageHistory">
         <VBox fx:id="chatHistory"/>
     </ScrollPane>
     <HBox alignment="CENTER_LEFT">

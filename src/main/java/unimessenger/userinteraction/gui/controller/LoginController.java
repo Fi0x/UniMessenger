@@ -2,18 +2,22 @@ package unimessenger.userinteraction.gui.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import unimessenger.abstraction.APIAccess;
 import unimessenger.abstraction.interfaces.ILoginOut;
 import unimessenger.abstraction.storage.WireStorage;
+import unimessenger.userinteraction.gui.MainWindow;
 import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.Updater;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class LoginController
+public class LoginController implements Initializable
 {
     private TabController tabController;
 
@@ -23,6 +27,12 @@ public class LoginController
     private TextField txtPW;
     @FXML
     private CheckBox cbPermanent;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle)
+    {
+        MainWindow.getInstance().resize();
+    }
 
     @FXML
     private void login()

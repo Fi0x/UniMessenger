@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
+import unimessenger.userinteraction.gui.MainWindow;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,7 +18,9 @@ public class MainController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        scrollPane.setFitToHeight(true);
-        scrollPane.setFitToWidth(true);
+        MainWindow mw = MainWindow.getInstance();
+        tpMain.setPrefWidth(mw.getWindowWidth());
+        tpMain.setPrefHeight(mw.getWindowHeight());
+        mw.resize();
     }
 }
