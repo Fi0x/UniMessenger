@@ -6,7 +6,7 @@ import org.json.simple.parser.ParseException;
 import unimessenger.abstraction.Headers;
 import unimessenger.abstraction.URL;
 import unimessenger.abstraction.interfaces.api.ILoginOut;
-import unimessenger.abstraction.storage.WireStorage;
+import unimessenger.abstraction.wire.storage.Storage;
 import unimessenger.communication.HTTP;
 import unimessenger.userinteraction.tui.Inputs;
 import unimessenger.userinteraction.tui.Out;
@@ -19,12 +19,12 @@ public class WireLogin implements ILoginOut
     @Override
     public boolean checkIfLoggedIn()
     {
-        if(WireStorage.cookie == null)
+        if(Storage.cookie == null)
         {
             Out.newBuilder("No cookie stored; User is not logged in").d().print();
             return false;
         }
-        if(WireStorage.isBearerTokenStillValid())
+        if(Storage.getInstance().isBearerTokenStillValid())
         {
             Out.newBuilder("Bearer token is valid").print();
             return true;
@@ -39,14 +39,14 @@ public class WireLogin implements ILoginOut
         //TODO: Add more login options (phone)
         String mail = Inputs.getStringAnswerFrom("Please enter your E-Mail");//TestAccount: pechtl97@gmail.com
         String pw = Inputs.getStringAnswerFrom("Please enter your password");//TestAccount: Passwort1!
-        WireStorage.persistent = Inputs.getBoolAnswerFrom("Do you want to stay logged in?");
+        Storage.persistent = Inputs.getBoolAnswerFrom("Do you want to stay logged in?");
         return login(mail, pw);
     }
     @Override
     public boolean login(String mail, String pw)
     {
         String url = URL.WIRE + URL.WIRE_LOGIN;
-        if(WireStorage.persistent) url += URL.WIRE_PERSIST;
+        if(Storage.persistent) url += URL.WIRE_PERSIST;
 
         JSONObject obj = new JSONObject();
         obj.put("email", mail);
@@ -65,7 +65,7 @@ public class WireLogin implements ILoginOut
     {
         String url = URL.WIRE + URL.WIRE_LOGOUT + URL.wireBearerToken();
         String[] headers = new String[]{
-                "cookie", WireStorage.cookie,
+                "cookie", Storage.cookie,
                 Headers.CONTENT, Headers.JSON,
                 Headers.ACCEPT, Headers.JSON};
 
@@ -78,7 +78,7 @@ public class WireLogin implements ILoginOut
         } else if(response.statusCode() == 200)
         {
             Out.newBuilder("Successfully logged out of Wire").v().print();
-            WireStorage.clearUserData();
+            Storage.getInstance().clearUserData();
             return true;
         } else
         {
@@ -90,7 +90,7 @@ public class WireLogin implements ILoginOut
     @Override
     public boolean needsRefresh()
     {
-        WireStorage.isBearerTokenStillValid();
+        Storage.getInstance().isBearerTokenStillValid();
         return false;
     }
 
@@ -102,15 +102,15 @@ public class WireLogin implements ILoginOut
         try
         {
             obj = (JSONObject) new JSONParser().parse(response.body());
-            WireStorage.userID = obj.get("user").toString();
-            WireStorage.setBearerToken(obj.get("access_token").toString(), Integer.parseInt(obj.get("expires_in").toString()));
+            Storage.userID = obj.get("user").toString();
+            Storage.getInstance().setBearerToken(obj.get("access_token").toString(), Integer.parseInt(obj.get("expires_in").toString()));
 
             String cookieArr = response.headers().map().get("set-cookie").get(0);
             String[] arr = cookieArr.split("zuid=");
             if(arr.length > 1) arr = arr[1].split(";");
-            WireStorage.cookie = "zuid=" + arr[0];
+            Storage.cookie = "zuid=" + arr[0];
 
-            Out.newBuilder("User: " + WireStorage.userID).vv().print();
+            Out.newBuilder("User: " + Storage.userID).vv().print();
             Out.newBuilder("Expires in: " + obj.get("expires_in") + " seconds").vv().print();
         } catch(ParseException ignored)
         {

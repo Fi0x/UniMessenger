@@ -1,5 +1,7 @@
 package unimessenger.abstraction.storage;
 
+import unimessenger.Main;
+
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import java.io.*;
@@ -8,23 +10,26 @@ import java.security.InvalidKeyException;
 import java.security.KeyStore;
 import java.security.UnrecoverableKeyException;
 
-public class StorageCrypto {
+public class StorageCrypto
+{
     private SecretKey key;
     private Cipher cipher;
     private KeyStore ks;
     private static String passphrase;
-    private static final String FILEPATH_KEYSTORE = WireStorage.storageDirectory + "/KeyStore";
-    private static final String FILEPATH_DATASTORE = WireStorage.storageDirectory + "/DataStore";
+    private static final String FILEPATH_KEYSTORE = Main.storageDir + "/KeyStore";
+    private static final String FILEPATH_DATASTORE = Main.storageDir + "/DataStore";
     private static final String ALIAS_KEY_ENRYPTION = "KeyUserCookie";
 
-    public StorageCrypto() throws UnrecoverableKeyException{
+    public StorageCrypto() throws UnrecoverableKeyException
+    {
 
         //Trying to load the Keystore from the disc, if the file is not found, its created
 
-        try {
+        try
+        {
             ks = KeyStore.getInstance(KeyStore.getDefaultType());
             ks.load(new FileInputStream(FILEPATH_KEYSTORE), passphrase.toCharArray());
-            key =(SecretKey) ks.getKey(ALIAS_KEY_ENRYPTION, passphrase.toCharArray());
+            key = (SecretKey) ks.getKey(ALIAS_KEY_ENRYPTION, passphrase.toCharArray());
         } catch (FileNotFoundException e) {
             //If no KeyVault is found, a new one is generated
             try {

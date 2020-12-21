@@ -7,8 +7,9 @@ import org.json.simple.parser.ParseException;
 import unimessenger.abstraction.Headers;
 import unimessenger.abstraction.URL;
 import unimessenger.abstraction.interfaces.api.IConversations;
-import unimessenger.abstraction.storage.WireStorage;
+import unimessenger.abstraction.interfaces.storage.IConversation;
 import unimessenger.abstraction.wire.storage.Conversation;
+import unimessenger.abstraction.wire.storage.Storage;
 import unimessenger.abstraction.wire.storage.User;
 import unimessenger.communication.HTTP;
 import unimessenger.userinteraction.tui.Out;
@@ -45,15 +46,15 @@ public class WireConversations implements IConversations
                     if(newConversation.getConversationName() != null)
                     {
                         boolean exists = false;
-                        for(Conversation con : WireStorage.conversations)
+                        for(IConversation con : Storage.conversations)
                         {
-                            if(con.id.equals(newConversation.id))
+                            if(con.getConversationID().equals(newConversation.id))
                             {
                                 exists = true;
                                 break;
                             }
                         }
-                        if(!exists) WireStorage.conversations.add(newConversation);
+                        if(!exists) Storage.conversations.add(newConversation);
                     }
                 }
                 Out.newBuilder("Successfully reloaded all conversations").print();

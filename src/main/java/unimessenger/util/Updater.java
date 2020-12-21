@@ -2,7 +2,7 @@ package unimessenger.util;
 
 import unimessenger.abstraction.APIAccess;
 import unimessenger.abstraction.interfaces.api.ILoginOut;
-import unimessenger.abstraction.storage.WireStorage;
+import unimessenger.abstraction.wire.storage.Storage;
 import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.enums.SERVICE;
 
@@ -54,9 +54,9 @@ public class Updater implements Runnable
             case TELEGRAM:
                 if(login.checkIfLoggedIn())
                 {
-                    if(login.needsRefresh() && WireStorage.getBearerToken() != null) return access.getUtilInterface(service).refreshSession();
+                    if(login.needsRefresh() && Storage.getInstance().getBearerToken() != null) return access.getUtilInterface(service).refreshSession();
                     else return true;
-                } else if(WireStorage.getBearerToken() != null && access.getUtilInterface(service).refreshSession()) return true;
+                } else if(Storage.getInstance().getBearerToken() != null && access.getUtilInterface(service).refreshSession()) return true;
                 return login.login();
             case NONE:
             default:

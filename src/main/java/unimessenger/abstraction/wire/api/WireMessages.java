@@ -1,10 +1,10 @@
 package unimessenger.abstraction.wire.api;
 
 import unimessenger.abstraction.interfaces.api.IMessages;
-import unimessenger.abstraction.storage.WireStorage;
+import unimessenger.abstraction.interfaces.storage.IConversation;
 import unimessenger.abstraction.wire.messages.MessageCreator;
-import unimessenger.abstraction.wire.storage.Conversation;
 import unimessenger.abstraction.wire.storage.Message;
+import unimessenger.abstraction.wire.storage.Storage;
 import unimessenger.userinteraction.tui.Out;
 
 import java.io.File;
@@ -19,32 +19,32 @@ public class WireMessages implements IMessages
     @Override
     public boolean sendTextMessage(String chatID, String text)
     {
-        Conversation conversation = WireStorage.getConversationByID(chatID);
+        IConversation conversation = Storage.getInstance().getConversationByID(chatID);
         if(conversation == null)
         {
             Out.newBuilder("ConversationID not found").origin(this.getClass().getName()).d().WARNING().print();
             return false;
         }
-        conversation.addMessage(new Message(text, new Timestamp(System.currentTimeMillis() - (1000 * 60 * 60)), WireStorage.getProfile().getUsername()));
+        conversation.addMessage(new Message(text, new Timestamp(System.currentTimeMillis() - (1000 * 60 * 60)), Storage.getInstance().getProfile().getUsername()));
         return sender.sendMessage(chatID, MessageCreator.createGenericTextMessage(text));
     }
     @Override
     public boolean sendTimedText(String chatID, String text, long millis)
     {
-        Conversation conversation = WireStorage.getConversationByID(chatID);
+        IConversation conversation = Storage.getInstance().getConversationByID(chatID);
         if(conversation == null)
         {
             Out.newBuilder("ConversationID not found").origin(this.getClass().getName()).d().WARNING().print();
             return false;
         }
-        conversation.addMessage(new Message(text, new Timestamp(System.currentTimeMillis() - (1000 * 60 * 60)), WireStorage.getProfile().getUsername(), millis));
+        conversation.addMessage(new Message(text, new Timestamp(System.currentTimeMillis() - (1000 * 60 * 60)), Storage.getInstance().getProfile().getUsername(), millis));
         return sender.sendMessage(chatID, MessageCreator.createGenericTimedMessage(text, millis));
     }
     @Override
     public boolean sendFile(String chatID, File file)
     {
-        Conversation conversation = WireStorage.getConversationByID(chatID);
-        if(conversation != null) conversation.addMessage(new Message("FILE", new Timestamp(System.currentTimeMillis()), WireStorage.getProfile().getUsername()));
+        IConversation conversation = Storage.getInstance().getConversationByID(chatID);
+        if(conversation != null) conversation.addMessage(new Message("FILE", new Timestamp(System.currentTimeMillis()), Storage.getInstance().getProfile().getUsername()));
         else
         {
             Out.newBuilder("ConversationID not found").origin(this.getClass().getName()).d().WARNING().print();

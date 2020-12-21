@@ -1,9 +1,13 @@
-package unimessenger.abstraction.storage;
+package unimessenger.abstraction.wire.storage;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import unimessenger.abstraction.wire.storage.Conversation;
-import unimessenger.abstraction.wire.storage.Profile;
+import unimessenger.Main;
+import unimessenger.abstraction.interfaces.storage.IConversation;
+import unimessenger.abstraction.interfaces.storage.IProfile;
+import unimessenger.abstraction.interfaces.storage.IStorage;
+import unimessenger.abstraction.storage.ConversationHandler;
+import unimessenger.abstraction.storage.StorageCrypto;
 import unimessenger.userinteraction.tui.Out;
 
 import java.io.File;
@@ -12,8 +16,10 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-public class WireStorage
+public class Storage implements IStorage
 {
+    private static Storage instance;
+
     public static String userID;
     public static String clientID;
     public static boolean persistent;
@@ -21,16 +27,24 @@ public class WireStorage
     public static String cookie;
     private static Timestamp bearerExpiringTime;
     public static Timestamp lastNotification;
-    private static Profile selfProfile;
-    public static ArrayList<Conversation> conversations;
+    private static IProfile selfProfile;
+    public static ArrayList<IConversation> conversations;
 
     private static StorageCrypto storageCrypto;
 
-    public static String storageDirectory;
     private static String storageFile;
-    public static ConversationHandler convH;
+    private static ConversationHandler convH;
 
-    public static void init()
+    private Storage()
+    {
+    }
+    public static Storage getInstance()
+    {
+        if(instance == null) instance = new Storage();
+        return instance;
+    }
+
+    public void init()
     {
         userID = null;
         clientID = null;
@@ -42,12 +56,12 @@ public class WireStorage
         selfProfile = new Profile();
         conversations = new ArrayList<>();
 
-        storageDirectory = System.getProperty("user.dir");
-        if(storageDirectory == null) storageDirectory = "../DataStorage";
-        else storageDirectory = storageDirectory.replace("\\", "/") + "/DataStorage";
-        storageFile = storageDirectory + "/access.json";
+        Main.storageDir = System.getProperty("user.dir");
+        if(Main.storageDir == null) Main.storageDir = "../DataStorage";
+        else Main.storageDir = Main.storageDir.replace("\\", "/") + "/DataStorage";
+        storageFile = Main.storageDir + "/access.json";
 
-        if(new File(storageDirectory).mkdirs()) Out.newBuilder("Storage folder successfully created").v().print();
+        if(new File(Main.storageDir).mkdirs()) Out.newBuilder("Storage folder successfully created").v().print();
         else Out.newBuilder("Storage folder not created").origin("WireStorage").d().WARNING().print();
 
         convH = ConversationHandler.getInstance();
@@ -56,14 +70,13 @@ public class WireStorage
         conversations = convH.getConversations();
     }
 
-    public static void saveDataInFile(String accessCookie)
+    public void saveDataInFile()
     {
-        if(accessCookie == null) clearFile();
+        if(cookie == null) clearFile();
         else
         {
-            cookie = accessCookie;
             JSONObject obj = new JSONObject();
-            obj.put("accessCookie", accessCookie);
+            obj.put("accessCookie", cookie);
             obj.put("bearerToken", bearerToken);
             obj.put("bearerTime", bearerExpiringTime.getTime());
             obj.put("clientID", clientID);
@@ -80,7 +93,7 @@ public class WireStorage
         }
 
         convH.clearConvs();
-        for(Conversation c : conversations)
+        for(IConversation c : conversations)
         {
             convH.newConversation(c);
         }
@@ -88,23 +101,18 @@ public class WireStorage
         Out.newBuilder("Conversations stored on disk").v().print();
     }
 
-    public static void saveDataInFile()
-    {
-        saveDataInFile(cookie);
-    }
-
-    public static void setBearerToken(String token, int ttl)
+    public void setBearerToken(String token, int ttl)
     {
         bearerToken = token;
         bearerExpiringTime = new Timestamp(System.currentTimeMillis() + (ttl * 900L));
     }
 
-    public static String getBearerToken()
+    public String getBearerToken()
     {
         return bearerToken;
     }
 
-    public static boolean isBearerTokenStillValid()
+    public boolean isBearerTokenStillValid()
     {
         if(bearerToken == null) Out.newBuilder("Bearer token is null").d().WARNING().print();
         else if(bearerExpiringTime == null) Out.newBuilder("Bearer token has no expiring time").d().WARNING().print();
@@ -113,7 +121,7 @@ public class WireStorage
         return false;
     }
 
-    public static void clearUserData()
+    public void clearUserData()
     {
         userID = null;
         bearerToken = null;
@@ -124,7 +132,7 @@ public class WireStorage
         ConversationHandler.clearFile();
     }
 
-    public static void readDataFromFiles()
+    public void readDataFromFiles()
     {
         try
         {
@@ -147,7 +155,7 @@ public class WireStorage
         }
     }
 
-    public static void clearFile()
+    public void clearFile()
     {
         try
         {
@@ -162,21 +170,46 @@ public class WireStorage
         }
     }
 
-    public static Conversation getConversationByID(String conversationID)
-    {
-        for(Conversation c : conversations)
-        {
-            if(c.id.equals(conversationID)) return c;
-        }
-        return null;
-    }
-
-    public static void setSelfProfile(Profile profile)
+    @Override
+    public void setProfile(IProfile profile)
     {
         selfProfile = profile;
     }
-    public static Profile getProfile()
+    @Override
+    public IProfile getProfile()
     {
         return selfProfile;
+    }
+    @Override
+    public void addConversation(IConversation conversation)
+    {
+        conversations.add(conversation);
+    }
+    @Override
+    public ArrayList<IConversation> getConversations()
+    {
+        return conversations;
+    }
+    public IConversation getConversationByID(String conversationID)
+    {
+        for(IConversation c : conversations)
+        {
+            if(c.getConversationID().equals(conversationID)) return c;
+        }
+        return null;
+    }
+    @Override
+    public boolean removeConversation(int index)
+    {
+        if(index >= conversations.size()) return false;
+        conversations.remove(index);
+        return true;
+    }
+    @Override
+    public boolean removeConversation(IConversation conversation)
+    {
+        if(conversations.contains(conversation)) conversations.remove(conversation);
+        else return false;
+        return true;
     }
 }

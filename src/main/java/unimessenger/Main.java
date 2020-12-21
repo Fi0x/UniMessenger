@@ -1,6 +1,6 @@
 package unimessenger;
 
-import unimessenger.abstraction.storage.WireStorage;
+import unimessenger.abstraction.wire.storage.Storage;
 import unimessenger.userinteraction.gui.MainWindow;
 import unimessenger.userinteraction.tui.CLI;
 import unimessenger.userinteraction.tui.Inputs;
@@ -14,6 +14,8 @@ import java.util.Arrays;
 
 public class Main
 {
+    public static String storageDir;
+
     public static Thread cli;
     public static Thread gui;
     public static Thread updt;
@@ -30,7 +32,7 @@ public class Main
 
         Out.newBuilder("Uni-Messenger starting...").vv().print();
         Out.newBuilder("Initializing storage...").v().print();
-        WireStorage.init();
+        Storage.getInstance().init();
         Out.newBuilder("Storage initialized").v().print();
 
         Out.newBuilder("Checking Disk encryption...").v().print();
@@ -38,7 +40,7 @@ public class Main
         Out.newBuilder("Disk is decrypted").v().print();
 
         Out.newBuilder("Loading login files...").v().print();
-        WireStorage.readDataFromFiles();
+        Storage.getInstance().readDataFromFiles();
         Out.newBuilder("File-loading finished").v().print();
 
         Out.newBuilder("Creating Threads for").v().print();

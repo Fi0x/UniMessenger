@@ -9,7 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import unimessenger.abstraction.APIAccess;
 import unimessenger.abstraction.interfaces.api.ILoginOut;
-import unimessenger.abstraction.storage.WireStorage;
+import unimessenger.abstraction.wire.storage.Storage;
 import unimessenger.userinteraction.gui.MainWindow;
 import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.Updater;
@@ -47,7 +47,7 @@ public class LoginController implements Initializable
     {
         String mail = txtMail.getText();
         String pw = txtPW.getText();
-        if(cbPermanent.isSelected()) WireStorage.persistent = true;
+        if(cbPermanent.isSelected()) Storage.persistent = true;
 
         ILoginOut login = new APIAccess().getLoginInterface(tabController.getService());
         if(login == null)

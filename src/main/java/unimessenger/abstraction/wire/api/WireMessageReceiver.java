@@ -8,9 +8,9 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import unimessenger.abstraction.Headers;
 import unimessenger.abstraction.URL;
-import unimessenger.abstraction.storage.WireStorage;
+import unimessenger.abstraction.interfaces.storage.IConversation;
 import unimessenger.abstraction.wire.crypto.WireCryptoHandler;
-import unimessenger.abstraction.wire.storage.Conversation;
+import unimessenger.abstraction.wire.storage.Storage;
 import unimessenger.communication.HTTP;
 import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.enums.REQUEST;
@@ -23,7 +23,7 @@ public class WireMessageReceiver
 {
     public boolean receiveNewMessages()
     {
-        String client = "?client=" + WireStorage.clientID;
+        String client = "?client=" + Storage.clientID;
         String since = "&since=2020-11-27T10:47:39.941Z";//TODO: Fix string
         String token = URL.wireBearerToken();
         String url = URL.WIRE + URL.WIRE_NOTIFICATIONS + client + since + token;
@@ -56,7 +56,7 @@ public class WireMessageReceiver
                 if(obj.containsKey("has_more") && Boolean.getBoolean(obj.get("has_more").toString()))
                 {
                     if(!receiveNewMessages()) return false;//TODO: Find out if it works
-                } else WireStorage.saveDataInFile();
+                } else Storage.getInstance().saveDataInFile();
             } catch(ParseException ignored)
             {
                 Out.newBuilder("Something went wrong when parsing the HTTP response of new messages").origin(this.getClass().getName()).d().WARNING();
@@ -92,16 +92,16 @@ public class WireMessageReceiver
         if(payload.containsKey("time"))
         {
             time = Timestamp.valueOf(payload.get("time").toString().replace("T", " ").replace("Z", ""));
-            if(WireStorage.lastNotification != null && time.getTime() <= WireStorage.lastNotification.getTime())
+            if(Storage.lastNotification != null && time.getTime() <= Storage.lastNotification.getTime())
             {
                 Out.newBuilder("Notification filtered because of timestamp").v().print();
                 return false;
-            } else WireStorage.lastNotification = time;
+            } else Storage.lastNotification = time;
         } else Out.newBuilder("Conversation notification has no 'time' key").v().WARNING().print();
 
         JSONObject data = (JSONObject) payload.get("data");
 
-        if(!data.get("recipient").toString().equals(WireStorage.clientID))
+        if(!data.get("recipient").toString().equals(Storage.clientID))
         {
             Out.newBuilder("Message is not for this client").v().print();
             return false;
@@ -117,7 +117,7 @@ public class WireMessageReceiver
             return false;
         }
 
-        Conversation conversation = WireStorage.getConversationByID(conversationID);
+        IConversation conversation = Storage.getInstance().getConversationByID(conversationID);
         if(conversation == null)
         {
             Out.newBuilder("ConversationID not found").origin(this.getClass().getName()).d().WARNING().print();

@@ -7,9 +7,9 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import unimessenger.abstraction.Headers;
 import unimessenger.abstraction.URL;
-import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.abstraction.wire.crypto.Prekey;
 import unimessenger.abstraction.wire.crypto.WireCryptoHandler;
+import unimessenger.abstraction.wire.storage.Storage;
 import unimessenger.communication.HTTP;
 import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.enums.REQUEST;
@@ -47,7 +47,7 @@ public class WireMessageSender
     {
         JSONObject obj = new JSONObject();
 
-        obj.put("sender", WireStorage.clientID);
+        obj.put("sender", Storage.clientID);
         obj.put("transient", true);
 
         ArrayList<String> members = new WireData().getConversationMembersFromID(chatID);
@@ -62,7 +62,7 @@ public class WireMessageSender
             {
                 while(!userClients.isEmpty())
                 {
-                    if(!(id.equals(WireStorage.userID) && userClients.get(0).equals(WireStorage.clientID)))
+                    if(!(id.equals(Storage.userID) && userClients.get(0).equals(Storage.clientID)))
                     {
                         Prekey pk = getPreKeyForClient(id, userClients.get(0));
                         clientMap.put(userClients.get(0), WireCryptoHandler.encrypt(id, userClients.get(0), pk, msg.toByteArray()));
