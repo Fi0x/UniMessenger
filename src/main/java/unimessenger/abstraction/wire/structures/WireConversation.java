@@ -26,17 +26,8 @@ public class WireConversation implements Serializable
     public WireConversation()
     {
         access = new ArrayList<>();
-        creatorID = null;
-        accessRole = null;
         members = new ArrayList<>();
-        conversationName = null;
-        team = null;
-        id = null;
         conversationType = CONVERSATIONTYPE.UNKNOWN;
-        receipt_mode = null;
-        last_event_time = null;
-        message_timer = null;
-        last_event = null;
         newMessages = new ArrayList<>();
         messages = new ArrayList<>();
     }
