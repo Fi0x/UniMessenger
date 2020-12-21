@@ -26,7 +26,7 @@ public class WireUtil implements IUtil
     {
         String url = URL.WIRE + URL.WIRE_ACCESS + URL.wireBearerToken();
         String[] headers = new String[]{
-                "cookie", Storage.cookie,
+                "cookie", Storage.getInstance().cookie,
                 Headers.CONTENT, Headers.JSON,
                 Headers.ACCEPT, Headers.JSON};
         HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.POST, "", headers);
@@ -40,7 +40,7 @@ public class WireUtil implements IUtil
                 assert false;
                 obj = (JSONObject) new JSONParser().parse(response.body());
                 Storage.getInstance().setBearerToken(obj.get("access_token").toString(), Integer.parseInt(obj.get("expires_in").toString()));
-                Storage.userID = obj.get("user").toString();
+                Storage.getInstance().userID = obj.get("user").toString();
                 Out.newBuilder("Successfully refreshed token").vv().print();
                 return true;
             } catch(ParseException ignored)
@@ -50,7 +50,7 @@ public class WireUtil implements IUtil
         } else
         {
             Out.newBuilder("Response code is " + response.statusCode() + ". Deleting Wire access cookie...").origin(this.getClass().getName()).a().ERROR().print();
-            Storage.cookie = null;
+            Storage.getInstance().cookie = null;
             Storage.getInstance().clearFile();
             System.out.println("Test");
         }
@@ -115,10 +115,10 @@ public class WireUtil implements IUtil
         }
 
         String pw = Inputs.getStringAnswerFrom("Please enter your password to register this client");//TODO: Store password somewhere to work with gui
-        String id = registerClient(Storage.persistent, pw);
+        String id = registerClient(Storage.getInstance().persistent, pw);
         if(id == null)
         {
-            Storage.persistent = false;
+            Storage.getInstance().persistent = false;
             return registerClient(false, pw);
         } else return id;
     }
@@ -161,7 +161,7 @@ public class WireUtil implements IUtil
             JSONObject obj = (JSONObject) new JSONParser().parse(response.body());
             if(obj.containsKey("cookie"))
             {
-                if(obj.get("cookie").toString().equals(Storage.cookie))
+                if(obj.get("cookie").toString().equals(Storage.getInstance().cookie))
                 {
                     Out.newBuilder("Client ID found").v().print();
                     return true;
@@ -179,7 +179,7 @@ public class WireUtil implements IUtil
                 Headers.ACCEPT, Headers.JSON};
 
         JSONObject obj = new JSONObject();
-        obj.put("cookie", Storage.cookie);
+        obj.put("cookie", Storage.getInstance().cookie);
 
         Prekey lastKey = WireCryptoHandler.generateLastPrekey();
 

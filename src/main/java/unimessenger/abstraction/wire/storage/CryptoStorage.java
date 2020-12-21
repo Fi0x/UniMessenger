@@ -1,6 +1,7 @@
-package unimessenger.abstraction.storage;
+package unimessenger.abstraction.wire.storage;
 
 import unimessenger.Main;
+import unimessenger.userinteraction.tui.Out;
 
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
@@ -10,7 +11,7 @@ import java.security.InvalidKeyException;
 import java.security.KeyStore;
 import java.security.UnrecoverableKeyException;
 
-public class StorageCrypto
+public class CryptoStorage
 {
     private SecretKey key;
     private Cipher cipher;
@@ -20,19 +21,19 @@ public class StorageCrypto
     private static final String FILEPATH_DATASTORE = Main.storageDir + "/DataStore";
     private static final String ALIAS_KEY_ENRYPTION = "KeyUserCookie";
 
-    public StorageCrypto() throws UnrecoverableKeyException
+    public CryptoStorage() throws UnrecoverableKeyException
     {
-
         //Trying to load the Keystore from the disc, if the file is not found, its created
-
         try
         {
             ks = KeyStore.getInstance(KeyStore.getDefaultType());
             ks.load(new FileInputStream(FILEPATH_KEYSTORE), passphrase.toCharArray());
             key = (SecretKey) ks.getKey(ALIAS_KEY_ENRYPTION, passphrase.toCharArray());
-        } catch (FileNotFoundException e) {
+        } catch(FileNotFoundException e)
+        {
             //If no KeyVault is found, a new one is generated
-            try {
+            try
+            {
                 ks.load(null, passphrase.toCharArray());
                 FileOutputStream fos = new FileOutputStream(FILEPATH_KEYSTORE);
 
@@ -40,79 +41,79 @@ public class StorageCrypto
                 key = KeyGenerator.getInstance("AES").generateKey();
 
                 //Storing the key
-                KeyStore.SecretKeyEntry secret
-                        = new KeyStore.SecretKeyEntry(key);
-                KeyStore.ProtectionParameter pwEnc
-                        = new KeyStore.PasswordProtection(passphrase.toCharArray());
+                KeyStore.SecretKeyEntry secret = new KeyStore.SecretKeyEntry(key);
+                KeyStore.ProtectionParameter pwEnc = new KeyStore.PasswordProtection(passphrase.toCharArray());
 
                 ks.setEntry(ALIAS_KEY_ENRYPTION, secret, pwEnc);
-
                 ks.store(fos, passphrase.toCharArray());
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch(Exception ignored)
+            {
             }
-        //Apearently, UnreacoverableKeyExceptions are IOExceptions
-        } catch (IOException e) {
-            throw
-                    new UnrecoverableKeyException();
-        } catch (Exception e) {
-            e.printStackTrace();
+            //Apearently, UnreacoverableKeyExceptions are IOExceptions
+        } catch(IOException e)
+        {
+            throw new UnrecoverableKeyException();
+        } catch(Exception ignored)
+        {
         }
         //Getting the cipher according to the specified Advanced encryption standard, cipher block chaining, Padding standard
-        try {
+        try
+        {
             this.cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch(Exception ignored)
+        {
         }
 
     }
-
-    public static void setPassphrase(String passp){
-        if(!passp.equalsIgnoreCase(""))
-        passphrase = passp;
+    public static void setPassphrase(String passp)
+    {
+        if(!passp.equalsIgnoreCase("")) passphrase = passp;
         else passphrase = "a";
     }
 
-    public void encrypt(String content) throws InvalidKeyException, IOException {
+    public void encrypt(String content) throws InvalidKeyException, IOException
+    {
         cipher.init(Cipher.ENCRYPT_MODE, key);
         byte[] iv = cipher.getIV();
 
-        try (FileOutputStream fileOut = new FileOutputStream(FILEPATH_DATASTORE);
-             CipherOutputStream cipherOut = new CipherOutputStream(fileOut, cipher)) {
+        try(FileOutputStream fileOut = new FileOutputStream(FILEPATH_DATASTORE);
+            CipherOutputStream cipherOut = new CipherOutputStream(fileOut, cipher))
+        {
             fileOut.write(iv);
             cipherOut.write(content.getBytes());
         }
     }
-
-    public String decrypt() throws IOException, InvalidAlgorithmParameterException, InvalidKeyException {
+    public String decrypt() throws IOException, InvalidAlgorithmParameterException, InvalidKeyException
+    {
         String content;
 
-        try (FileInputStream fileIn = new FileInputStream(FILEPATH_DATASTORE)) {
+        try(FileInputStream fileIn = new FileInputStream(FILEPATH_DATASTORE))
+        {
             byte[] fileIv = new byte[16];
-            fileIn.read(fileIv);
+            int r = fileIn.read(fileIv);
+            Out.newBuilder("Result of file-reading: " + r).v().print();
             cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(fileIv));
 
-            try (
-                    CipherInputStream cipherIn = new CipherInputStream(fileIn, cipher);
-                    InputStreamReader inputReader = new InputStreamReader(cipherIn);
-                    BufferedReader reader = new BufferedReader(inputReader)
-            ) {
-
+            try(CipherInputStream cipherIn = new CipherInputStream(fileIn, cipher);
+                InputStreamReader inputReader = new InputStreamReader(cipherIn);
+                BufferedReader reader = new BufferedReader(inputReader))
+            {
                 StringBuilder sb = new StringBuilder();
                 String line;
-                while ((line = reader.readLine()) != null) {
+                while((line = reader.readLine()) != null)
+                {
                     sb.append(line);
                 }
                 content = sb.toString();
             }
-
         }
         return content;
     }
 
-    public static void removeAll(){
+    public static void removeAll()
+    {
         //Cleaning all written files
-        new File(FILEPATH_DATASTORE).delete();
-        new File(FILEPATH_KEYSTORE).delete();
+        if(!new File(FILEPATH_DATASTORE).delete()) Out.newBuilder("Error deleting a file").origin("CryptoStorage").d().WARNING().print();
+        if(!new File(FILEPATH_KEYSTORE).delete()) Out.newBuilder("Error deleting a file").origin("CryptoStorage").d().WARNING().print();
     }
 }

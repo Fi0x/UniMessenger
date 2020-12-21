@@ -7,7 +7,6 @@ import unimessenger.abstraction.interfaces.storage.IConversation;
 import unimessenger.abstraction.interfaces.storage.IProfile;
 import unimessenger.abstraction.interfaces.storage.IStorage;
 import unimessenger.abstraction.storage.ConversationHandler;
-import unimessenger.abstraction.storage.StorageCrypto;
 import unimessenger.userinteraction.tui.Out;
 
 import java.io.File;
@@ -20,20 +19,20 @@ public class Storage implements IStorage
 {
     private static Storage instance;
 
-    public static String userID;
+    public String userID;
     public static String clientID;
-    public static boolean persistent;
-    private static String bearerToken;
-    public static String cookie;
-    private static Timestamp bearerExpiringTime;
-    public static Timestamp lastNotification;
-    private static IProfile selfProfile;
-    public static ArrayList<IConversation> conversations;
+    public boolean persistent;
+    private String bearerToken;
+    public String cookie;
+    private Timestamp bearerExpiringTime;
+    public Timestamp lastNotification;
+    private IProfile selfProfile;
+    private ArrayList<IConversation> conversations;
 
-    private static StorageCrypto storageCrypto;
+    private CryptoStorage cryptoStorage;
 
-    private static String storageFile;
-    private static ConversationHandler convH;
+    private String storageFile;
+    private ConversationHandler convH;
 
     private Storage()
     {
@@ -84,7 +83,7 @@ public class Storage implements IStorage
 
             try
             {
-                storageCrypto.encrypt(obj.toJSONString());
+                cryptoStorage.encrypt(obj.toJSONString());
                 Out.newBuilder("Successfully wrote to Wire file").v().print();
             } catch(Exception ignored)
             {
@@ -136,9 +135,9 @@ public class Storage implements IStorage
     {
         try
         {
-            storageCrypto = new StorageCrypto();
+            cryptoStorage = new CryptoStorage();
 
-            JSONObject obj = (JSONObject) new JSONParser().parse(storageCrypto.decrypt());
+            JSONObject obj = (JSONObject) new JSONParser().parse(cryptoStorage.decrypt());
             cookie = obj.get("accessCookie").toString();
             bearerToken = obj.get("bearerToken").toString();
             bearerExpiringTime = new Timestamp((long) obj.get("bearerTime"));

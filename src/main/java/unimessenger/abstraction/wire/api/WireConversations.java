@@ -46,7 +46,7 @@ public class WireConversations implements IConversations
                     if(newConversation.getConversationName() != null)
                     {
                         boolean exists = false;
-                        for(IConversation con : Storage.conversations)
+                        for(IConversation con : Storage.getInstance().getConversations())
                         {
                             if(con.getConversationID().equals(newConversation.id))
                             {
@@ -54,7 +54,7 @@ public class WireConversations implements IConversations
                                 break;
                             }
                         }
-                        if(!exists) Storage.conversations.add(newConversation);
+                        if(!exists) Storage.getInstance().addConversation(newConversation);
                     }
                 }
                 Out.newBuilder("Successfully reloaded all conversations").print();

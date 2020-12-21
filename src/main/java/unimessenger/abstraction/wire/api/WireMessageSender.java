@@ -62,7 +62,7 @@ public class WireMessageSender
             {
                 while(!userClients.isEmpty())
                 {
-                    if(!(id.equals(Storage.userID) && userClients.get(0).equals(Storage.clientID)))
+                    if(!(id.equals(Storage.getInstance().userID) && userClients.get(0).equals(Storage.clientID)))
                     {
                         Prekey pk = getPreKeyForClient(id, userClients.get(0));
                         clientMap.put(userClients.get(0), WireCryptoHandler.encrypt(id, userClients.get(0), pk, msg.toByteArray()));

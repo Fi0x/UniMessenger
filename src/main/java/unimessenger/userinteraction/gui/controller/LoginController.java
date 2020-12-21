@@ -47,7 +47,7 @@ public class LoginController implements Initializable
     {
         String mail = txtMail.getText();
         String pw = txtPW.getText();
-        if(cbPermanent.isSelected()) Storage.persistent = true;
+        if(cbPermanent.isSelected()) Storage.getInstance().persistent = true;
 
         ILoginOut login = new APIAccess().getLoginInterface(tabController.getService());
         if(login == null)

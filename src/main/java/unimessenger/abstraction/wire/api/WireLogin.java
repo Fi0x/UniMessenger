@@ -19,7 +19,7 @@ public class WireLogin implements ILoginOut
     @Override
     public boolean checkIfLoggedIn()
     {
-        if(Storage.cookie == null)
+        if(Storage.getInstance().cookie == null)
         {
             Out.newBuilder("No cookie stored; User is not logged in").d().print();
             return false;
@@ -39,14 +39,14 @@ public class WireLogin implements ILoginOut
         //TODO: Add more login options (phone)
         String mail = Inputs.getStringAnswerFrom("Please enter your E-Mail");//TestAccount: pechtl97@gmail.com
         String pw = Inputs.getStringAnswerFrom("Please enter your password");//TestAccount: Passwort1!
-        Storage.persistent = Inputs.getBoolAnswerFrom("Do you want to stay logged in?");
+        Storage.getInstance().persistent = Inputs.getBoolAnswerFrom("Do you want to stay logged in?");
         return login(mail, pw);
     }
     @Override
     public boolean login(String mail, String pw)
     {
         String url = URL.WIRE + URL.WIRE_LOGIN;
-        if(Storage.persistent) url += URL.WIRE_PERSIST;
+        if(Storage.getInstance().persistent) url += URL.WIRE_PERSIST;
 
         JSONObject obj = new JSONObject();
         obj.put("email", mail);
@@ -65,7 +65,7 @@ public class WireLogin implements ILoginOut
     {
         String url = URL.WIRE + URL.WIRE_LOGOUT + URL.wireBearerToken();
         String[] headers = new String[]{
-                "cookie", Storage.cookie,
+                "cookie", Storage.getInstance().cookie,
                 Headers.CONTENT, Headers.JSON,
                 Headers.ACCEPT, Headers.JSON};
 
@@ -102,15 +102,15 @@ public class WireLogin implements ILoginOut
         try
         {
             obj = (JSONObject) new JSONParser().parse(response.body());
-            Storage.userID = obj.get("user").toString();
+            Storage.getInstance().userID = obj.get("user").toString();
             Storage.getInstance().setBearerToken(obj.get("access_token").toString(), Integer.parseInt(obj.get("expires_in").toString()));
 
             String cookieArr = response.headers().map().get("set-cookie").get(0);
             String[] arr = cookieArr.split("zuid=");
             if(arr.length > 1) arr = arr[1].split(";");
-            Storage.cookie = "zuid=" + arr[0];
+            Storage.getInstance().cookie = "zuid=" + arr[0];
 
-            Out.newBuilder("User: " + Storage.userID).vv().print();
+            Out.newBuilder("User: " + Storage.getInstance().userID).vv().print();
             Out.newBuilder("Expires in: " + obj.get("expires_in") + " seconds").vv().print();
         } catch(ParseException ignored)
         {

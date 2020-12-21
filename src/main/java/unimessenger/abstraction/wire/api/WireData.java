@@ -16,7 +16,7 @@ public class WireData implements IData
     {
         ArrayList<String> ids = new ArrayList<>();
 
-        for(IConversation con : Storage.conversations)
+        for(IConversation con : Storage.getInstance().getConversations())
         {
             ids.add(con.getConversationID());
         }
@@ -28,7 +28,7 @@ public class WireData implements IData
     @Override
     public String getConversationNameFromID(String id)
     {
-        for(IConversation con : Storage.conversations)
+        for(IConversation con : Storage.getInstance().getConversations())
         {
             if(con.getConversationID().equals(id))
             {
@@ -42,7 +42,7 @@ public class WireData implements IData
     public ArrayList<String> getConversationMembersFromID(String id)
     {
         IConversation conversation = null;
-        for(IConversation con : Storage.conversations)
+        for(IConversation con : Storage.getInstance().getConversations())
         {
             if(con.getConversationID().equals(id)) conversation = con;
         }

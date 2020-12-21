@@ -92,11 +92,11 @@ public class WireMessageReceiver
         if(payload.containsKey("time"))
         {
             time = Timestamp.valueOf(payload.get("time").toString().replace("T", " ").replace("Z", ""));
-            if(Storage.lastNotification != null && time.getTime() <= Storage.lastNotification.getTime())
+            if(Storage.getInstance().lastNotification != null && time.getTime() <= Storage.getInstance().lastNotification.getTime())
             {
                 Out.newBuilder("Notification filtered because of timestamp").v().print();
                 return false;
-            } else Storage.lastNotification = time;
+            } else Storage.getInstance().lastNotification = time;
         } else Out.newBuilder("Conversation notification has no 'time' key").v().WARNING().print();
 
         JSONObject data = (JSONObject) payload.get("data");
