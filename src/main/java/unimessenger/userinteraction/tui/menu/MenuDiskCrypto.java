@@ -16,8 +16,7 @@ public class MenuDiskCrypto
         System.out.println("1) No disk encryption");
         System.out.println("2) Use a password");
         System.out.println("3) Delete stored user-information");
-//        int userInput = Inputs.getIntAnswerFrom("Please enter the number of the option you would like to choose.");
-        int userInput = 1;//TODO: Use user-input instead
+        int userInput = Inputs.getIntAnswerFrom("Please enter the number of the option you would like to choose.");
 
         switch(userInput)
         {
