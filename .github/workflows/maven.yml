@@ -24,9 +24,6 @@ jobs:
         java-version: 13.0.1
     - name: Build with Maven
       run: mvn -B package --file pom.xml
-  
-  test:
-    runs-on: windows-latest
-    steps:
-      - name: Run Test
-        run: mvn clean test
+      
+    - name: Run Test
+      run: mvn clean test
