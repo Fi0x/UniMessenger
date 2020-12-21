@@ -1,3 +1,5 @@
+package abstraction.wire.storage;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import unimessenger.abstraction.wire.storage.Message;

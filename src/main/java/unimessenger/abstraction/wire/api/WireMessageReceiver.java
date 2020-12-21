@@ -23,7 +23,7 @@ public class WireMessageReceiver
 {
     public boolean receiveNewMessages()
     {
-        String client = "?client=" + Storage.clientID;
+        String client = "?client=" + Storage.getInstance().clientID;
         String since = "&since=2020-11-27T10:47:39.941Z";//TODO: Fix string
         String token = URL.wireBearerToken();
         String url = URL.WIRE + URL.WIRE_NOTIFICATIONS + client + since + token;
@@ -101,7 +101,7 @@ public class WireMessageReceiver
 
         JSONObject data = (JSONObject) payload.get("data");
 
-        if(!data.get("recipient").toString().equals(Storage.clientID))
+        if(!data.get("recipient").toString().equals(Storage.getInstance().clientID))
         {
             Out.newBuilder("Message is not for this client").v().print();
             return false;

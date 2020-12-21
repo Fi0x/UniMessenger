@@ -20,7 +20,7 @@ public class Storage implements IStorage
     private static Storage instance;
 
     public String userID;
-    public static String clientID;
+    public String clientID;
     public boolean persistent;
     private String bearerToken;
     public String cookie;
@@ -45,13 +45,7 @@ public class Storage implements IStorage
 
     public void init()
     {
-        userID = null;
-        clientID = null;
         persistent = false;
-        bearerToken = null;
-        cookie = null;
-        bearerExpiringTime = null;
-        lastNotification = null;
         selfProfile = new Profile();
         conversations = new ArrayList<>();
 

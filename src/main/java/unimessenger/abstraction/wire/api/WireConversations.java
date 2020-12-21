@@ -48,7 +48,7 @@ public class WireConversations implements IConversations
                         boolean exists = false;
                         for(IConversation con : Storage.getInstance().getConversations())
                         {
-                            if(con.getConversationID().equals(newConversation.id))
+                            if(con.getConversationID().equals(newConversation.getConversationID()))
                             {
                                 exists = true;
                                 break;
@@ -101,7 +101,7 @@ public class WireConversations implements IConversations
                 if(conName != null) con.setConversationName(conName);
             }
         } else if(conObj.get("name") != null) con.setConversationName(conObj.get("name").toString());
-        con.id = conObj.get("id").toString();
+        con.setConversationID(conObj.get("id").toString());
 
         return con;
     }

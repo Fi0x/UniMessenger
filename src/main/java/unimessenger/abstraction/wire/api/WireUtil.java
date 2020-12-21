@@ -78,7 +78,7 @@ public class WireUtil implements IUtil
                 Storage.getInstance().getProfile().setUsername(obj.get("name").toString());
                 Storage.getInstance().getProfile().setUserID(obj.get("id").toString());
 
-                Storage.clientID = getClientID();
+                Storage.getInstance().clientID = getClientID();
                 Storage.getInstance().saveDataInFile();
                 return true;
             } catch(ParseException ignored)
@@ -213,9 +213,9 @@ public class WireUtil implements IUtil
         else if(response.statusCode() == 201)
         {
             JSONObject resObj = (JSONObject) new JSONParser().parse(response.body());
-            Storage.clientID = resObj.get("id").toString();
+            Storage.getInstance().clientID = resObj.get("id").toString();
             Out.newBuilder("Client ID stored").v().print();
-            return Storage.clientID;
+            return Storage.getInstance().clientID;
         } else Out.newBuilder("Response code is " + response.statusCode()).origin("WireUtil").d().WARNING().print();
         return null;
     }

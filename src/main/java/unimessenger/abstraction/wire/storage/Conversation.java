@@ -12,7 +12,7 @@ public class Conversation implements IConversation
     public ArrayList<String> access = new ArrayList<>();
     public ArrayList<IUser> members = new ArrayList<>();
     private String conversationName;
-    public String id;
+    private String id;
     public CONVERSATIONTYPE conversationType = CONVERSATIONTYPE.UNKNOWN;
     private final ArrayList<IMessage> newMessages = new ArrayList<>();
     private final ArrayList<IMessage> messages = new ArrayList<>();

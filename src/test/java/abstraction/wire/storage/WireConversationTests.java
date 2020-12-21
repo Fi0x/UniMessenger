@@ -1,3 +1,5 @@
+package abstraction.wire.storage;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import unimessenger.abstraction.wire.storage.Conversation;
@@ -6,7 +8,7 @@ import unimessenger.util.enums.CONVERSATIONTYPE;
 
 import java.sql.Timestamp;
 
-public class WireStructureTests
+public class WireConversationTests
 {
     @Test
     void conversationType()
@@ -37,5 +39,18 @@ public class WireStructureTests
         Assertions.assertEquals(msg, con.getNewMessages().get(0));
         Assertions.assertTrue(con.getNewMessages().isEmpty());
         Assertions.assertEquals(msg, con.getMessages().get(0));
+    }
+
+    @Test
+    void variables()
+    {
+        Conversation con = new Conversation();
+        con.setConversationName("Name");
+        con.setConversationID("A");
+
+        Assertions.assertTrue(con.access.isEmpty());
+        Assertions.assertTrue(con.members.isEmpty());
+        Assertions.assertEquals("Name", con.getConversationName());
+        Assertions.assertEquals("A", con.getConversationID());
     }
 }

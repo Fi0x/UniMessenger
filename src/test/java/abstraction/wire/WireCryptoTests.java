@@ -1,3 +1,5 @@
+package abstraction.wire;
+
 import com.waz.model.Messages;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
