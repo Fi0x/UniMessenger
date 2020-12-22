@@ -6,7 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import unimessenger.abstraction.APIAccess;
-import unimessenger.abstraction.interfaces.IData;
+import unimessenger.abstraction.interfaces.storage.IData;
 import unimessenger.userinteraction.gui.MainWindow;
 import unimessenger.util.enums.SERVICE;
 

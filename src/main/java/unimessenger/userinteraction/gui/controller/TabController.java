@@ -11,9 +11,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import unimessenger.abstraction.APIAccess;
-import unimessenger.abstraction.interfaces.ILoginOut;
-import unimessenger.abstraction.interfaces.IUtil;
-import unimessenger.abstraction.storage.WireStorage;
+import unimessenger.abstraction.interfaces.api.ILoginOut;
+import unimessenger.abstraction.interfaces.api.IUtil;
+import unimessenger.abstraction.wire.storage.Storage;
 import unimessenger.userinteraction.gui.MainWindow;
 import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.Updater;
@@ -56,13 +56,13 @@ public class TabController implements Initializable
         APIAccess access = new APIAccess();
         ILoginOut login = access.getLoginInterface(service);
         IUtil util = access.getUtilInterface(service);
-        if(login == null && (WireStorage.getBearerToken() == null || util == null))
+        if(login == null && (Storage.getInstance().getBearerToken() == null || util == null))
         {
             Out.newBuilder("Could not load login interfaces").d().print();
         } else if(login != null && login.checkIfLoggedIn())
         {
             Out.newBuilder("Still logged in").v().print();
-        } else if(WireStorage.getBearerToken() != null && util != null && util.refreshSession())
+        } else if(Storage.getInstance().getBearerToken() != null && util != null && util.refreshSession())
         {
             Out.newBuilder("Refreshed session").v().print();
         } else

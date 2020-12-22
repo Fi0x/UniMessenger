@@ -1,8 +1,8 @@
 package unimessenger.util;
 
 import unimessenger.Main;
-import unimessenger.abstraction.storage.WireStorage;
 import unimessenger.abstraction.wire.crypto.CryptoFactory;
+import unimessenger.abstraction.wire.storage.Storage;
 import unimessenger.userinteraction.tui.Out;
 
 public class Stop implements Runnable
@@ -30,7 +30,7 @@ public class Stop implements Runnable
         Out.newBuilder("All threads stopped").v().print();
 
         Out.newBuilder("Writing data to file...").v().print();
-        WireStorage.saveDataInFile();
+        Storage.getInstance().saveDataInFile();
         Out.newBuilder("Storage written to file").v().print();
 
         Out.newBuilder("Cleaning the Box").v().print();
