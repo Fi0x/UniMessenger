@@ -2,7 +2,7 @@ package unimessenger.userinteraction.tui;
 
 import unimessenger.Main;
 import unimessenger.abstraction.APIAccess;
-import unimessenger.abstraction.interfaces.IData;
+import unimessenger.abstraction.interfaces.storage.IData;
 import unimessenger.userinteraction.tui.menu.MenuChat;
 import unimessenger.userinteraction.tui.menu.MenuConversationList;
 import unimessenger.userinteraction.tui.menu.MenuLogin;

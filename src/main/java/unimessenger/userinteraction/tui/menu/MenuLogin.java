@@ -1,8 +1,8 @@
 package unimessenger.userinteraction.tui.menu;
 
 import unimessenger.abstraction.APIAccess;
-import unimessenger.abstraction.interfaces.ILoginOut;
-import unimessenger.abstraction.storage.WireStorage;
+import unimessenger.abstraction.interfaces.api.ILoginOut;
+import unimessenger.abstraction.wire.storage.Storage;
 import unimessenger.userinteraction.tui.CLI;
 import unimessenger.userinteraction.tui.Inputs;
 import unimessenger.userinteraction.tui.Out;
@@ -48,7 +48,7 @@ public class MenuLogin
         boolean loggedIn = false;
 
         if(login.checkIfLoggedIn()) loggedIn = true;
-        else if(WireStorage.getBearerToken() != null && access.getUtilInterface(CLI.currentService).refreshSession()) loggedIn = true;
+        else if(Storage.getInstance().getBearerToken() != null && access.getUtilInterface(CLI.currentService).refreshSession()) loggedIn = true;
         else if(login.login()) loggedIn = true;
         if(loggedIn)
         {

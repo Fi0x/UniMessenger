@@ -1,11 +1,11 @@
 package unimessenger.userinteraction.tui.menu;
 
 import unimessenger.abstraction.APIAccess;
-import unimessenger.abstraction.interfaces.IData;
-import unimessenger.abstraction.interfaces.IMessages;
-import unimessenger.abstraction.interfaces.wire.WireMessageSender;
-import unimessenger.abstraction.storage.Message;
-import unimessenger.abstraction.wire.crypto.MessageCreator;
+import unimessenger.abstraction.interfaces.api.IMessages;
+import unimessenger.abstraction.interfaces.storage.IData;
+import unimessenger.abstraction.interfaces.storage.IMessage;
+import unimessenger.abstraction.wire.api.WireMessageSender;
+import unimessenger.abstraction.wire.messages.MessageCreator;
 import unimessenger.userinteraction.tui.CLI;
 import unimessenger.userinteraction.tui.Inputs;
 import unimessenger.userinteraction.tui.Out;
@@ -69,7 +69,7 @@ public class MenuChat
         System.out.println("4) Abort");
 
         int in = Inputs.getIntAnswerFrom("Select an option");
-        ArrayList<Message> messages;
+        ArrayList<IMessage> messages;
         IData data = new APIAccess().getDataInterface(CLI.currentService);
         switch(in)
         {
@@ -95,9 +95,9 @@ public class MenuChat
         }
         if(messages == null || messages.isEmpty()) return;
 
-        for(Message msg : messages)
+        for(IMessage msg : messages)
         {
-            System.out.println(msg.getTime() + " -- " + msg.getSenderID() + ": " + msg.getText());
+            System.out.println(msg.getTime() + " -- " + msg.getSender() + ": " + msg.getText());
         }
     }
     private static boolean sendMessage(long timed)

@@ -1,6 +1,6 @@
 package unimessenger.userinteraction.tui.menu;
 
-import unimessenger.abstraction.storage.StorageCrypto;
+import unimessenger.abstraction.wire.storage.CryptoStorage;
 import unimessenger.userinteraction.tui.Inputs;
 import unimessenger.userinteraction.tui.Out;
 
@@ -31,7 +31,7 @@ public class MenuDiskCrypto
                 break;
 
             case 1:
-                StorageCrypto.setPassphrase("");
+                CryptoStorage.setPassphrase("");
                 break;
             default:
                 Out.newBuilder("Invalid option").a().WARNING().print();
@@ -43,12 +43,12 @@ public class MenuDiskCrypto
     private static boolean usePassword()
     {
         String pw = Inputs.getStringAnswerFrom("Please enter your Password (if you used encryption on this device before, decrypt by entering the old password)");
-        StorageCrypto.setPassphrase(pw);
+        CryptoStorage.setPassphrase(pw);
 
         //Creating a crypto file to test the validity of the passphrase
         try
         {
-            new StorageCrypto();
+            new CryptoStorage();
         } catch(UnrecoverableKeyException e)
         {
             Out.newBuilder("Wrong Password, please try again").a().WARNING().print();
@@ -62,7 +62,7 @@ public class MenuDiskCrypto
         String answer = Inputs.getStringAnswerFrom("Are you certain? All files will be deleted beyond recovery! Type DELETE to confirm");
         if(answer.equalsIgnoreCase("DELETE"))
         {
-            StorageCrypto.removeAll();
+            CryptoStorage.removeAll();
             return true;
         }
         return false;

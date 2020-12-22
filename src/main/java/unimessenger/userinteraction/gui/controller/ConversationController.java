@@ -6,11 +6,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import unimessenger.abstraction.APIAccess;
-import unimessenger.abstraction.interfaces.IData;
-import unimessenger.abstraction.interfaces.IMessages;
-import unimessenger.abstraction.interfaces.wire.WireMessageSender;
-import unimessenger.abstraction.storage.Message;
-import unimessenger.abstraction.wire.crypto.MessageCreator;
+import unimessenger.abstraction.interfaces.api.IMessages;
+import unimessenger.abstraction.interfaces.storage.IData;
+import unimessenger.abstraction.interfaces.storage.IMessage;
+import unimessenger.abstraction.wire.api.WireMessageSender;
+import unimessenger.abstraction.wire.messages.MessageCreator;
 import unimessenger.userinteraction.gui.MainWindow;
 import unimessenger.util.enums.SERVICE;
 
@@ -62,14 +62,14 @@ public class ConversationController implements Initializable
                 {
                     if(msgSender.sendTimedText(messengerController.getCurrentChatID(), txtMessage.getText(), 300 * 1000))
                     {
-                        ArrayList<Message> sentMsg = access.getDataInterface(tabController.getService()).getLastXMessagesFromConversation(messengerController.getCurrentChatID(), 1);
+                        ArrayList<IMessage> sentMsg = access.getDataInterface(tabController.getService()).getLastXMessagesFromConversation(messengerController.getCurrentChatID(), 1);
                         if(!sentMsg.isEmpty()) addChatMessage(sentMsg.get(0));
                     }
                 } else
                 {
                     if(msgSender.sendTextMessage(messengerController.getCurrentChatID(), txtMessage.getText()))
                     {
-                        ArrayList<Message> sentMsg = access.getDataInterface(tabController.getService()).getLastXMessagesFromConversation(messengerController.getCurrentChatID(), 1);
+                        ArrayList<IMessage> sentMsg = access.getDataInterface(tabController.getService()).getLastXMessagesFromConversation(messengerController.getCurrentChatID(), 1);
                         if(!sentMsg.isEmpty()) addChatMessage(sentMsg.get(0));
                     }
                 }
@@ -118,23 +118,23 @@ public class ConversationController implements Initializable
     {
         IData data = new APIAccess().getDataInterface(tabController.getService());
         if(data == null) return;
-        ArrayList<Message> messages = data.getAllMessagesFromConversation(messengerController.getCurrentChatID());
+        ArrayList<IMessage> messages = data.getAllMessagesFromConversation(messengerController.getCurrentChatID());
 
         if(messages == null) return;
 
-        for(Message message : messages)
+        for(IMessage message : messages)
         {
             addChatMessage(message);
         }
     }
 
-    private void addChatMessage(Message message)
+    private void addChatMessage(IMessage message)
     {
         HBox messageBox = new HBox();
 
         String msgText = message.getText();
         String msgTime = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(message.getTime());
-        String msgSender = message.getSenderID();
+        String msgSender = message.getSender();
 
         Label text = new Label(msgText);
         Label time = new Label(msgTime);

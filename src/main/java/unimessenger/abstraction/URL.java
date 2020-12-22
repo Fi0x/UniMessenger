@@ -1,6 +1,6 @@
 package unimessenger.abstraction;
 
-import unimessenger.abstraction.storage.WireStorage;
+import unimessenger.abstraction.wire.storage.Storage;
 
 public class URL
 {
@@ -24,6 +24,6 @@ public class URL
 
     public static String wireBearerToken()
     {
-        return "?access_token=" + WireStorage.getBearerToken();
+        return "?access_token=" + Storage.getInstance().getBearerToken();
     }
 }
