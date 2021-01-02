@@ -1,31 +1,30 @@
 package unimessenger.communication;
 
+import unimessenger.abstraction.APIAccess;
 import unimessenger.util.enums.REQUEST;
 
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.concurrent.CompletableFuture;
 
 public class HTTP
 {
     static HttpClient client = HttpClient.newHttpClient();
 
-    public CompletableFuture<HttpResponse<String>> sendAsyncRequest(String url, REQUEST type, String body, String... headers)
+    public void sendRequest(Request request)
     {
-        HttpRequest request = getRequest(url, type, body, headers);
-        CompletableFuture<HttpResponse<String>> response = null;
+        HttpResponse<String> response = sendRequest(request.url, request.type, request.body, request.headers.toArray(new String[0]));
 
-        if(request != null)
+        switch(request.responseMethod)
         {
-            try
-            {
-                response = client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
-            } catch(Exception ignored)
-            {
-            }
+            case ALL_CONVERSATIONS:
+                new APIAccess().getConversationInterface(request.responseService).handleConversationResponse(response);
+                break;
+            case NEW_MESSAGES:
+                //TODO: Store messages
+                break;
+            //TODO: Add more cases
         }
-        return response;
     }
     public HttpResponse<String> sendRequest(String url, REQUEST type, String body, String... headers)
     {

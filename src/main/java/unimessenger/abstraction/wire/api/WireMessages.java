@@ -1,5 +1,6 @@
 package unimessenger.abstraction.wire.api;
 
+import unimessenger.Main;
 import unimessenger.abstraction.interfaces.api.IMessages;
 import unimessenger.abstraction.interfaces.storage.IConversation;
 import unimessenger.abstraction.wire.messages.MessageCreator;
@@ -58,7 +59,7 @@ public class WireMessages implements IMessages
     @Override
     public void sendPing(String chatID)
     {
-        WireConversation conversation = WireStorage.getConversationByID(chatID);
+        IConversation conversation = Storage.getInstance().getConversationByID(chatID);
         if(conversation == null)
         {
             Out.newBuilder("ConversationID not found").origin(this.getClass().getName()).d().WARNING().print();

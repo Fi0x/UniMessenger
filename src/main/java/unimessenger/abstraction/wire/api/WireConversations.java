@@ -12,26 +12,33 @@ import unimessenger.abstraction.wire.storage.Conversation;
 import unimessenger.abstraction.wire.storage.Storage;
 import unimessenger.abstraction.wire.storage.User;
 import unimessenger.communication.HTTP;
+import unimessenger.communication.Request;
+import unimessenger.communication.RequestHandler;
 import unimessenger.userinteraction.tui.Out;
 import unimessenger.util.enums.CONVERSATIONTYPE;
+import unimessenger.util.enums.METHOD;
 import unimessenger.util.enums.REQUEST;
+import unimessenger.util.enums.SERVICE;
 
 import java.net.http.HttpResponse;
 
 public class WireConversations implements IConversations
 {
     @Override
-    public boolean requestAllConversations()
+    public void requestAllConversations()
     {
         String url = URL.WIRE + URL.WIRE_CONVERSATIONS + URL.wireBearerToken();
         String[] headers = new String[]{
                 Headers.ACCEPT, Headers.JSON};
-        HttpResponse<String> response = new HTTP().sendRequest(url, REQUEST.GET, "", headers);
-
+        Request request = new Request(SERVICE.WIRE, METHOD.ALL_CONVERSATIONS, url, REQUEST.GET, "", headers);
+        RequestHandler.getInstance().addRequest(request);
+    }
+    @Override
+    public void handleConversationResponse(HttpResponse<String> response)
+    {
         if(response == null)
         {
             Out.newBuilder("Could not get a HTTP response").origin(this.getClass().getName()).d().WARNING().print();
-            return false;
         } else if(response.statusCode() == 200)
         {
             //TODO: If "has more" key in body is true, ask for more conversations
@@ -58,16 +65,14 @@ public class WireConversations implements IConversations
                     }
                 }
                 Out.newBuilder("Successfully reloaded all conversations").print();
-                return true;
+                return;
             } catch(ParseException ignored)
             {
             }
             Out.newBuilder("Failed to reload all conversations").origin(this.getClass().getName()).d().WARNING().print();
-            return false;
         } else
         {
             Out.newBuilder("Response code from reloading conversations is " + response.statusCode()).origin(this.getClass().getName()).d().WARNING().print();
-            return false;
         }
     }
 
@@ -97,7 +102,7 @@ public class WireConversations implements IConversations
             if(con.members.size() > 1 && con.members.get(1) != null)
             {
                 String partnerID = con.members.get(1).getUserID();
-                String conName = getNameFromUserID(partnerID);
+                String conName = getUsernameFromID(partnerID);
                 if(conName != null) con.setConversationName(conName);
             }
         } else if(conObj.get("name") != null) con.setConversationName(conObj.get("name").toString());
