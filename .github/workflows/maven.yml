@@ -5,10 +5,6 @@ name: Maven build test
 
 on:
   push:
-    branches:
-    - f*
-    - dev
-    - master
   workflow_dispatch:
 
 jobs:
